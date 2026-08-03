@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dida365 任务整理"
+  short_description: "审计并整理滴答清单中的项目、标签、任务拆分、日期、优先级与状态"
+  default_prompt: "Use $organize-dida365 to audit and reorganize my Dida365 tasks."
