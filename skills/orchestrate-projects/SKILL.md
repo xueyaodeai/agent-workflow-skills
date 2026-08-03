@@ -1,6 +1,6 @@
 ---
 name: orchestrate-projects
-description: Coordinate long-running projects across multiple Codex tasks, sessions, milestones, worktrees, branches, or environments while keeping plans, progress, decisions, blockers, handoffs, verification evidence, task-scoped commits, temporary initiative integration branches, and master promotion gates synchronized in durable project files. Use when the user asks to organize or continue a multi-session project, maintain a plan or roadmap, prepare a next-round roadmap from current carryover work and multi-round user alignment, preserve planning discussions as durable notes, coordinate parallel work, manage feature or integration branches, reduce repeated master review churn, split work into tasks or subagents, resume work from another conversation, audit milestone completion, or establish a reusable long-running Codex workflow. Keep simple one-session tasks lightweight.
+description: Coordinate long-running projects across multiple Codex tasks, sessions, milestones, worktrees, branches, or environments while keeping plans, progress, decisions, blockers, handoffs, verification evidence, task-scoped commits, temporary initiative integration branches, and master promotion gates synchronized in durable project files. Use when the user asks to organize or continue a multi-session project, maintain a plan or roadmap, prepare a next-round roadmap from current carryover work and multi-round user alignment, preserve planning discussions as durable notes, coordinate parallel work, manage feature or integration branches, reduce repeated master review churn, split work into tasks or subagents, resume work from another conversation, audit milestone completion, establish a reusable long-running Codex workflow, or apply an optional cross-model review to a material roadmap. Keep simple one-session tasks lightweight.
 ---
 
 # Orchestrate Projects
@@ -20,6 +20,7 @@ Turn long-running work into a documented control loop without burdening simple t
 9. Treat an implementation task with repository changes as complete only after its intended changes are committed without unrelated work.
 10. Use integration branches to stage and verify an initiative, never to bypass required master review or create a permanent second trunk.
 11. Build a next-round roadmap from verified carryover work and durable user-alignment notes, never directly from unpersisted chat context.
+12. Treat cross-model roadmap review as a best-effort diversity check. Probe availability before use, report unavailability explicitly, and never block the base planning workflow merely because the external reviewer is absent.
 
 ## 1. Classify the work
 
@@ -361,6 +362,18 @@ Generate the roadmap from the consolidated decisions in the alignment notes, not
 
 Then compare the roadmap back to the notes. Confirm that no agreed item was lost, no proposal became a decision without approval, no dropped work reappeared, and no milestone claims evidence that does not exist. Mark the notes `aligned` and record the roadmap path only after this reconciliation passes. Later scope changes start a new discussion round and an explicit roadmap decision update; do not silently rewrite planning history.
 
+### E. Attempt an external cross-model challenge review
+
+Attempt this lane when the user requests it, repository policy requires it, or a material roadmap adds external writes, data egress, a long-lived service, a new protocol/model/SDK, cross-repository migration, or destructive retirement. It supplements but never replaces repository-required independent review.
+
+Before sending any review request, read and follow [`references/roadmap-cross-review.md`](references/roadmap-cross-review.md). Probe the local Cursor CLI, authentication, exact model `claude-opus-5-thinking-medium`, read-only Ask mode, and approved sanitized input without making a model call. Distinguish `available_in_executor`, `available_host_only`, and `unavailable`; a Keychain or sandbox failure in the current executor does not erase fresh host-terminal evidence. Do not install, upgrade, log in, expose credentials, or fall back to another model during the probe.
+
+If the reviewer is `available_host_only`, request one-time outside-sandbox authorization immediately before the exact review command. State the model, sanitized snapshot and hashes, external data transfer, model cost, read-only flags, and absence of writes. Never infer this authorization from host availability, request a broad or persistent `agent` prefix, or use it for another snapshot. If authorization is declined or unavailable, record that outcome and continue the normal roadmap workflow.
+
+If any prerequisite is unavailable or cannot be verified, tell the user which prerequisite failed, record `external_review_status=unavailable` and the bounded reason in the alignment notes, and continue the normal roadmap workflow. Do not convert optional reviewer unavailability or outside-sandbox authorization failure into a roadmap blocker or retry repeatedly without an environment change.
+
+If the reviewer is available, run a fresh de-anchored read-only review, verify findings against repository evidence, apply accepted fixes, and use the same external session for targeted re-review. Substantiated blocking findings follow the normal review gate; malformed, inconclusive, or failed external output is recorded but does not by itself block the workflow. Any later roadmap change invalidates an earlier external verdict.
+
 ## Templates
 
 - Copy `assets/project-roadmap.md` for a new multi-task project roadmap.
@@ -368,5 +381,6 @@ Then compare the roadmap back to the notes. Confirm that no agreed item was lost
 - Copy `assets/milestone-audit.md` for a milestone gate review.
 - Copy `assets/promotion-gate.md` for an integration-to-master promotion decision.
 - Copy `assets/roadmap-alignment-notes.md` before discussing or generating a successor roadmap.
+- Use `references/roadmap-cross-review.md` when attempting the optional Cursor/Opus challenge review.
 
 Adapt templates to repository conventions. Remove unused sections rather than filling them with invented values.
