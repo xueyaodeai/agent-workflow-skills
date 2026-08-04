@@ -28,6 +28,25 @@ npx skills add xueyaodeai/agent-workflow-skills --skill orchestrate-projects -g 
 
 Replace `orchestrate-projects` with another listed skill as needed.
 
+## Optional Codex defaults
+
+[`templates/codex/AGENTS.md`](templates/codex/AGENTS.md) is an opt-in personal
+working-agreement template. It is not repository guidance and is not installed
+by `npx skills add`.
+
+Review and adapt its environment and authority rules before use, especially
+RTK availability, language-specific read-only phrases, and the local commit
+policy. If no global Codex guidance exists yet, copy it to the active Codex
+home:
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}"
+cp templates/codex/AGENTS.md "${CODEX_HOME:-$HOME/.codex}/AGENTS.md"
+```
+
+If that file already exists, merge the template manually instead of
+overwriting personal guidance.
+
 ## Dependencies
 
 - `orchestrate-projects` and `prepare-agent-handoff` are tool-agnostic; they preserve the permissions and tools available in the active agent environment.
