@@ -1,4 +1,4 @@
 interface:
   display_name: "长周期项目协调"
-  short_description: "协调路线图、讨论纪要、里程碑审查、集成分支与晋级门禁"
-  default_prompt: "使用 $orchestrate-projects 汇总当前遗留事项，记录多轮对齐纪要，并生成下一轮项目 Roadmap。"
+  short_description: "以最小持久结构协调跨任务项目、证据门与里程碑全局状态"
+  default_prompt: "使用 $orchestrate-projects 判断最小协调等级，并从现有项目材料与实时证据恢复或推进当前里程碑。"

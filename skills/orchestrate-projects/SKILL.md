@@ -1,372 +1,161 @@
 ---
 name: orchestrate-projects
-description: Coordinate long-running projects across multiple Codex tasks, sessions, milestones, worktrees, branches, or environments while keeping plans, progress, decisions, blockers, handoffs, verification evidence, task-scoped commits, temporary initiative integration branches, and master promotion gates synchronized in durable project files. Use when the user asks to organize or continue a multi-session project, maintain a plan or roadmap, prepare a next-round roadmap from current carryover work and multi-round user alignment, preserve planning discussions as durable notes, coordinate parallel work, manage feature or integration branches, reduce repeated master review churn, split work into tasks or subagents, resume work from another conversation, audit milestone completion, or establish a reusable long-running Codex workflow. Keep simple one-session tasks lightweight.
+description: Coordinate projects whose execution must survive multiple tasks, sessions, milestones, worktrees, repositories, or environments. Use when work needs a durable task plan or project roadmap, parallel-work coordination, milestone audits, initiative integration, cross-context resume or handoff, or successor-roadmap alignment. Classify the smallest coordination level first; do not use for a self-contained single-session task unless the user explicitly requests durable project files.
 ---
 
 # Orchestrate Projects
 
-Turn long-running work into a documented control loop without burdening simple tasks. Preserve the user's existing repository conventions and treat project files—not chat history—as the durable cross-task source of truth.
+Keep long-running work resumable and evidence-backed without turning ordinary tasks into project-management exercises.
 
-## Operating principles
+## Core invariants
 
-1. Inspect before organizing. Read applicable instructions, existing plans, repository state, and current evidence before creating new artifacts.
-2. Use the smallest sufficient structure. Do not create a project roadmap for a simple, self-contained task.
-3. Separate project state from task execution detail.
-4. Record verified facts, decisions, blockers, and evidence; do not invent progress.
-5. Keep one clearly identified current milestone for the coordinating task.
-6. Require evidence before declaring a task or milestone complete.
-7. Preserve analysis-only, review-only, implementation, and publication boundaries from the user's request.
-8. Never assume separate tasks share chat context. Persist cross-task facts in project files.
-9. Treat an implementation task with repository changes as complete only after its intended changes are committed without unrelated work.
-10. Use integration branches to stage and verify an initiative, never to bypass required master review or create a permanent second trunk.
-11. Build a next-round roadmap from verified carryover work and durable user-alignment notes, never directly from unpersisted chat context.
+1. Use the smallest structure that survives the actual context boundaries. Do not create durable project files for a self-contained single-session task unless requested.
+2. Persist cross-task decisions, scope, ownership, and coordination state. Verify implementation and runtime facts against their authoritative live sources.
+3. Give each shared project artifact one writer. The coordinating task owns roadmap reconciliation; worker tasks update only their own plans or return a handoff.
+4. Do not claim task, milestone, or project completion without evidence attributable to the reviewed version, environment, or observation time.
+5. Preserve the user's authority boundaries. Read-only work does not authorize file writes; commits, pushes, reviews, deployments, messages, and branch deletion are separate delivery actions.
+6. Keep every implementation change attributable to one task and preserve unrelated work.
 
-## 1. Classify the work
+## 1. Route the request before loading details
 
-Choose one of these levels after inspecting the workspace.
+Inspect applicable instructions, established project artifacts, and current evidence, then choose the smallest coordination level:
 
-### Level A: single-task execution
+1. **Level 0 — ephemeral execution:** The work can finish and be verified in the current task, with no independent continuation or durable status view. Use the current task's lightweight plan if useful; do not create a project file.
+2. **Level 1 — resumable task:** One outcome must survive a task, session, or environment boundary. Use the established task-plan format or copy `assets/task-plan.md`.
+3. **Level 2 — multi-task project:** Multiple tasks, milestones, dependencies, repositories, environments, or a durable global status view are required. Add the established roadmap or copy `assets/project-roadmap.md`.
+4. **Level 3 — audited project:** Material parallelism, high-risk changes, multiple validation surfaces, or changing requirements require explicit milestone gates. Add `assets/milestone-audit.md`; do not assume this requires an integration branch.
 
-Use one task plan only when all are true:
+Choose the delivery topology independently from the coordination level:
 
-- the work is expected to fit in one task or session;
-- there is one primary outcome;
-- no independent workstream needs separate continuation;
-- no cross-environment handoff is required;
-- completion evidence can be collected in the same task.
+- Use `not_applicable` for read-only or non-Git work.
+- Use the repository's normal feature-to-primary workflow when milestones remain independently reviewable and releasable.
+- Use initiative integration only when its explicit gate is satisfied. Then read [references/integration-branch.md](references/integration-branch.md).
 
-Use the existing plan format when one exists. Otherwise copy `assets/task-plan.md` and adapt it.
+Load optional workflows only when their trigger applies:
 
-### Level B: multi-task project
+- For Git changes or task-scoped delivery, read [references/git-delivery.md](references/git-delivery.md).
+- For an initiative integration branch or primary-branch promotion, read [references/integration-branch.md](references/integration-branch.md).
+- For carryover alignment or a successor roadmap, read [references/next-round-alignment.md](references/next-round-alignment.md).
 
-Add a project roadmap when any condition holds:
+## 2. Establish fact and artifact ownership
 
-- work will span two or more tasks or sessions;
-- multiple milestones or parallel workstreams exist;
-- one task produces input for another;
-- work spans repositories, branches, worktrees, machines, or environments;
-- the user needs a durable global status view;
-- the project is likely to continue for days or be resumed later.
+Treat project files as coordination ledgers, not universal factual authorities:
 
-Use the repository's established roadmap file if present. Otherwise copy `assets/project-roadmap.md`. Do not rename existing artifacts merely to match this skill.
+| Information | Authority | Durable record |
+|---|---|---|
+| User decisions, scope, non-goals | User or named policy owner | Roadmap decision ledger |
+| Project milestone and dependency state | Coordinating task after reconciliation | Project roadmap |
+| Task execution state and local choices | Task owner | Task plan |
+| Code and change identity | Live repository | Revision, diff, branch, or delivery record |
+| Test or review result | Producing system or reviewer | Evidence tied to subject, time, and environment |
+| External status | Authoritative external system | Identifier and last-checked time |
 
-### Level C: coordinated long-running project
+Use these write rules:
 
-Use the Level B structure plus explicit milestone audits when the project includes meaningful parallelism, high-risk changes, multiple validation surfaces, or changing requirements. Add a separate dashboard only when the roadmap is no longer a usable status view; do not create one by default.
+- The coordinating task is the single writer for the roadmap and shared decision ledger.
+- Each worker task owns its task plan. It must not edit the roadmap concurrently; return conclusion, changes, evidence, risks, and next step to the coordinator.
+- On resume, recheck drift-prone facts and reconcile stale documents to live evidence.
+- Write durable files only when the user requested them or an established, authorized project workflow already requires them.
+- Preserve existing repository formats. Reference task plans and evidence by path instead of duplicating their contents.
 
-Add a temporary initiative integration branch only when multiple dependent milestones need a shared pre-master baseline, intermediate states are not independently safe for master, combined integration validation is required, or repeated master review creates material coordination cost. Prefer direct master integration—usually behind feature flags—when milestones can remain independently releasable and the repository expects trunk-based development.
+## 3. Use one state protocol
 
-## 2. Establish sources of truth
+Use the same base states for tasks, milestones, and projects:
 
-Maintain two operational layers. When preparing a successor roadmap, add one temporary alignment layer until the new roadmap is approved.
+`not_started -> in_progress -> ready_for_verification -> complete`
+
+Use side states deliberately:
+
+- `blocked`: progress cannot continue until a named condition changes; it may return to `in_progress`.
+- `deferred`: removed from the active sequence with an owner or reconsideration trigger.
+- `cancelled`: intentionally stopped by an authorized owner.
+- `superseded`: replaced by a newer artifact or decision, with a reference to the replacement.
+
+Do not use `partial` as a terminal state. Keep unfinished work `in_progress` or `blocked`, or explicitly move it to `deferred`, `cancelled`, or `superseded`.
+
+For every material transition, record the owner, observation time, reason, and supporting evidence. Do not mark an item `complete` unless:
+
+- its observable result and scope criteria are satisfied;
+- required verification is current and attributable to the delivered subject;
+- no blocking finding remains;
+- downstream handoff and durable decisions are recorded when another task depends on them;
+- the selected delivery contract is satisfied.
+
+## 4. Keep project and task state separate
 
 ### Project roadmap
 
-Store only global state:
+Store only global coordination state:
 
-- final outcome and project completion criteria;
-- constraints and non-goals;
-- current milestone;
-- milestone and workstream status;
-- branch topology, master baseline, integration head, feature identities, and promotion checkpoints when applicable;
-- cross-task decisions and blockers;
-- links or paths to task plans and evidence;
-- links to alignment notes and carryover disposition when this is a successor roadmap;
-- next milestone entry criteria.
+- final outcome, completion criteria, constraints, and non-goals;
+- artifact owner and last reconciliation point;
+- current milestone and milestone/workstream status;
+- cross-task dependencies, decisions, blockers, and risk ownership;
+- links to task plans and versioned evidence;
+- next-milestone entry criteria and project closeout state.
 
-Do not copy detailed command logs, code exploration, or every failed attempt into the roadmap.
+Do not store command logs, detailed exploration, every failed attempt, or worker-local progress in the roadmap.
 
 ### Task plan
 
-Store task-local execution state:
+Store only task-local execution state:
 
-- task objective, scope, and non-goals;
-- upstream inputs and assumptions;
-- ordered work and current progress;
-- decisions made in this task;
-- validation commands and results;
-- branch, worktree, intended change set, and delivery commit;
-- blockers and required user decisions;
-- downstream handoff and remaining work;
-- closeout status.
+- one observable objective, scope, non-goals, and owner;
+- upstream inputs and verified assumptions;
+- ordered work and current state;
+- task-local decisions and blockers;
+- evidence with subject/version, source, observation time, result, and location;
+- downstream handoff, delivery boundary, and residual risks.
 
-Make every task plan independently readable by a new task. Include exact paths, identifiers, and verified current state when useful.
+Make each task plan independently readable without hidden chat context. Add optional template sections only when they apply.
 
-### Next-round alignment notes
+## 5. Select execution units conservatively
 
-Use one alignment-notes file for each roadmap transition. It is the durable planning source between the current roadmap and its successor:
+1. Keep work in the current task when it directly serves the current outcome and shares the same context.
+2. Delegate only bounded work when the user requested delegation or parallel work and higher-priority instructions permit it.
+3. Create or fork an independent task only when the user explicitly asks and durable visibility or isolation is required.
+4. Use a separate local task when validation depends on machine-local login, device, desktop, simulator, or permission state.
+5. Isolate concurrent repository writers with dedicated branches and worktrees; never let two worktrees use the same branch.
 
-- current roadmap, milestone audits, open plans, live repository state, unresolved reviews, and external-task state used as inputs;
-- every residual item and its evidence-backed current status;
-- each discussion round with user decisions, agent proposals, rejected or deferred alternatives, and remaining questions;
-- consolidated decisions and the readiness gate for generating the successor roadmap;
-- the resulting roadmap path after the notes are consumed.
+For every execution unit, specify objective, allowed scope, write authority, constraints, evidence, return format, and durable destination. Use the project's established handoff format when one exists.
 
-Default to a repository path such as `docs/roadmap/discussions/<date>-<initiative>-next-round-alignment.md`, but preserve an established local convention. Append rounds to the same file as `R1`, `R2`, and so on; do not create a new file for every chat turn unless independent workstreams require separate ownership. Summarize material decisions instead of copying the chat transcript, and never persist secrets or irrelevant conversational detail.
+## 6. Run the coordination loop
 
-## 3. Select the execution unit
+### Orient
 
-Use this decision order:
+Read the roadmap and active task plan when present, applicable instructions, and authoritative current state. Reconcile stale claims before planning.
 
-1. Keep work in the current task when it is directly necessary for the current outcome and shares the same context.
-2. Use a subagent only for bounded work that can be independently described and summarized, such as read-only investigation, focused testing, classification, or an isolated implementation. Delegate only when the user has requested delegation or parallel work and higher-priority instructions permit it.
-3. Recommend an independent task when work must remain visible for later continuation, requires its own goal or review history, or should be isolated from the coordinator. Create or fork a task only when the user explicitly asks.
-4. Use a side task only for temporary status questions or supplemental guidance. Do not store durable implementation state there.
-5. Use a separate local task for validation that depends on login state, desktop applications, device permissions, Xcode, simulators, or other machine-local state.
-6. Use a dedicated branch and separate worktree before editing when independent tasks will write to the same repository concurrently. Do not let two worktrees check out the same branch.
-7. For an initiative integration workflow, branch each milestone or fix from the current integration baseline and target it back to that integration branch. Do not branch from another feature unless the dependency is intentionally stacked and documented.
+### Plan
 
-For every delegated unit, specify:
+Identify the current milestone, bounded execution units, dependencies, evidence requirements, authority boundaries, and delivery topology. Record only material assumptions and unresolved decisions.
 
-- objective;
-- allowed scope;
-- read-only or write authorization;
-- constraints and non-goals;
-- required evidence;
-- expected return format;
-- destination for durable findings.
+### Execute
 
-Require summaries to return: conclusion, changes, evidence, risks, and recommended next step.
+Perform current-task work directly. Preserve unrelated changes and keep worker-local detail out of the roadmap. Report material progress as completed, next, and blocked, with evidence.
 
-## 4. Manage initiative integration branches
+### Integrate
 
-Use this section only when the Level C decision explicitly enables an integration branch.
+Verify returned work rather than accepting summaries uncritically. The coordinator promotes only cross-task conclusions, decisions, blockers, and evidence into the roadmap.
 
-### Bootstrap and protect the integration branch
+### Verify and close
 
-- Follow repository naming conventions; otherwise use `integration/<initiative>`.
-- Create it from a verified master commit and record the baseline SHA before accepting feature work.
-- Make it initiative-scoped, temporary, and owned by the coordinating task.
-- Prohibit direct implementation commits. Merge implementation through reviewed feature or fix branches.
-- Keep formal master CR, required CI, human approval, and repository protection intact. Internal review reduces churn; it does not waive policy.
-- Record whether the platform permits feature-to-integration review requests. If not, retain equivalent review evidence in the roadmap.
+Apply the shared completion conditions in section 3. For Level 3, complete the milestone audit without substituting it for code review or runtime validation. Record skipped checks and their risk.
 
-### Gate feature or milestone integration
+### Advance or stop
 
-Require this sequence for every feature or milestone branch:
+Advance only when exit evidence and the next entry criteria are satisfied. Otherwise record the exact blocker, owner, and smallest required action. Close the project with final evidence, residual risks, and follow-up ownership.
 
-1. Create a dedicated feature branch and worktree from the recorded integration baseline.
-2. Complete task-scoped implementation, verification, and commits without unrelated changes.
-3. Synchronize the latest integration branch before final review and re-run affected checks.
-4. Launch a fresh independent subagent to review the exact `integration...feature` diff when agent delegation is available and permitted. Otherwise use a separate read-only review task or the required human review, and record the substitution.
-5. Record the reviewed feature-head SHA, findings, fixes, verification, and final verdict. Any post-review code change invalidates the verdict and requires re-review.
-6. Merge only the exact reviewed SHA into the integration branch. Preserve a traceable feature identity through a merge commit or a repository-approved one-feature-one-commit strategy.
-7. Record the feature SHA, reviewed SHA, integration merge SHA, and evidence in the task plan and roadmap.
-8. Run integration checks after the merge. Repair failures through a separate fix branch and the same review gate; do not patch the shared integration branch directly.
+## 7. Use the right template modules
 
-### Synchronize branch direction and identity
+- `assets/task-plan.md`: core resumable task plan.
+- `assets/task-plan-git-addon.md`: Git isolation and delivery identity; use with the Git reference.
+- `assets/task-plan-integration-addon.md`: reviewed and integration SHA chain; use only for initiative integration.
+- `assets/project-roadmap.md`: core multi-task roadmap.
+- `assets/project-roadmap-transition-addon.md`: predecessor and carryover mapping for a successor roadmap.
+- `assets/milestone-audit.md`: Level 3 milestone gate.
+- `assets/promotion-gate.md`: initiative integration to primary-branch promotion.
+- `assets/roadmap-alignment-notes.md`: durable successor-roadmap discussion ledger.
 
-- Synchronize `master -> integration` periodically and before every master promotion.
-- Do not rebase or rewrite a shared integration branch. Rebase or merge feature branches onto the latest integration baseline before final review according to repository policy.
-- Promote `integration -> master` only through an explicit promotion gate.
-- Preserve four identities: feature head, reviewed SHA, integration head/merge SHA, and master-candidate SHA.
-- If master review forces squash and breaks ancestry, recreate the next-stage integration branch from the new master head and explicitly retarget or rebuild active feature branches.
+Adapt modules to repository conventions and omit irrelevant sections instead of filling them with `not applicable`. Do not rename an established project artifact merely to match this skill.
 
-### Plan master promotion checkpoints
-
-Do not promote every small milestone and do not defer everything into one unreviewable final change. Define candidate checkpoints in the roadmap and reassess them from evidence.
-
-Use a checkpoint when one or more conditions hold:
-
-- a backward-compatible foundation or shared contract is stable and needed downstream;
-- the first complete vertical slice is runnable and independently verifiable;
-- multiple milestones form a coherent, deployable, or reversible unit;
-- the initiative is about to enter a riskier phase and the current result should be secured;
-- divergence from master creates material conflict, review, or validation risk;
-- the final initiative candidate is ready.
-
-Before promotion:
-
-1. Freeze and record the integration candidate SHA.
-2. Synchronize the latest master and resolve conflicts in the integration workflow.
-3. Run the required integration and full-regression suite against the candidate.
-4. Run an independent audit of the accumulated delta since the previous promotion and verify the feature/review/merge identity chain.
-5. Confirm no blocking findings, missing milestone evidence, or policy exceptions remain.
-6. Use `assets/promotion-gate.md` or the repository's equivalent record.
-7. Open or update the formal integration-to-master CR only when authorized; merge only after its required approvals and checks pass.
-8. Record the resulting master SHA and post-merge validation. A commit, internal merge, or agent review does not authorize push, CR creation, or master merge.
-
-After the final promotion, close and delete the temporary integration branch when repository policy and active-task state make that safe.
-
-## 5. Run the coordination loop
-
-Repeat this loop until the project completion criteria are satisfied or a real blocker requires the user.
-
-### A. Orient
-
-- Read the roadmap, active task plan, applicable instructions, and current repository state.
-- For Git work, inspect the current branch, worktree, `git status --short`, staged diff, and unstaged diff. Separate pre-existing or other-task changes from the current task's intended change set before editing.
-- Reconcile stale checkboxes or claims against live evidence.
-- Identify the current milestone and its entry/exit criteria.
-- If no roadmap is warranted, continue with the task plan only.
-
-### B. Plan
-
-- Convert the current milestone into bounded tasks.
-- Identify dependencies and safe parallel work.
-- Define the evidence required for each task.
-- Record material assumptions and unresolved decisions.
-- Decide whether direct master integration or an initiative integration branch is justified. If using integration, record the baseline, merge strategy, review mechanism, synchronization policy, and candidate promotion checkpoints before parallel implementation.
-- Use built-in Goal mode only when the user explicitly requests a persistent goal; otherwise record the current milestone in the roadmap.
-
-### C. Execute and coordinate
-
-- Perform current-task work directly.
-- Delegate only work that meets the execution-unit rules.
-- Keep a concrete list of files and, when necessary, hunks owned by the current task. Do not absorb unrelated dirty-worktree changes into the task merely because they are present.
-- Keep implementation details in task plans, not the project roadmap.
-- Send concise progress updates using `已完成 / 下一步 / 阻塞项` and include evidence when status materially changes.
-
-### D. Integrate
-
-- Verify returned work instead of accepting summaries uncritically.
-- Reconcile changes, decisions, and evidence into the task plan.
-- Promote only cross-task information into the roadmap.
-- Resolve conflicting claims against current files, tests, logs, or environment state.
-- Apply the feature-to-integration gate from section 4 when an initiative integration branch is active.
-
-### E. Commit the completed task
-
-For an implementation task that changed a Git repository, create a task-scoped delivery commit before marking the task complete:
-
-1. Finish the task's required verification against the exact working tree to be committed.
-2. Inspect `git status --short`, the unstaged diff, and the staged diff.
-3. Match changed files and hunks against the task plan's intended change set.
-4. Stage only the current task's files or hunks. In a dirty or shared worktree, do not use broad staging such as `git add .` or `git add -A`.
-5. Inspect the staged name list and full staged diff. Remove anything unrelated, secret, generated unexpectedly, or owned by another task.
-6. Create a concise task-scoped commit that follows the repository's commit convention. Default to one closeout commit; use multiple commits only when the task has independently coherent changes and each commit remains task-local.
-7. Record the commit SHA, branch, worktree, committed paths, and verification result in the task plan. Promote the SHA to the roadmap evidence index when downstream tasks depend on it.
-
-If unrelated edits overlap the same file, stage only the current task's hunks when the separation is safe and reviewable. Otherwise, do not commit the whole file, stash, reset, discard, or rewrite another task's changes; leave the task `blocked` or `ready_for_commit` and request the minimum decision needed.
-
-If a commit hook or required check fails, fix the in-scope cause and re-run it. Do not bypass hooks unless the user explicitly authorizes that exception.
-
-Do not create a commit for a read-only analysis/review task, a task with no repository changes, a non-Git workspace, or when the user explicitly requested no commit. Record `commit not required` and the reason. If implementation was authorized and current-task changes remain uncommitted, do not report the task as complete.
-
-A commit is not a push. Push, publish, open a review, deploy, or message others only when separately authorized.
-
-### F. Audit the milestone
-
-Use `assets/milestone-audit.md` or the repository's existing audit format. Check:
-
-- whether the promised outcome exists;
-- whether scope and non-goals were respected;
-- whether required evidence passed and is attributable to the reviewed version;
-- whether implementation tasks delivered isolated commits and whether the reviewed version includes the expected SHAs;
-- whether feature review, integration merge, and master-candidate identities are traceable when an integration branch is active;
-- whether new findings change later milestones or sequencing;
-- whether unresolved risks block entry into the next milestone;
-- whether an independent code review or local validation is still required.
-
-Keep roadmap audit and code review conceptually separate: the roadmap audit checks project correctness and sequencing; code review checks implementation defects. For material code changes, run or recommend the applicable review workflow before closing the milestone.
-
-### G. Advance or stop
-
-- Mark a milestone complete only when its exit criteria and evidence are satisfied.
-- Update the roadmap's current milestone, status table, decisions, blockers, and next entry criteria.
-- Evaluate promotion checkpoint conditions after milestone integration; do not equate milestone completion with automatic master promotion.
-- If blocked by a consequential user decision, record the exact decision and stop at that boundary.
-- If the project is complete, close the roadmap with final evidence, residual risks, and follow-up ownership.
-
-## 6. Synchronization rules
-
-Apply these rules whenever multiple tasks are involved:
-
-- Chat messages are task-local; project files are durable.
-- A task is not synchronized until its relevant conclusion and evidence are written to the agreed project file.
-- An implementation task is not delivered until its task-scoped commit SHA is recorded, unless an explicit no-commit exception applies.
-- An integration milestone is not delivered until the reviewed feature SHA, integration merge SHA, and post-merge verification are recorded.
-- Reference task plans by path instead of duplicating their content.
-- Give each decision a date or stable identifier when later tasks may revisit it.
-- Record upstream input and downstream handoff in every task plan.
-- On resume, trust live repository and evidence over stale document status, then correct the document.
-- Do not overwrite unrelated user edits or silently replace established plan structure.
-
-## 7. Closeout contract
-
-Before closing a task, write:
-
-- outcome and current status;
-- files or systems changed;
-- verification performed and exact result;
-- delivery commit SHA, branch, worktree, and committed paths, or the explicit reason no commit was required;
-- skipped or unavailable verification;
-- unresolved risks and blockers;
-- durable decisions produced;
-- next task, required inputs, and recommended first action.
-
-Before closing the project, verify:
-
-- all milestone exit criteria are satisfied or explicitly deferred;
-- final evidence is linked or recorded;
-- deferred items have owners or follow-up destinations;
-- task plans and roadmap agree on final state;
-- all completed implementation tasks have attributable commits that exclude unrelated work;
-- integration initiatives preserve feature, reviewed, integration, and master-candidate identities and complete every required promotion gate;
-- temporary integration branches have an explicit continuation or retirement decision;
-- no document claims completion that current evidence contradicts.
-
-## 8. Prepare and align the next-round roadmap
-
-Use this workflow when the user asks what should follow the current roadmap, requests a next-round roadmap, or starts aligning future milestones before the current round closes. Do not immediately write a polished successor roadmap.
-
-### A. Build the carryover inventory
-
-Read the current roadmap, task plans, milestone audits, live Git and deployment state, open reviews, and external task trackers that are in scope. Add every residual item to the alignment notes and classify it as:
-
-- `must_continue`: required to finish or safely close an existing commitment;
-- `candidate`: useful future work that still needs prioritization;
-- `defer`: intentionally postponed with a reason or trigger for reconsideration;
-- `drop`: no longer needed, superseded, or rejected;
-- `external_dependency`: owned outside the project but able to constrain the next round.
-
-For each item, record its source, evidence, current state, reason it remains, proposed disposition, and whether a user decision is required. Keep unverified claims visibly unverified. Do not silently promote a deferred idea into a committed milestone.
-
-### B. Run the alignment conversation
-
-Start from the carryover inventory, then discuss the additional content that cannot be derived safely from project evidence: desired outcome, new capabilities, removals, constraints, non-goals, sequencing, delivery boundaries, and acceptance evidence. Discuss one coherent decision set at a time rather than presenting an unbounded questionnaire.
-
-After every material user exchange, append a discussion round to the alignment notes before relying on it in later planning. Each round must identify:
-
-- round ID and date;
-- topics discussed and evidence reviewed;
-- user-confirmed decisions;
-- agent proposals that remain proposals;
-- rejected, deferred, or superseded options;
-- unresolved questions and the next discussion focus.
-
-Do not rewrite prior rounds to make the conversation look linear. When a later decision changes an earlier one, preserve the earlier record and add an explicit superseding decision. A new task or session must resume from the notes, verify drift-prone facts, and continue with the next unresolved decision instead of reconstructing the discussion from chat history.
-
-### C. Gate roadmap generation
-
-Generate the successor roadmap only when:
-
-- every carryover item has a disposition;
-- the next-round final outcome and measurable completion criteria are understood;
-- constraints, non-goals, removals, and compatibility boundaries are recorded;
-- milestone ordering, dependencies, and required evidence are coherent;
-- consequential user decisions are resolved or explicitly accepted as open blockers;
-- the user-aligned decisions and remaining proposals are distinguishable.
-
-If alignment is incomplete, keep the notes in `alignment_in_progress` and continue the discussion. Create a provisional roadmap only when the user explicitly requests a draft, and label it `draft/unreviewed`; do not treat it as the execution source of truth.
-
-### D. Materialize and verify the successor roadmap
-
-Generate the roadmap from the consolidated decisions in the alignment notes, not directly from chat. Include:
-
-- alignment provenance and the notes path;
-- a carryover-disposition table mapping each residual item to a milestone, deferral, drop decision, or external dependency;
-- final outcome, boundaries, milestones, exit evidence, dependencies, risks, and unresolved blockers;
-- the first milestone entry criteria and recommended first task.
-
-Then compare the roadmap back to the notes. Confirm that no agreed item was lost, no proposal became a decision without approval, no dropped work reappeared, and no milestone claims evidence that does not exist. Mark the notes `aligned` and record the roadmap path only after this reconciliation passes. Later scope changes start a new discussion round and an explicit roadmap decision update; do not silently rewrite planning history.
-
-## Templates
-
-- Copy `assets/project-roadmap.md` for a new multi-task project roadmap.
-- Copy `assets/task-plan.md` for a new task-level execution plan.
-- Copy `assets/milestone-audit.md` for a milestone gate review.
-- Copy `assets/promotion-gate.md` for an integration-to-master promotion decision.
-- Copy `assets/roadmap-alignment-notes.md` before discussing or generating a successor roadmap.
-
-Adapt templates to repository conventions. Remove unused sections rather than filling them with invented values.
+For materialized files based on these templates, run `python3 scripts/validate_project_docs.py <files...>` before closeout. The validator checks unresolved placeholders, base-state values, and obvious completion contradictions; it does not replace evidence review or support arbitrary custom schemas.

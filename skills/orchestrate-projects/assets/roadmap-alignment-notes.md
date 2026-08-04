@@ -1,25 +1,25 @@
 # Next-Round Roadmap Alignment Notes: <initiative>
 
-## Alignment status
+## Alignment state and ownership
 
 - Status: `inventory | alignment_in_progress | aligned | superseded`
 - Current roadmap: <path>
-- Current verified milestone/state: <milestone, status, commit/date>
+- Current verified milestone/state: <milestone, status, subject, and observation time>
 - Intended successor roadmap: <path or `not created`>
-- Notes owner/coordinating task: <task reference>
+- Notes owner/update authority: <coordinating task>
 - Last updated: <date/time>
 
 ## Evidence inputs
 
-| Input | Version/scope | What it establishes | Location |
-|---|---|---|---|
-| <roadmap/audit/repository/MR/task tracker> | <commit/date/range> | <verified fact> | <path/link> |
+| Input | Subject/version | Observed at | What it establishes | Location |
+|---|---|---|---|---|
+| <roadmap/audit/repository/review/tracker> | <revision/range> | <date/time> | <verified fact> | <path/link> |
 
 ## Carryover inventory
 
-| ID | Source item | Verified current state | Why it remains | Classification | Proposed disposition | User decision required | Evidence |
+| ID | Source item | Verified state | Why it remains | Classification | Proposed disposition | Decision owner | Evidence |
 |---|---|---|---|---|---|---|---|
-| C1 | <residual work> | <state> | <reason> | <must_continue/candidate/defer/drop/external_dependency> | <proposal> | <yes/no> | <path/link> |
+| C1 | <residual work> | <state> | <reason> | <must_continue/candidate/defer/drop/external_dependency> | <proposal> | <owner or none> | <path/link> |
 
 ## Discussion rounds
 
@@ -27,24 +27,25 @@
 
 - Evidence reviewed: <sources or `none`>
 - User-confirmed decisions: <decisions or `none`>
-- Agent proposals: <proposals still requiring alignment or `none`>
+- Policy constraints: <constraint and owner or `none`>
+- Agent proposals: <unapproved proposals or `none`>
 - Rejected/deferred/superseded: <items and reasons or `none`>
 - Open questions: <questions or `none`>
 - Next discussion focus: <one coherent decision set>
 
-<!-- Append R2, R3, and later rounds. Preserve superseded rounds instead of rewriting them. -->
+<!-- Append later rounds. Preserve superseded rounds instead of rewriting them. -->
 
-## Consolidated decisions
+## Consolidated records
 
-| ID/date | Decision | Authority | Reason/evidence | Supersedes | Roadmap impact |
-|---|---|---|---|---|---|
-| D1 | <decision> | <user/evidence/policy> | <reason> | <decision ID or `none`> | <milestone/boundary> |
+| ID/date | Kind | Statement | Authority/source | Evidence/reason | Supersedes | Roadmap impact |
+|---|---|---|---|---|---|---|
+| R1/date | <verified_fact/policy_constraint/user_decision/agent_proposal> | <statement> | <owner/source> | <evidence> | <record ID or none> | <milestone/boundary> |
 
 ## Remaining proposals and open decisions
 
-| Item | Current proposal/options | Consequence | Required decision/owner | Status |
+| Item | Current proposal/options | Consequence | Decision owner | Status |
 |---|---|---|---|---|
-| <item> | <proposal> | <impact> | <decision> | open |
+| <item> | <proposal> | <impact> | <owner> | open |
 
 ## Roadmap-generation readiness
 
@@ -53,8 +54,8 @@
 - [ ] Constraints, non-goals, removals, and compatibility boundaries are aligned.
 - [ ] Milestone ordering and dependencies are coherent.
 - [ ] Exit evidence is defined for every milestone.
-- [ ] Consequential user decisions are resolved or recorded as accepted blockers.
-- [ ] User decisions and agent proposals are clearly distinguishable.
+- [ ] Consequential decisions are resolved or recorded as accepted blockers.
+- [ ] Facts, constraints, decisions, and proposals remain distinguishable.
 
 ## Successor-roadmap handoff
 
