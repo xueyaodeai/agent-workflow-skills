@@ -92,8 +92,10 @@ def validate(path: Path) -> list[str]:
                 "final status is complete while contradictory table states remain: "
                 + ", ".join(contradictions)
             )
-        if kind == "task" and "## Verification evidence" not in text:
-            errors.append("completed task has no verification evidence section")
+        if kind == "task" and not (
+            "## Verification evidence" in text or re.search(r"^- Verification:\s*\S", text, re.MULTILINE)
+        ):
+            errors.append("completed task has no verification evidence")
         if kind == "roadmap" and "## Evidence index" not in text:
             errors.append("completed roadmap has no evidence index")
 

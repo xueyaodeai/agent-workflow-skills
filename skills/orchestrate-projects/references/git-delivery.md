@@ -10,21 +10,13 @@ Choose the contract from the user's request, repository policy, and established 
 - `task_commit`: deliver one or more task-scoped commits.
 - `externally_managed`: another authorized owner or system performs the commit or merge.
 
-Do not treat a commit as universally required. Record the selected contract in the task plan. A commit never authorizes push, review creation, merge, deployment, messaging, or branch deletion.
+Do not treat a commit as universally required. Follow the governing Authority rules and record a bounded delivery package only when a durable task plan exists. One explicit request may authorize a normal package such as edit + verify + commit + push; execute included steps without inserting repeated confirmation. Never infer an action outside that package.
 
-Append `assets/task-plan-git-addon.md` to the task plan when Git identity or isolation matters. Also append `assets/task-plan-integration-addon.md` only when initiative integration is enabled.
+Append `assets/task-plan-git-addon.md` only when Git identity or isolation must survive a context boundary, or when dirty/concurrent work makes ownership material. Also append `assets/task-plan-integration-addon.md` only when initiative integration is enabled.
 
 ## Orient before editing
 
-Inspect and record:
-
-- repository and worktree path;
-- current branch and upstream relationship;
-- primary or target branch;
-- baseline revision;
-- `git status --short`, staged diff, and unstaged diff;
-- intended files or bounded hunks;
-- pre-existing or other-task changes to preserve.
+Always inspect the repository/worktree, current branch, `git status --short`, target diff, and unrelated changes that must be preserved. Record branch, baseline, target, and path identities only when they are needed for resume, handoff, review, isolation, or a dirty/concurrent worktree.
 
 Use a dedicated branch and separate worktree before concurrent tasks write to the same repository. Do not let two worktrees check out the same branch. Follow repository naming conventions and discover the primary branch instead of assuming `main` or `master`.
 
@@ -38,22 +30,19 @@ Use a dedicated branch and separate worktree before concurrent tasks write to th
 ## Deliver an uncommitted change set
 
 1. Run required verification against the exact working tree being returned.
-2. Inspect the complete unstaged and staged diff.
-3. Confirm the diff contains only intended files or hunks and no secrets or unexpected generated output.
-4. Record the baseline revision, changed paths, verification, and explicit `uncommitted_change_set` delivery boundary.
-5. Do not report repository delivery complete if the agreed contract required a commit.
+2. Perform one consolidated scope check of status plus staged/unstaged diff; reject unrelated, secret, or unexpected generated content.
+3. Record the working-tree identity only when another context must resume or verify it.
+4. Do not report repository delivery complete if the agreed contract required a commit.
 
 ## Create a task-scoped commit
 
 Use this low-freedom sequence when `task_commit` is the selected contract:
 
 1. Finish required verification against the exact working tree to be committed.
-2. Reinspect `git status --short`, the unstaged diff, and the staged diff.
-3. Match files and hunks against the intended change set.
-4. Stage only task-owned files or hunks. Never use broad staging such as `git add .` or `git add -A` in a dirty or shared worktree.
-5. Inspect the staged name list and full staged diff. Remove unrelated, secret, or unexpected generated content.
-6. Commit using the repository convention. Prefer one closeout commit; use multiple commits only for independently coherent task-local changes.
-7. Record commit SHA, branch, worktree, committed paths, and verification result.
+2. Inspect status once to identify task-owned scope and unrelated changes to preserve.
+3. Stage only task-owned files or hunks. Never use broad staging such as `git add .` or `git add -A` in a dirty or shared worktree.
+4. Perform one complete pre-commit check of staged names, full staged diff, remaining unstaged changes, secrets, and unexpected generated content.
+5. Commit using the repository convention. Prefer one closeout commit; use multiple commits only for independently coherent task-local changes. Return the commit identity; add branch/worktree/baseline details only when they matter for continuation or review.
 
 If a required hook or check fails, fix the in-scope cause and rerun it. Do not bypass hooks without explicit authorization.
 
@@ -64,6 +53,6 @@ Before closing Git delivery, confirm:
 - the delivered diff or commit matches the intended scope;
 - verification is attributable to that exact subject;
 - unrelated changes remain untouched;
-- branch, worktree, baseline, changed paths, and delivery identity are recorded;
+- continuation-critical branch, worktree, baseline, changed paths, and delivery identity are recorded when applicable;
 - skipped checks and residual risk are explicit;
-- any post-review change invalidated and renewed the prior review verdict.
+- any post-review change to reviewed behavior, contract, security, or critical reliability renewed the prior verdict; identity-only or status-only closeout updates do not.

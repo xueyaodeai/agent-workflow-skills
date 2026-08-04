@@ -13,7 +13,7 @@ Turn current working context into a reliable boundary artifact. A handoff is not
 2. Ask only for consequential information that cannot be discovered safely. Do not require the user to restate facts already available.
 3. Prefer outcome, authority, evidence, and completion criteria over a long procedure.
 4. Separate verified facts, user-confirmed decisions, agent proposals, delegated assumptions, and unresolved questions.
-5. Preserve scope and authority. A handoff may describe an action but does not authorize external writes, destructive work, publication, deployment, purchases, or scope expansion.
+5. Follow applicable user- and repository-level Authority rules. A handoff records only destination-specific narrowing; it never expands authority.
 6. Exclude secrets, irrelevant conversation, stale implementation detail, and unsupported claims.
 7. Make drift visible. Include the evidence timestamp, revision, branch, identifier, or recheck instruction when later execution could see different state.
 
@@ -32,15 +32,7 @@ If no context boundary exists and the work is authorized in the current task, pe
 
 ### 2. Reconstruct the execution state
 
-Gather only the information the destination needs:
-
-- desired outcome and why it matters;
-- authoritative inputs and current evidence;
-- confirmed decisions and constraints;
-- completed work and remaining work;
-- scope, non-goals, permissions, and side-effect boundaries;
-- expected deliverables and observable completion evidence;
-- blockers, dependencies, validation, fallback, and stopping behavior.
+Gather the smallest runnable core: desired outcome, authoritative inputs/current state, remaining work, consequential scope or authority limits, deliverables, and observable completion evidence. Add rationale, decisions, non-goals, dependencies, validation detail, retry/fallback, or stop behavior only when they can change destination execution.
 
 For a long-running project, use the project's roadmap, task plan, alignment notes, audits, and live repository state as the source of truth. Reference durable paths instead of copying large histories.
 
@@ -73,18 +65,15 @@ Keep the first action concrete so the destination can orient itself before makin
 
 ### 6. Run the completion gate
 
-Before returning the contract, verify that:
+Before returning any contract, verify only the universal gate:
 
-- the destination and intended outcome are explicit;
-- the contract is understandable without hidden chat context;
-- authoritative sources and recheck requirements are named;
-- verified facts are distinguishable from decisions, proposals, assumptions, and unknowns;
-- scope, non-goals, authority, and side-effect boundaries are explicit where relevant;
-- completion can be demonstrated with observable evidence;
-- validation, failure, retry, escalation, and stopping behavior are defined where relevant;
-- schedule contracts define timing, timezone, windowing, idempotency, no-op behavior, and delivery;
-- no secret or unnecessary personal information is included;
-- no prompt-format detail is present unless it changes destination behavior.
+- destination, intended outcome, and first action are explicit;
+- the contract is runnable without hidden chat context and names authoritative sources or required rechecks;
+- facts, decisions, assumptions, proposals, and unresolved items are distinguishable where they coexist;
+- consequential scope/authority limits and observable completion evidence are explicit;
+- no secret, unnecessary personal information, or behavior-neutral prompt boilerplate is included.
+
+Then apply only the matching template-specific gate in `references/contract-templates.md`; do not apply schedule, external-prompt, or evaluation requirements to other contract types.
 
 If a consequential user-only decision is still missing, return the smallest blocking question instead of an apparently complete contract.
 

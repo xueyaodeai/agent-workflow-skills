@@ -12,8 +12,8 @@ Keep long-running work resumable and evidence-backed without turning ordinary ta
 1. Use the smallest structure that survives the actual context boundaries. Do not create durable project files for a self-contained single-session task unless requested.
 2. Persist cross-task decisions, scope, ownership, and coordination state. Verify implementation and runtime facts against their authoritative live sources.
 3. Give each shared project artifact one writer. The coordinating task owns roadmap reconciliation; worker tasks update only their own plans or return a handoff.
-4. Do not claim task, milestone, or project completion without evidence attributable to the reviewed version, environment, or observation time.
-5. Preserve the user's authority boundaries. Read-only work does not authorize file writes; commits, pushes, reviews, deployments, messages, and branch deletion are separate delivery actions.
+4. Scale completion evidence to the coordination level. Bind evidence to a revision, environment, or observation time only when that identity can change the conclusion.
+5. Follow the applicable user- and repository-level Authority rules. This skill records only project-specific narrowing and the selected delivery package; it never expands authority.
 6. Keep every implementation change attributable to one task and preserve unrelated work.
 
 ## 1. Route the request before loading details
@@ -22,8 +22,8 @@ Inspect applicable instructions, established project artifacts, and current evid
 
 1. **Level 0 — ephemeral execution:** The work can finish and be verified in the current task, with no independent continuation or durable status view. Use the current task's lightweight plan if useful; do not create a project file.
 2. **Level 1 — resumable task:** One outcome must survive a task, session, or environment boundary. Use the established task-plan format or copy `assets/task-plan.md`.
-3. **Level 2 — multi-task project:** Multiple tasks, milestones, dependencies, repositories, environments, or a durable global status view are required. Add the established roadmap or copy `assets/project-roadmap.md`.
-4. **Level 3 — audited project:** Material parallelism, high-risk changes, multiple validation surfaces, or changing requirements require explicit milestone gates. Add `assets/milestone-audit.md`; do not assume this requires an integration branch.
+3. **Level 2 — multi-task project:** Coordination state must survive across multiple tasks, milestones, repositories, environments, or owners. Add the established roadmap or copy `assets/project-roadmap.md`; merely touching multiple repositories in one self-contained task does not require a roadmap.
+4. **Level 3 — audited project:** Material parallelism or high-risk, irreversible, production, or cross-repository integration changes require an explicit milestone gate. Add `assets/milestone-audit.md`; changing requirements or multiple checks alone do not raise the level.
 
 Choose the delivery topology independently from the coordination level:
 
@@ -73,13 +73,16 @@ Use side states deliberately:
 
 Do not use `partial` as a terminal state. Keep unfinished work `in_progress` or `blocked`, or explicitly move it to `deferred`, `cancelled`, or `superseded`.
 
-For every material transition, record the owner, observation time, reason, and supporting evidence. Do not mark an item `complete` unless:
+Record only transitions that change a decision, blocker, downstream dependency, delivery identity, or next resumable action. Batch routine step progress; add an observation time only for drift-prone facts.
 
-- its observable result and scope criteria are satisfied;
-- required verification is current and attributable to the delivered subject;
-- no blocking finding remains;
-- downstream handoff and durable decisions are recorded when another task depends on them;
-- the selected delivery contract is satisfied.
+Scale `complete` to the selected level:
+
+- **Level 0:** the requested result exists and a concise current-task check supports it.
+- **Level 1:** the observable objective is satisfied, current evidence supports it, no in-scope blocker remains, and the delivery boundary is explicit.
+- **Level 2:** Level 1 plus dependent handoff and roadmap reconciliation are complete where another task relies on them.
+- **Level 3:** Level 2 plus the required milestone audit and high-risk gates pass.
+
+Do not add a higher-level condition to a lower-level task merely because the template contains a matching field.
 
 ## 4. Keep project and task state separate
 
@@ -98,16 +101,9 @@ Do not store command logs, detailed exploration, every failed attempt, or worker
 
 ### Task plan
 
-Store only task-local execution state:
+For Level 1, default to the core task plan: observable objective, consequential scope boundary, current plan/state, and closeout evidence plus delivery boundary. Add owner, non-goals, assumptions, detailed evidence metadata, decisions, blockers, or handoff only when they change execution or another context must resume the work.
 
-- one observable objective, scope, non-goals, and owner;
-- upstream inputs and verified assumptions;
-- ordered work and current state;
-- task-local decisions and blockers;
-- evidence with subject/version, source, observation time, result, and location;
-- downstream handoff, delivery boundary, and residual risks.
-
-Make each task plan independently readable without hidden chat context. Add optional template sections only when they apply.
+Use `assets/task-plan-coordination-addon.md` for cross-task decisions, blockers, or downstream handoff. Use other add-ons only when their trigger applies. Do not fill unused sections with `none` or `not applicable`; omit them.
 
 ## 5. Select execution units conservatively
 
@@ -117,7 +113,7 @@ Make each task plan independently readable without hidden chat context. Add opti
 4. Use a separate local task when validation depends on machine-local login, device, desktop, simulator, or permission state.
 5. Isolate concurrent repository writers with dedicated branches and worktrees; never let two worktrees use the same branch.
 
-For every execution unit, specify objective, allowed scope, write authority, constraints, evidence, return format, and durable destination. Use the project's established handoff format when one exists.
+For a delegated or independently resumable execution unit, specify the objective, allowed scope, consequential authority constraints, expected evidence, and return destination. A current-task or low-risk unit needs only the fields that can change execution.
 
 ## 6. Run the coordination loop
 
@@ -139,7 +135,7 @@ Verify returned work rather than accepting summaries uncritically. The coordinat
 
 ### Verify and close
 
-Apply the shared completion conditions in section 3. For Level 3, complete the milestone audit without substituting it for code review or runtime validation. Record skipped checks and their risk.
+Apply the level-specific completion conditions in section 3. Level 0/1 does not require roadmap reconciliation, handoff, audit, or template validation unless another active rule requires it. For Level 3, complete the milestone audit without substituting it for code review or runtime validation. Record only skipped checks that leave material risk.
 
 ### Advance or stop
 
@@ -147,7 +143,8 @@ Advance only when exit evidence and the next entry criteria are satisfied. Other
 
 ## 7. Use the right template modules
 
-- `assets/task-plan.md`: core resumable task plan.
+- `assets/task-plan.md`: Level 1 core resumable task plan.
+- `assets/task-plan-coordination-addon.md`: cross-task decisions, blockers, and downstream handoff; add only when needed.
 - `assets/task-plan-git-addon.md`: Git isolation and delivery identity; use with the Git reference.
 - `assets/task-plan-integration-addon.md`: reviewed and integration SHA chain; use only for initiative integration.
 - `assets/project-roadmap.md`: core multi-task roadmap.
@@ -158,4 +155,4 @@ Advance only when exit evidence and the next entry criteria are satisfied. Other
 
 Adapt modules to repository conventions and omit irrelevant sections instead of filling them with `not applicable`. Do not rename an established project artifact merely to match this skill.
 
-For materialized files based on these templates, run `python3 scripts/validate_project_docs.py <files...>` before closeout. The validator checks unresolved placeholders, base-state values, and obvious completion contradictions; it does not replace evidence review or support arbitrary custom schemas.
+For Level 2/3 artifacts materialized from these templates, run `python3 scripts/validate_project_docs.py <files...>` once before closeout. Level 1 does not require this validator by default; use it only when repository policy or a strict template workflow requires it. The validator checks unresolved placeholders, base-state values, and obvious completion contradictions; it does not replace evidence review or support arbitrary custom schemas.

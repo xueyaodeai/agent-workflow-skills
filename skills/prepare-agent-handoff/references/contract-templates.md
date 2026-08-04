@@ -43,6 +43,8 @@ First action:
 <one concrete orientation or execution step>
 ```
 
+Gate only what the next execution context needs to resume: current state, remaining ownership, consequential authority limits, observable completion, and first action.
+
 ## Schedule contract
 
 ```text
@@ -76,7 +78,7 @@ Authority:
 - <allowed writes and actions requiring approval>
 ```
 
-Do not invent a cron expression when the platform accepts a human-readable schedule. Confirm timezone and business-day semantics when they change execution.
+Schedule gate: confirm trigger, timezone when time-based, window boundaries, idempotency/concurrency, no-op delivery, and failure/retry behavior. Do not invent a cron expression when the platform accepts a human-readable schedule. Confirm business-day semantics only when they change execution.
 
 ## External prompt
 
@@ -110,6 +112,8 @@ Stop rules:
 
 Add role or personality only when it materially changes judgment or user-facing behavior.
 
+External-prompt gate: keep authoritative context, tool limits, observable success, output, and stop behavior; omit role, workflow, or formatting detail that does not change behavior.
+
 ## Evaluation case
 
 ```text
@@ -131,3 +135,5 @@ Reproducibility:
 ```
 
 Keep the case independent of the diagnosis being tested. Do not embed the suspected defect, intended fix, or hidden ground truth unless the evaluation explicitly measures their use.
+
+Evaluation gate: verify allowed/forbidden context, observable grading, inconclusive behavior, and reproducibility identity; schedule and delivery fields do not apply.

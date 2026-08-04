@@ -1,18 +1,13 @@
 ## Git isolation and delivery add-on
 
 - Repository: <path>
-- Worktree: <path>
-- Branch: <task-specific branch>
-- Target/primary branch: <branch>
-- Baseline revision: <SHA>
+- Worktree/branch/baseline: <only identities needed for isolation or resume>
 - Delivery contract: `uncommitted_change_set | task_commit | externally_managed`
-- Intended files/hunks: <exact paths or bounded areas>
-- Pre-existing or other-task changes to preserve: <paths/hunks or `none`>
+- Authorized delivery package: <for example edit + verify + commit + push, or local only>
+- Intended scope and unrelated changes to preserve: <paths/hunks>
 
 ### Git delivery record
 
-- Delivered revision or diff: <commit SHA, diff range, or working-tree identity>
-- Delivered paths: <exact path list>
-- Verification subject: <revision or exact working tree>
-- Staged/full diff reviewed for unrelated changes: <yes/no/not applicable>
-- Push/review/merge/deploy authorization: <explicit scope or `not authorized`>
+- Delivered identity and paths: <commit/diff plus exact scope>
+- Verification: <subject and result>
+- External delivery completed or pending: <only actions in the authorized package>
