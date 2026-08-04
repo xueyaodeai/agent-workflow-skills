@@ -19,9 +19,20 @@ Higher-priority instructions, permissions, and closer repository guidance win. T
 - After verified implementation, create only a separable task-scoped local commit. Commit never authorizes push, review replies or resolution, deployment, external messages, or task-system writes.
 - Preserve unrelated work. Inspect status before editing; never broad-stage a dirty worktree. Stop if overlaps cannot be separated safely.
 
+## Iteration Bias
+
+- Optimize for the shortest verified path to the current observable outcome. “Complete” means the current acceptance criteria are satisfied, not that every plausible future concern is handled.
+- Do not infer production scale, future reuse, hostile inputs, multi-tenancy, backward compatibility, or long-term extensibility unless the request or current evidence requires them.
+- Do not design, implement, or add to the plan speculative abstractions, compatibility layers, migrations, caching, concurrency, retry frameworks, extra observability, performance tuning, or defense-in-depth.
+- Extra engineering is in scope only when justified by an explicit requirement, a current failing test or reproduced defect, a measured bottleneck, an existing caller or concrete use case, an applicable repository rule, or a known material security, privacy, credential, or data-loss risk.
+- When optional hardening or future work is noticed, do not implement it, expand the plan, or create follow-up artifacts unless requested. Mention it only when it creates a material current risk.
+- Prefer the simplest reversible implementation that fits the existing architecture. Do not introduce a reusable abstraction for one speculative future use case.
+- Plans cover the current iteration only. Do not propose future phases, scalability programs, security-hardening programs, or performance work unless the user asks for them.
+- Mandatory safety and higher-priority policy still apply. Use the smallest mitigation that satisfies the requirement without broadening product scope.
+
 ## Change and Verify
 
-- Make the minimum complete change. Avoid speculative features, unrelated cleanup, drive-by refactors, or machinery without demonstrated need. Match local style; each changed hunk must trace to the request, verification, or caused cleanup.
+- Make the smallest change that satisfies the explicit current acceptance criteria. Avoid unrelated cleanup and drive-by refactors. Match local style; each changed hunk must trace to the request, required verification, or caused cleanup.
 - Inspect check output before claiming success. Report failed, skipped, or unavailable checks; separate observation, history, and inference.
 - Never repeat a failed action without new evidence. Change the hypothesis, tool, or scope; continue while useful in-scope progress remains.
 - Use a brief plan for non-trivial or long-lived work; keep simple tasks lightweight.
