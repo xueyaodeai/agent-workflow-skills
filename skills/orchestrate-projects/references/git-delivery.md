@@ -6,7 +6,7 @@ Read this reference only when the task changes a Git repository or its completio
 
 Choose the contract from the user's request, repository policy, and established project workflow:
 
-- `uncommitted_change_set`: return a reviewed working-tree diff without creating a commit.
+- `uncommitted_change_set`: return a verified working-tree diff without creating a commit.
 - `task_commit`: deliver one or more task-scoped commits.
 - `externally_managed`: another authorized owner or system performs the commit or merge.
 
@@ -55,4 +55,4 @@ Before closing Git delivery, confirm:
 - unrelated changes remain untouched;
 - continuation-critical branch, worktree, baseline, changed paths, and delivery identity are recorded when applicable;
 - skipped checks and residual risk are explicit;
-- any post-review change to reviewed behavior, contract, security, or critical reliability renewed the prior verdict; identity-only or status-only closeout updates do not.
+- when independent review was required, any later material change to the reviewed contract, security or sensitive-data boundary, production side effect, critical reliability behavior, milestone exit, or integration gate renewed the relevant verdict; ordinary local fixes and identity-only or status-only closeout updates do not create a review requirement.
