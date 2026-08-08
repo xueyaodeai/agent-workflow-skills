@@ -40,6 +40,8 @@ Higher-priority instructions, permissions, and closer repository guidance win. T
 - Inspect check output before claiming success. Report failed, skipped, or unavailable checks; distinguish observation from inference.
 - Never repeat a failed action without new evidence. Change the hypothesis, tool, or scope while useful in-scope progress remains.
 - Use a brief plan for non-trivial work; keep simple tasks lightweight.
+- Verification is required; independent review is not a default completion step. Use executor-owned checks for local, reversible changes. Require a separate reviewer only when the user or an applicable repository rule explicitly requires one, or when the change materially affects a public contract, security or sensitive-data boundary, production or irreversible side effect, critical fail-closed behavior, milestone exit, or cross-repository integration gate.
+- Do not infer an independent review requirement from task duration, file count, multiple attempts, model cost, or bounded external reads. When review is required, consolidate it around one acceptance-ready snapshot instead of repeating independent preflight, implementation, per-operation, and result reviews.
 
 ## Reply
 

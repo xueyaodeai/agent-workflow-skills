@@ -15,6 +15,7 @@ Keep long-running work resumable and evidence-backed without turning ordinary ta
 4. Scale completion evidence to the coordination level. Bind evidence to a revision, environment, or observation time only when that identity can change the conclusion.
 5. Follow the applicable user- and repository-level Authority rules. This skill records only project-specific narrowing and the selected delivery package; it never expands authority.
 6. Keep every implementation change attributable to one task and preserve unrelated work.
+7. Scale independent review to demonstrated risk separately from coordination level. Long duration, multiple files or attempts, and bounded external reads do not make review a default completion step.
 
 ## 1. Route the request before loading details
 
@@ -135,7 +136,15 @@ Verify returned work rather than accepting summaries uncritically. The coordinat
 
 ### Verify and close
 
-Apply the level-specific completion conditions in section 3. Level 0/1 does not require roadmap reconciliation, handoff, audit, or template validation unless another active rule requires it. For Level 3, complete the milestone audit without substituting it for code review or runtime validation. Record only skipped checks that leave material risk.
+Apply the level-specific completion conditions in section 3. Level 0/1 does not require roadmap reconciliation, handoff, audit, or template validation unless another active rule requires it. For Level 3, complete the milestone audit without substituting it for any independently required code review or runtime validation. Record only skipped checks that leave material risk.
+
+Verification is always required; independent review is conditional:
+
+- Default to executor-owned targeted and proportional regression checks for local, reversible changes that do not materially affect a public contract, security or sensitive-data boundary, production or irreversible side effect, critical fail-closed behavior, milestone exit, or cross-repository integration gate.
+- Require an independent reviewer only when an applicable rule or the user explicitly requires one, or when one of those material boundaries changes. Coordination level, file count, elapsed time, multiple attempts, model cost, or bounded read-only access alone do not trigger it.
+- Use a deterministic executor preflight for bounded low-risk read-only or model operations. Do not insert an independent preflight around each operation unless a demonstrated current risk requires it.
+- When review is required, consolidate it around one acceptance-ready semantic snapshot. Do not split preflight, implementation, each operation, and result checking into repeated independent reviews. After blocking findings, use the same reviewer for a targeted recheck; widen it only if the fix changes another material boundary.
+- Preserve historical review and audit records, but do not inherit their gates into later tasks without a current trigger.
 
 ### Advance or stop
 

@@ -26,7 +26,7 @@
 
 ## Review and validation status
 
-- Code review: <completed/not required/pending and evidence>
+- Independent code review: <not required with trigger assessment/completed/pending and evidence>
 - Automated tests: <subject, result, and evidence>
 - Local or manual validation: <subject, environment, and result>
 - Delivery boundaries: <expected and observed identities>
