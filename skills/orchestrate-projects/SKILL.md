@@ -16,6 +16,7 @@ Keep long-running work resumable and evidence-backed without turning ordinary ta
 5. Follow the applicable user- and repository-level Authority rules. This skill records only project-specific narrowing and the selected delivery package; it never expands authority.
 6. Keep every implementation change attributable to one task and preserve unrelated work.
 7. Scale independent review to demonstrated risk separately from coordination level. Long duration, multiple files or attempts, and bounded external reads do not make review a default completion step.
+8. For Level 1 and above, freeze the applicable task or milestone contract before execution: observable result or required happy path, acceptance or exit criteria, non-goals, accepted deferrals, blocker threshold, and stop condition. Workers and reviewers may verify that contract but must not add current completion conditions. Only the named scope authority may expand it.
 
 ## 1. Route the request before loading details
 
@@ -44,7 +45,7 @@ Treat project files as coordination ledgers, not universal factual authorities:
 
 | Information | Authority | Durable record |
 |---|---|---|
-| User decisions, scope, non-goals | User or named policy owner | Roadmap decision ledger |
+| User decisions, scope, non-goals, accepted deferrals | User or named policy owner | Roadmap decision ledger |
 | Project milestone and dependency state | Coordinating task after reconciliation | Project roadmap |
 | Task execution state and local choices | Task owner | Task plan |
 | Code and change identity | Live repository | Revision, diff, branch, or delivery record |
@@ -67,7 +68,7 @@ Use the same base states for tasks, milestones, and projects:
 
 Use side states deliberately:
 
-- `blocked`: progress cannot continue until a named condition changes; it may return to `in_progress`.
+- `blocked`: the declared current objective cannot continue or complete until a named condition satisfying the applicable task, milestone, or project blocker threshold changes; it may return to `in_progress`.
 - `deferred`: removed from the active sequence with an owner or reconsideration trigger.
 - `cancelled`: intentionally stopped by an authorized owner.
 - `superseded`: replaced by a newer artifact or decision, with a reference to the replacement.
@@ -91,9 +92,9 @@ Do not add a higher-level condition to a lower-level task merely because the tem
 
 Store only global coordination state:
 
-- final outcome, completion criteria, constraints, and non-goals;
+- final outcome, completion criteria, constraints, and project-level non-goals;
 - artifact owner and last reconciliation point;
-- current milestone and milestone/workstream status;
+- current milestone contract and milestone/workstream status;
 - cross-task dependencies, decisions, blockers, and risk ownership;
 - links to task plans and versioned evidence;
 - next-milestone entry criteria and project closeout state.
@@ -102,7 +103,7 @@ Do not store command logs, detailed exploration, every failed attempt, or worker
 
 ### Task plan
 
-For Level 1, default to the core task plan: observable objective, consequential scope boundary, current plan/state, and closeout evidence plus delivery boundary. Add owner, non-goals, assumptions, detailed evidence metadata, decisions, blockers, or handoff only when they change execution or another context must resume the work.
+For Level 1, default to the core task plan: observable objective, acceptance checks, consequential scope boundary, current plan/state, and closeout evidence plus delivery boundary. Record task-level non-goals, accepted deferrals, blocker threshold, or stop condition when they prevent scope expansion or change execution. Add owner, assumptions, detailed evidence metadata, decisions, blockers, or handoff only when another context must resume them.
 
 Use `assets/task-plan-coordination-addon.md` for cross-task decisions, blockers, or downstream handoff. Use other add-ons only when their trigger applies. Do not fill unused sections with `none` or `not applicable`; omit them.
 
@@ -114,7 +115,7 @@ Use `assets/task-plan-coordination-addon.md` for cross-task decisions, blockers,
 4. Use a separate local task when validation depends on machine-local login, device, desktop, simulator, or permission state.
 5. Isolate concurrent repository writers with dedicated branches and worktrees; never let two worktrees use the same branch.
 
-For a delegated or independently resumable execution unit, specify the objective, allowed scope, consequential authority constraints, expected evidence, and return destination. A current-task or low-risk unit needs only the fields that can change execution.
+For a delegated or independently resumable execution unit, specify the objective, allowed scope, consequential authority constraints, expected evidence, and return destination. Give a reviewer the frozen acceptance contract and blocker threshold; do not authorize it to invent current task or milestone requirements. A current-task or low-risk unit needs only the fields that can change execution.
 
 ## 6. Run the coordination loop
 
@@ -124,7 +125,7 @@ Read the roadmap and active task plan when present, applicable instructions, and
 
 ### Plan
 
-Identify the current milestone, bounded execution units, dependencies, evidence requirements, authority boundaries, and delivery topology. Record only material assumptions and unresolved decisions.
+Identify the current task or milestone, bounded execution units, dependencies, evidence requirements, authority boundaries, and delivery topology. For Level 1 and above, freeze the applicable task or milestone contract described in the core invariants before execution. Record only material assumptions and unresolved decisions.
 
 ### Execute
 
@@ -144,11 +145,13 @@ Verification is always required; independent review is conditional:
 - Require an independent reviewer only when an applicable rule or the user explicitly requires one, or when one of those material boundaries changes. Coordination level, file count, elapsed time, multiple attempts, model cost, or bounded read-only access alone do not trigger it.
 - Use a deterministic executor preflight for bounded low-risk read-only or model operations. Do not insert an independent preflight around each operation unless a demonstrated current risk requires it.
 - When review is required, consolidate it around one acceptance-ready semantic snapshot. Do not split preflight, implementation, each operation, and result checking into repeated independent reviews. After blocking findings, use the same reviewer for a targeted recheck; widen it only if the fix changes another material boundary.
+- Current reachability alone does not make a finding blocking. A blocker must identify the declared acceptance or exit criterion, non-deferable higher-priority rule, or protected existing behavior it violates; evidence linking the violation to the required current flow or candidate change; the material effect on truthful completion; and why existing controls do not cover it.
+- Treat technically valid findings outside the frozen contract as warnings, notes, or deferred follow-ups only when the candidate change neither introduces nor materially worsens them and no non-deferable rule applies. Candidate-introduced regressions in a public contract, security or sensitive-data boundary, production or irreversible side effect, or critical fail-closed behavior remain blocking even when the affected behavior is outside the milestone happy path. A reviewer may recommend a later scope change, but only the named scope authority may add it to the active task or milestone.
 - Preserve historical review and audit records, but do not inherit their gates into later tasks without a current trigger.
 
 ### Advance or stop
 
-Advance only when exit evidence and the next entry criteria are satisfied. Otherwise record the exact blocker, owner, and smallest required action. Close the project with final evidence, residual risks, and follow-up ownership.
+Advance only when the frozen acceptance or exit evidence and the next entry criteria are satisfied. Otherwise record the exact blocker, owner, and smallest required action. Stop expanding implementation when the applicable stop condition is met; route other valid findings to later work without silently expanding the active task or milestone. Close the project with final evidence, residual risks, and follow-up ownership.
 
 ## 7. Use the right template modules
 

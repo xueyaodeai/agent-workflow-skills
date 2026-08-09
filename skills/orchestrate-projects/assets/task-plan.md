@@ -5,11 +5,15 @@ Use this core for Level 1. Delete any optional line that cannot change execution
 ## Objective
 
 - Observable result: <one result this task must produce>
+- Acceptance checks: <evidence that proves the result>
 
 ## Scope
 
 - In scope: <authorized work>
 - Boundary: <only the consequential exclusion or side-effect limit>
+- Deferred/non-goal: <work excluded from current scope, decision authority, and reconsideration trigger>
+- Blocker threshold: <what may stop this task>
+- Stop condition: <evidence after which implementation must stop expanding>
 
 ## Plan and progress
 

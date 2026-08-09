@@ -22,6 +22,11 @@
 - Milestone: <identifier and name>
 - Status: `not_started | in_progress | ready_for_verification | blocked | complete | deferred | cancelled | superseded`
 - State owner: <owner>
+- Required happy path: <smallest end-to-end flow this milestone must prove>
+- Exit criteria: <frozen observable checks>
+- Current non-goals and accepted deferrals: <excluded work, authority, and reconsideration trigger>
+- Blocker threshold: <what may stop this milestone>
+- Stop condition: <evidence after which implementation must stop expanding>
 - Last observed: <date/time>
 - Exit evidence: <required proof>
 
