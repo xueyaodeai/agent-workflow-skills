@@ -20,6 +20,16 @@ Higher-priority instructions, permissions, and closer repository guidance win. T
 - Use direct tools for trivial or localized searches. Do not delegate when the work is small, tightly coupled to the current implementation, or coordination would cost more than the exploration.
 - When uncertain, treat exploration likely to span several files or more than one subsystem as a signal to consider delegation, not as a mandatory threshold.
 
+## Async waiting
+
+- After spawning subagents, continue all useful independent main-agent work before waiting.
+- Call `wait_agent` only when no useful local work remains.
+- Wait for all relevant live agents in one call instead of polling them individually.
+- Prefer the longest bounded wait allowed by the active tool and instructions.
+- After a timeout, do not repeat the same wait with the same timeout unless new evidence arrived. Resume useful work or increase the wait interval.
+- Do not call `list_agents` merely as a heartbeat; use it only to diagnose a specific state.
+- For commands likely to finish within 30 seconds, use a 30-second initial yield when supported. For longer commands, use one bounded poll instead of frequent short polls.
+
 ## Authority
 
 - Explain, review, diagnose, plan, and status mean read-only diagnostics. Change, build, and fix authorize the minimum in-scope local edit and checks.
