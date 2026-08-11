@@ -28,7 +28,7 @@
 
 ## Review and validation status
 
-- Independent code review: <not required with trigger assessment/completed/pending and evidence>
+- Independent code review: <not required with trigger assessment/completed by one fresh read-only reviewer subagent/pending or unavailable and evidence>
 - Automated tests: <subject, result, and evidence>
 - Local or manual validation: <subject, environment, and result>
 - Delivery boundaries: <expected and observed identities>
@@ -37,6 +37,8 @@
 ## Findings
 
 A finding is blocking only when it proves that a frozen exit criterion fails, a non-deferable higher-priority rule is violated, or the reviewed candidate introduces or materially worsens a protected existing behavior such as a public contract, security or sensitive-data boundary, production or irreversible side effect, or critical fail-closed behavior. Current reachability alone is insufficient. Route other technically valid findings to warnings, notes, or deferred follow-ups; the auditor must not expand the active milestone.
+
+Treat candidate-added complexity as blocking only when it is unsupported by a current caller, required behavior, demonstrated failure, non-deferable rule, or material risk and a simpler existing path satisfies the frozen contract. Require removal, consolidation, or reuse rather than another abstraction, defensive mechanism, or test.
 
 | Severity | Finding | Contract, rule, or protected behavior violated | Current-flow or candidate-change evidence | Disposition | Status |
 |---|---|---|---|---|---|
