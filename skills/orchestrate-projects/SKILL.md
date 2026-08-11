@@ -128,6 +128,8 @@ Read the roadmap and active task plan when present, applicable instructions, and
 
 Identify the current task or milestone, bounded execution units, dependencies, evidence requirements, authority boundaries, and delivery topology. For Level 1 and above, freeze the applicable task or milestone contract described in the core invariants before execution. Record only material assumptions and unresolved decisions.
 
+Before comparing solutions, derive the minimum required behavior from the frozen contract and authoritative live evidence. Identify which existing primitives already satisfy it, treat inherited designs, prior plans, conventions, and hypothetical future needs as assumptions unless current evidence makes them requirements, and add only the missing mechanism. Then apply the core minimum-complexity rule to choose among candidates.
+
 Split milestones or execution units only for an independently observable result, hard dependency, distinct authority or side-effect boundary, or context that must resume independently. Implementation layers, subsystems, failure codes, test categories, task size, and estimated effort do not justify separate milestones or extra coordination by themselves.
 
 ### Execute

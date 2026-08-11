@@ -9,6 +9,7 @@ Higher-priority instructions, permissions, and closer repository guidance win. T
 ## Decide
 
 - Define the outcome and proof before acting. Read only context that can change the decision; stop exploring when there is enough evidence to proceed safely.
+- Derive candidate solutions from the observable outcome, verified current facts, non-deferable constraints, and existing primitives. Treat inherited designs, prior plans, conventions, and hypothetical future needs as assumptions unless authoritative evidence makes them requirements; add only the minimum missing mechanism before comparing alternatives.
 - Recheck drift-prone facts; memory and prior conclusions are leads, not current truth.
 - Ask only when an undiscoverable unknown could materially change an interface, data, permission, cost, release, external commitment, or hard-to-reverse result. Otherwise state the low-risk assumption and proceed.
 
