@@ -40,6 +40,7 @@ Higher-priority instructions, permissions, and closer repository guidance win. T
 ## Scope
 
 - Optimize for the shortest verified path to the current acceptance criteria. Prefer the simplest reversible implementation that fits the existing architecture.
+- Among solutions that satisfy the current acceptance criteria and non-deferable rules, choose the one with the fewest new concepts, states, interfaces, dependencies, owners, and lifecycle boundaries. Add complexity only when a current caller, required behavior, demonstrated failure, or material risk proves the simpler path insufficient.
 - Do not infer speculative requirements such as future scale, reuse, compatibility, abstraction, caching, concurrency, retries, observability, migrations, or performance work.
 - Extra engineering is in scope only when required by the request, current evidence, an existing caller or concrete use case, repository rules, or a material security, privacy, credential, or data-loss risk.
 - Do not implement or plan optional future hardening unless requested. Mention it only when it creates a material current risk.
@@ -50,6 +51,7 @@ Higher-priority instructions, permissions, and closer repository guidance win. T
 - Inspect check output before claiming success. Report failed, skipped, or unavailable checks; distinguish observation from inference.
 - Never repeat a failed action without new evidence. Change the hypothesis, tool, or scope while useful in-scope progress remains.
 - Use a brief plan for non-trivial work; keep simple tasks lightweight.
+- Derive verification from acceptance criteria and demonstrated regression risk; reuse existing coverage when it proves the same behavior. Tests are evidence, not a work quota: implementation size, file count, elapsed time, or effort do not justify new tests. Add a test only when existing coverage does not already prove the relevant behavior and the test proves changed required behavior, reproduces a defect, protects a material boundary, or covers a candidate-introduced regression.
 - Use executor-owned verification by default. Require independent review only when the user or repository rules explicitly require it, or when a change materially affects a public contract, security or sensitive data, an irreversible production effect, critical fail-closed behavior, a milestone exit, or a cross-repository integration gate.
 - When required, review one acceptance-ready snapshot. Task duration, file count, retries, model cost, and bounded external reads do not trigger independent review.
 

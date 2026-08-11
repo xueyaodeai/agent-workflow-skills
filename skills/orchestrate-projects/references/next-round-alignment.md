@@ -42,6 +42,8 @@ Each round records evidence reviewed, confirmed decisions, remaining proposals, 
 
 ## Gate roadmap generation
 
+Consolidate carryover into the fewest milestones that preserve independently observable outcomes, hard dependencies, distinct authority or side-effect boundaries, or contexts that must resume independently. Do not create milestones per subsystem, implementation phase, failure code, or test category unless one of those boundaries requires it.
+
 Generate a reconciled successor roadmap only when:
 
 - every carryover item has a disposition;
