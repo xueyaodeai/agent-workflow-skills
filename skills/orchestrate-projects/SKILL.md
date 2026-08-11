@@ -111,7 +111,7 @@ Use `assets/task-plan-coordination-addon.md` for cross-task decisions, blockers,
 ## 5. Select execution units conservatively
 
 1. Keep work in the current task when it directly serves the current outcome and shares the same context.
-2. Delegate implementation or exploration only when the user requested delegation or parallel work and higher-priority instructions permit it. A required independent review uses the single reviewer subagent defined in section 6 and does not authorize other delegation.
+2. Delegate only bounded, independently verifiable exploration, test or log analysis, or verification when it materially reduces uncertainty or latency and higher-priority instructions permit it. Keep architecture, integration, and core implementation in the main agent; do not delegate when coordination cost exceeds the benefit.
 3. Create or fork an independent task only when the user explicitly asks and durable visibility or isolation is required.
 4. Use a separate local task when validation depends on machine-local login, device, desktop, simulator, or permission state.
 5. Isolate concurrent repository writers with dedicated branches and worktrees; never let two worktrees use the same branch.
