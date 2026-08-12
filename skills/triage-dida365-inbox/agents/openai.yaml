@@ -1,0 +1,7 @@
+interface:
+  display_name: "Dida365 收集箱整理"
+  short_description: "分类并整理收集箱，将 Agent 任务加入待委派队列"
+  default_prompt: "Use $triage-dida365-inbox to organize my Dida365 Inbox and place agent-ready work in the delegation queue."
+
+policy:
+  allow_implicit_invocation: false

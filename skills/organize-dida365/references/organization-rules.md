@@ -8,8 +8,9 @@
 4. Task splitting rules
 5. Dates and priorities
 6. Lifecycle states
-7. Habits and recurring tasks
-8. Cleanup and verification examples
+7. Agent delegation lifecycle
+8. Habits and recurring tasks
+9. Cleanup and verification examples
 
 ## 1. Project, task, and tag decision table
 
@@ -129,7 +130,15 @@ Do not mark every H2 objective high. Priority should distinguish what receives a
 
 When the user says “挂起/暂停”, preserve the task and remove misleading urgency or dates as appropriate. When the user says “不需要了/放弃”, use abandoned status rather than deletion so the decision remains auditable.
 
-## 7. Habits and recurring tasks
+## 7. Agent delegation lifecycle
+
+Use the single `agent委派` tag as the delegation queue marker. An active tagged task is waiting for user selection and launch. A completed tagged task represents successful delegation only when its title or content truthfully defines the Dida365 outcome as delegation and it records a valid independent Codex task reference.
+
+The destination Codex task owns implementation and delivery. Do not keep the Dida365 task active to mirror Agent progress or reopen it from later Agent outcomes. This delegation completion boundary does not apply to a task whose stated outcome is still the delivered fix, feature, analysis, or other work result.
+
+The whole-system organizer may audit these lifecycle facts but must not select or start Agent work unless the user explicitly invokes the dispatch workflow and chooses the tasks.
+
+## 8. Habits and recurring tasks
 
 Use a habit for repeated behavioral training such as early rising, reading practice, or distinct exercise goals. Retain separate habits when they train genuinely different behaviors, even if they occur in the same domain.
 
@@ -137,7 +146,7 @@ Merge or remove a separate recurring task when it is only another representation
 
 Stopping one behavior does not imply stopping its paired behavior. Apply exact intent, such as stopping “早睡” while retaining “早起”。
 
-## 8. Cleanup and verification examples
+## 9. Cleanup and verification examples
 
 ### Project versus tag
 
