@@ -1,4 +1,4 @@
 interface:
   display_name: "Prepare Agent Handoff"
-  short_description: "Build evidence-backed handoff contracts"
-  default_prompt: "Use $prepare-agent-handoff to turn the current context into a self-contained, evidence-backed handoff contract."
+  short_description: "Build minimal evidence-backed handoffs"
+  default_prompt: "Use $prepare-agent-handoff to package only the context a destination lacks into a runnable handoff."
