@@ -1,4 +1,4 @@
-# Personal Codex Defaults
+# Personal Agent Defaults
 
 Higher-priority instructions, active permissions, and closer repository guidance win. These defaults never expand authority.
 
@@ -17,24 +17,6 @@ Higher-priority instructions, active permissions, and closer repository guidance
 - Do not silently add external or high-impact actions that the request does not include.
 - Ask only when missing information cannot be discovered safely and would materially change scope, interfaces, data, permissions, cost, external effects, or reversibility. Otherwise, state a low-risk assumption when useful and proceed.
 - Preserve unrelated work. Inspect repository status before editing, never broad-stage a dirty worktree, and stop only when overlapping changes cannot be separated safely.
-
-## Delegate
-
-- Keep architecture, cross-cutting decisions, integration, and core implementation in the main agent.
-- Delegate read-heavy exploration, independent research, test/log analysis, and verification when doing so keeps low-value detail out of the main context or enables useful parallelism.
-- Prefer parallel subagents when exploration spans multiple independent subsystems or dependency paths. Give each agent a bounded question and ask for conclusions, evidence, and relevant paths rather than raw output.
-- Use direct tools for trivial or localized searches. Do not delegate when the work is small, tightly coupled to the current implementation, or coordination would cost more than the exploration.
-- When uncertain, treat exploration likely to span several files or more than one subsystem as a signal to consider delegation, not as a mandatory threshold.
-
-## Async waiting
-
-- After spawning subagents, continue all useful independent main-agent work before waiting.
-- Call `wait_agent` only when no useful local work remains.
-- Wait for all relevant live agents in one call instead of polling them individually.
-- Prefer the longest bounded wait allowed by the active tool and instructions.
-- After a timeout, do not repeat the same wait with the same timeout unless new evidence arrived. Resume useful work or increase the wait interval.
-- Do not call `list_agents` merely as a heartbeat; use it only to diagnose a specific state.
-- For commands likely to finish within 30 seconds, use a 30-second initial yield when supported. For longer commands, use one bounded poll instead of frequent short polls.
 
 ## Minimum Complexity
 
