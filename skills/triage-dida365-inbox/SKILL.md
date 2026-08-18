@@ -1,6 +1,6 @@
 ---
 name: triage-dida365-inbox
-description: Sort Dida365/TickTick Inbox tasks into existing personal, learning, work, or side-project destinations; distinguish user-owned work from agent-ready work; collect only consequential context; and tag agent-ready items `agent委派` without launching agents. Use only when the user explicitly invokes `$triage-dida365-inbox`. Do not trigger from ordinary task or planning conversation, audit the whole account, group agent work, create roadmaps, or start Codex tasks.
+description: Sort Dida365/TickTick Inbox tasks into existing personal, learning, work, or side-project destinations; distinguish user-owned work from agent-ready work; collect only consequential context; and tag agent-ready items `agent委派` without launching agents. Use only when the user explicitly invokes `$triage-dida365-inbox`. Do not trigger from ordinary task or planning conversation, audit the whole account, group agent work, create roadmaps, or start independent Agent tasks.
 ---
 
 # Triage Dida365 Inbox
@@ -11,7 +11,7 @@ Use the Inbox as a capture boundary. Turn each captured item into either an acti
 
 - Treat “分析”“看看” and equivalent wording as read-only.
 - Treat “整理收集箱”“执行整理” and equivalent wording as authority for the exact task moves, edits, and `agent委派` tag creation or removal required by this workflow.
-- Do not delete tasks, projects, tags, or history. Do not infer authority to start a Codex task from permission to organize the Inbox.
+- Do not delete tasks, projects, tags, or history. Do not infer authority to start an independent Agent task from permission to organize the Inbox.
 
 ## Read only the intake surface
 

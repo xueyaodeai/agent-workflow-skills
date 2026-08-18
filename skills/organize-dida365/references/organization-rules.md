@@ -132,9 +132,9 @@ When the user says “挂起/暂停”, preserve the task and remove misleading 
 
 ## 7. Agent delegation lifecycle
 
-Use the single `agent委派` tag as the delegation queue marker. An active tagged task is waiting for user selection and launch. A completed tagged task represents successful delegation only when its title or content truthfully defines the Dida365 outcome as delegation and it records a valid independent Codex task reference.
+Use the single `agent委派` tag as the delegation queue marker. An active tagged task is waiting for user selection and launch. A completed tagged task represents successful delegation only when its title or content truthfully defines the Dida365 outcome as delegation and it records a valid independent Agent task reference.
 
-The destination Codex task owns implementation and delivery. Do not keep the Dida365 task active to mirror Agent progress or reopen it from later Agent outcomes. This delegation completion boundary does not apply to a task whose stated outcome is still the delivered fix, feature, analysis, or other work result.
+The destination Agent task owns implementation and delivery. Do not keep the Dida365 task active to mirror Agent progress or reopen it from later Agent outcomes. This delegation completion boundary does not apply to a task whose stated outcome is still the delivered fix, feature, analysis, or other work result.
 
 The whole-system organizer may audit these lifecycle facts but must not select or start Agent work unless the user explicitly invokes the dispatch workflow and chooses the tasks.
 

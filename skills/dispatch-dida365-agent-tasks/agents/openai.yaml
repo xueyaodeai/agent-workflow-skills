@@ -1,6 +1,6 @@
 interface:
   display_name: "Dida365 Agent 任务启动"
-  short_description: "列出待委派任务，经确认后启动独立 Codex 任务"
+  short_description: "列出待委派任务，经确认后启动独立 Agent 任务"
   default_prompt: "Use $dispatch-dida365-agent-tasks to list my ready agent tasks and ask which ones to start."
 
 policy:
