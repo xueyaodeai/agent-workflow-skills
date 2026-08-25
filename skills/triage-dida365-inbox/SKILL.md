@@ -1,6 +1,7 @@
 ---
 name: triage-dida365-inbox
-description: Sort Dida365/TickTick Inbox tasks into existing personal, learning, work, or side-project destinations; distinguish user-owned work from agent-ready work; collect only consequential context; and tag agent-ready items `agent委派` without launching agents. Use only when the user explicitly invokes `$triage-dida365-inbox`. Do not trigger from ordinary task or planning conversation, audit the whole account, group agent work, create roadmaps, or start independent Agent tasks.
+description: Sort Dida365/TickTick Inbox tasks into existing personal, learning, work, or side-project destinations; distinguish user-owned work from agent-ready work; collect only consequential context; and tag agent-ready items `agent委派` without launching agents. Use only when the user explicitly invokes `triage-dida365-inbox`. Do not trigger from ordinary task or planning conversation, audit the whole account, group agent work, create roadmaps, or start independent Agent tasks.
+disable-model-invocation: true
 ---
 
 # Triage Dida365 Inbox
@@ -40,7 +41,7 @@ Inspect task content, links, attachments, and safely discoverable sources before
 - Move a clear user-owned task to its owning project, keep it active, and remove `agent委派` if it was incorrectly applied.
 - Move a clear Agent-ready task to its owning project, keep it active, and apply the single canonical tag `agent委派`. When execution is authorized, create that exact tag if it does not exist; do not add handler or Agent subtype tags.
 - Preserve unrelated fields, including content, checklist items, parent, dates, timezone, reminders, recurrence, priority, and retained tags.
-- Do not group Agent-ready tasks, decide whether they need a roadmap, start an Agent, rename them as dispatched, or complete them. `$dispatch-dida365-agent-tasks` owns that boundary.
+- Do not group Agent-ready tasks, decide whether they need a roadmap, start an Agent, rename them as dispatched, or complete them. `dispatch-dida365-agent-tasks` owns that boundary.
 
 Process unambiguous items without blocking on unrelated ambiguous ones when the user authorized batch organization. Leave unresolved items unchanged and return one compact question covering only the decisions still needed.
 

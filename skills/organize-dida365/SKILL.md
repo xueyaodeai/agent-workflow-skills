@@ -1,13 +1,14 @@
 ---
 name: organize-dida365
-description: Audit, plan, and reorganize an entire Dida365/TickTick task system, including projects, groups, tasks, tags, dates, priorities, lifecycle states, habits, and archives. Use only when the user explicitly invokes `$organize-dida365` for a whole-system audit, planning review, item-by-item alignment, cleanup, or an agreed reorganization. Do not trigger from ordinary task planning, routine Inbox triage, or requests to select and start Agent work.
+description: Audit, plan, and reorganize an entire Dida365/TickTick task system, including projects, groups, tasks, tags, dates, priorities, lifecycle states, habits, and archives. Use only when the user explicitly invokes `organize-dida365` for a whole-system audit, planning review, item-by-item alignment, cleanup, or an agreed reorganization. Do not trigger from ordinary task planning, routine Inbox triage, or requests to select and start Agent work.
+disable-model-invocation: true
 ---
 
 # Organize Dida365
 
 Turn an overloaded task collection into a small set of owned, executable outcomes. Separate analysis, alignment, mutation, and verification so that ambiguous planning does not become accidental data loss.
 
-Use `$triage-dida365-inbox` for routine Inbox routing and `$dispatch-dida365-agent-tasks` for the active `agent委派` queue. Do not perform those workflows as part of a general audit unless the user explicitly includes their exact mutations.
+Use `triage-dida365-inbox` for routine Inbox routing and `dispatch-dida365-agent-tasks` for the active `agent委派` queue. Do not perform those workflows as part of a general audit unless the user explicitly includes their exact mutations.
 
 ## Load the detailed rules
 

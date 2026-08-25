@@ -1,6 +1,7 @@
 ---
 name: dispatch-dida365-agent-tasks
-description: Find active Dida365/TickTick tasks tagged `agent委派`, assess readiness and related work, let the user choose which tasks to start, then create user-visible independent Agent tasks and close only the successfully dispatched Dida365 items. Use only when the user explicitly invokes `$dispatch-dida365-agent-tasks`. Do not trigger from ordinary task, Agent, roadmap, or planning conversation, and do not monitor the delegated work to completion.
+description: Find active Dida365/TickTick tasks tagged `agent委派`, assess readiness and related work, let the user choose which tasks to start, then create user-visible independent Agent tasks and close only the successfully dispatched Dida365 items. Use only when the user explicitly invokes `dispatch-dida365-agent-tasks`. Do not trigger from ordinary task, Agent, roadmap, or planning conversation, and do not monitor the delegated work to completion.
+disable-model-invocation: true
 ---
 
 # Dispatch Dida365 Agent Tasks
@@ -12,7 +13,8 @@ Treat active `agent委派` tasks as a user-controlled launch queue. Help the use
 - Listing, analyzing, and recommending tasks are read-only.
 - If the user has not selected exact tasks or an unambiguous set such as “all ready high-priority tasks,” show the queue and wait for one selection before creating independent Agent tasks or changing Dida365.
 - An explicit selection plus “启动”“委派”“开始” or equivalent wording authorizes creation of the selected independent Agent tasks and the exact Dida365 comments, title updates, and completions required to record successful dispatch. Do not ask again when the user already made an exact selection.
-- Create user-visible independent Agent tasks, not subagents. The user owns subsequent alignment in those tasks.
+- Create user-visible independent Agent tasks, not hidden subagents. The user owns subsequent alignment in those tasks.
+- Use the current host's user-visible independent agent or task primitive. Typical equivalents are a Codex task, a Cursor Cloud Agent or new conversation, or a Claude Code session the user can open. If the host has only hidden subagents, stop and report that limitation instead of launching one.
 
 ## Read the active queue
 
@@ -42,7 +44,7 @@ Evaluate the selected ready tasks together before creating any independent Agent
 - Group tasks only when they contribute to one observable outcome and can share authoritative sources, authority boundaries, and a coherent acceptance contract.
 - Use separate independent Agent tasks for independent outcomes or materially different authority, side-effect, repository-isolation, or lifecycle boundaries.
 - Use one merged execution task when the work shares one outcome, context, owner, and completion boundary and can reasonably finish in one task.
-- Use one coordinating Agent task with `$orchestrate-projects` only when execution must survive multiple tasks, sessions, milestones, repositories, environments, owners, or independently completable dependency stages.
+- Use one coordinating Agent task with `orchestrate-projects` only when execution must survive multiple tasks, sessions, milestones, repositories, environments, owners, or independently completable dependency stages.
 - Inspect existing progress notes, a roadmap, and active task plans before proposing another roadmap. Reconcile into an existing roadmap when it already owns the outcome.
 - Do not create a roadmap because tasks are numerous, share a project, touch several files, look difficult, or may take a long time.
 
@@ -52,9 +54,9 @@ Do not persist grouping IDs, roadmap-candidate tags, or dispatch states in Dida3
 
 Build the smallest runnable execution handoff for each dispatch unit: destination, objective, authoritative sources or required rechecks, remaining ownership, consequential authority limits, deliverables and completion evidence, and first action. Reference durable sources instead of copying long task histories.
 
-For a coordinating unit, tell the destination to use `$orchestrate-projects`, inspect current project artifacts, and choose the smallest coordination level before creating or changing a roadmap.
+For a coordinating unit, tell the destination to use `orchestrate-projects`, inspect current project artifacts, and choose the smallest coordination level before creating or changing a roadmap.
 
-Create one independent Agent task per dispatch unit. After creation, wait once for initial progress or a user-input request so the task is known to be accepted; do not follow it to delivery or poll its later status.
+Create one independent Agent task per dispatch unit. After creation, wait once for a host-native acceptance signal such as initial progress or a user-input request so the task is known to be accepted; do not follow it to delivery or poll its later status.
 
 ## Close the Dida365 dispatch items
 
