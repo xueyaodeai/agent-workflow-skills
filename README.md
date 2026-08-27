@@ -36,16 +36,16 @@ Replace `orchestrate-projects` with another listed skill as needed. Repeat `-a` 
 
 [`templates/common/AGENTS.md`](templates/common/AGENTS.md) is an opt-in personal working-agreement for any agent. [`templates/codex/AGENTS.md`](templates/codex/AGENTS.md) is the Codex variant: the same defaults plus Codex subagent delegation and `wait_agent` / `list_agents` waiting rules. Do not copy those Codex tool names into Cursor or Claude Code guidance. These files are not repository guidance and are not installed by `npx skills add`.
 
-Review and adapt environment and authority rules before use, especially high-output command filters, language-specific read-only phrases, and the local commit policy. Copy the generic template into the personal or project `AGENTS.md` used by the target agent. For Claude Code, copy the same content into `CLAUDE.md` when that is the project's guidance file.
+Review and adapt environment and authority rules before use, especially high-output command filters, language-specific read-only phrases, and the local commit policy. Copy the generic template into the personal or project `AGENTS.md` used by other agents. For Claude Code, copy the same content into `CLAUDE.md` when that is the project's guidance file.
 
-For Codex, if no global guidance exists yet:
+For Codex, point the personal guidance file at this template so edits stay in the repo:
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}"
-cp templates/codex/AGENTS.md "${CODEX_HOME:-$HOME/.codex}/AGENTS.md"
+ln -sfn "$PWD/templates/codex/AGENTS.md" "${CODEX_HOME:-$HOME/.codex}/AGENTS.md"
 ```
 
-If that file already exists, merge the template manually instead of overwriting personal guidance.
+Run that from the repository root. If `~/.codex/AGENTS.md` already exists as a regular file, replace it only after confirming it has no unique personal guidance.
 
 ## Dependencies
 
