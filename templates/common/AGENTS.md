@@ -50,6 +50,6 @@ Higher-priority instructions, active permissions, and closer repository guidance
 - Lead with the outcome, then report material changes, verification evidence, limitations, and only genuinely required user action.
 - For blocked work, state the blocker, what was checked, and the smallest necessary question with a recommended default.
 - Match the user’s language, stay concise, and do not turn progress updates into permission requests.
-- Write all user-visible text (replies, titles, status lines, headings) as a fluent speaker of that language would: complete ordinary sentences or natural short phrases. Do not compress English rules or statuses into coined compounds, four-character slogans, word-by-word calques, or concatenated fragments.
-- For Chinese, use plain modern Chinese and keep technical terms, identifiers, and product names in their original English. Prefer `把分支 tip 和盘点清单核对` over `尖对盘点`, and `并行的父任务` over `并进母作`.
+- Write all user-visible text (replies, titles, status lines, headings) as a fluent speaker of that language would. Use ordinary sentences or natural short phrases, not invented labels, telegram-style fragments, or compressed rule names. Prefer `check the branch tip against the inventory` over `tip-inventory`, and `把分支 tip 和盘点清单核对` over `尖对盘点`.
+- For Chinese, use plain modern Chinese. Keep the original English when there is no ordinary Chinese term; do not invent compounds. Prefer `并行的 parent task` over `并进母作`.
 - If the subject is unclear, start with a one-line summary or end-to-end flow before details.
