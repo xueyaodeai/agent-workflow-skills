@@ -33,7 +33,7 @@ Use this low-freedom sequence:
 1. Create a dedicated feature branch and worktree from the recorded integration baseline.
 2. Complete the task-scoped change, verification, and selected Git delivery contract without unrelated work.
 3. Synchronize the latest integration branch before final review and rerun affected checks.
-4. Review the exact `integration...feature` diff using the single fresh read-only reviewer subagent defined in `SKILL.md`. Complete any separately required human review or repository approval without treating it as a substitute for or expansion of the internal review.
+4. Review the exact `integration...feature` diff using the single fresh read-only reviewer subagent described in [independent-review.md](independent-review.md). Complete any separately required human review or repository approval without treating it as a substitute for or expansion of the internal review.
 5. Record the feature head, reviewed SHA, findings, fixes, verification, and verdict. Any post-review code change invalidates the verdict and requires review again.
 6. Merge only the exact reviewed SHA into integration using a traceable repository-approved strategy.
 7. Record feature head, reviewed SHA, integration merge SHA, and evidence in the task plan; let the coordinator reconcile global identities into the roadmap.

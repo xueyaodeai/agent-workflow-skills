@@ -23,12 +23,12 @@ Determine whether the user wants analysis, a proposal, item-by-item alignment, o
 - Treat “分析”“看看问题” as read-only.
 - Treat “先给方案” as proposal-only.
 - Treat “逐项跟我对齐” as an interactive decision log; do not batch undecided changes.
-- Treat “执行”“落实到清单中”“清理” as authorization for the agreed exact changes only.
+- Treat “执行”“落实到清单中”“清理” as authorization for necessary reversible updates within the requested scope when the intended result is clear. Follow an agreed change set when one exists; do not require item-by-item approval unless the user requested it. Ask only when an undiscoverable user-only decision would materially change the outcome, scope, or authority.
 - Do not infer permission to delete tasks, tags, projects, or history from a general request to tidy up.
 
 ### 2. Capture a current inventory
 
-Use the Dida365 connector before reasoning from names alone. Collect:
+Use the Dida365 connector to inspect current state within the requested scope. For a whole-system audit, collect:
 
 - user timezone;
 - active and archived projects plus project groups;
@@ -36,7 +36,7 @@ Use the Dida365 connector before reasoning from names alone. Collect:
 - tag definitions and actual task usage;
 - habits when the request includes recurring behavior.
 
-Paginate where supported. Distinguish an empty active project from a project containing only completed or abandoned history. Do not equate a zero-count tag in the sidebar with permanent redundancy; check current task use, hierarchy, and intended future use.
+For local changes, read only the affected objects and relationships that can change the decision or verification; include timezone when dates matter. Paginate the relevant scope where supported. Before archiving a project, distinguish an empty active project from one containing only completed or abandoned history. Before deleting a tag, check task use, hierarchy, and intended future use; a zero count in the sidebar is insufficient.
 
 ### 3. Diagnose before editing
 
@@ -80,13 +80,13 @@ Prefer reversible task updates and moves over deletion.
 - Remove redundant tags from tasks before deleting tag definitions.
 - Archive a project only after resolving all active children and confirming it no longer represents live work.
 
-Preserve unrelated fields when updating a task: title, content or description, checklist items, parent, project, dates, timezone, reminders, recurrence, priority, and retained tags. Use batch operations only for homogeneous, already agreed changes and respect connector limits.
+Preserve unrelated fields when updating a task: title, content or description, checklist items, parent, project, dates, timezone, reminders, recurrence, priority, and retained tags. Batch homogeneous updates within the authorized scope when their intended result is clear, and respect connector limits. Do not batch undecided items when the user requested item-by-item alignment.
 
 If the connector cannot delete a tag definition, use an authenticated browser only after the user has explicitly authorized the exact deletion set. Verify each target has no remaining task use, delete only exact-name matches, and accept only the corresponding confirmation dialogs.
 
 ### 6. Verify against live state
 
-Re-read affected tasks, projects, and tags after mutation. Verify:
+Re-read affected tasks, projects, and tags after mutation. Select checks according to the actual changes:
 
 - task count and lifecycle state;
 - target project and parent-child placement;

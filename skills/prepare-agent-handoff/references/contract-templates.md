@@ -36,7 +36,7 @@ When writing the prompt itself, keep the destination contract model-independent 
 - Separate source-backed facts from creative or inferred content.
 - Define retry, fallback, clarification, and abstention behavior when failures or missing evidence are realistic.
 
-Do not add model-specific headings or boilerplate merely to make a prompt look comprehensive.
+Specify reasoning effort only when configuring an API or evaluation and evidence justifies changing the existing baseline. Do not add model-specific headings or boilerplate merely to make a prompt look comprehensive.
 
 ## Evaluation case
 

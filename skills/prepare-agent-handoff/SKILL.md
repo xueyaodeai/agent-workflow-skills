@@ -39,7 +39,7 @@ Bounds: <only consequential limits>
 
 Add any missing core field only when inherited context does not already make it reliable.
 
-For a recurring schedule, external prompt, or evaluation case, read only the matching section of [references/contract-templates.md](references/contract-templates.md) and add its specialized fields to the core. If the target is explicitly GPT-5.6, also read [references/gpt-5-6-guidance.md](references/gpt-5-6-guidance.md) for the remaining model-specific knobs.
+For a recurring schedule, external prompt, or evaluation case, read only the matching section of [references/contract-templates.md](references/contract-templates.md) and add its specialized fields to the core.
 
 ### 2. Inspect and extract
 

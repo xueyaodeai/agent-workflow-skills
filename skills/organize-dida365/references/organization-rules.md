@@ -79,17 +79,16 @@ Keep one task when:
 
 - one person owns it;
 - it produces one observable result;
-- its steps must move through the same lifecycle together;
-- it can reasonably be completed in one focused session or a small number of sessions.
+- its steps must move through the same lifecycle together.
 
 Split a task when any of these apply:
 
 - it contains two independently valuable deliverables joined by “和/以及”；
 - different people own parts of it;
 - one part can finish while another is paused or abandoned;
-- it spans discovery, decision, implementation, and verification as separately reviewable outcomes;
-- it lasts several days without a visible next action;
-- progress cannot be stated more precisely than a percentage.
+- its discovery, decision, implementation, or verification work has independently valuable outcomes or separate lifecycle states.
+
+Duration, a missing next action, or percentage-only progress are signals to clarify the observable result and next action, not automatic reasons to split. Split only when the work has independently valuable deliverables, different owners, or separately progressing lifecycle states.
 
 Use a parent task plus subtasks when the aggregate outcome is meaningful. Use a project when the workstream will continue to receive new independent tasks. Use a checklist only for short mechanical steps that do not need their own dates, priorities, tags, or lifecycle.
 
@@ -164,7 +163,7 @@ If another colleague now owns the problem, mark the user's task abandoned and op
 
 ### Verification summary
 
-After a cleanup, report at least:
+Follow the verification and reporting rules in [SKILL.md](../SKILL.md). Depending on the changes, useful details include:
 
 - affected task and project counts;
 - tag count before and after tag-definition cleanup;

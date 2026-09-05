@@ -53,7 +53,7 @@ Generate a reconciled successor roadmap only when:
 - consequential decisions are resolved or explicitly accepted as blockers;
 - facts, constraints, confirmed decisions, and proposals remain distinguishable.
 
-If alignment is incomplete, keep durable notes in `alignment_in_progress` or return the missing decisions in chat. Create a provisional roadmap only when the user explicitly requests a draft, and label it `draft_unreviewed`; never use it as the execution ledger.
+If alignment is incomplete, use the authorized planning scope to produce a provisional roadmap with explicit assumptions and unresolved decisions; the user need not separately request a draft. Label it `draft_unreviewed` and do not treat it as an execution ledger. Keep existing alignment notes in `alignment_in_progress`. Return the draft in chat for read-only planning; write it only when durable output is authorized. Ask only for consequential user-only decisions that cannot be resolved from accessible evidence, and continue independent planning while they remain open.
 
 ## Materialize and reconcile
 

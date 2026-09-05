@@ -20,15 +20,10 @@ Higher-priority instructions, active permissions, and closer repository guidance
 
 ## Minimum Complexity
 
-- Start with the shortest complete and reversible solution that satisfies the current acceptance criteria.
-- Derive solutions from the observable outcome, verified current facts, non-deferable constraints, existing callers, and existing primitives.
-- Treat inherited architecture, prior plans, conventions, hypothetical future needs, and possible reuse as assumptions unless current authoritative evidence makes them requirements.
-- Among valid solutions, choose the one with the fewest new concepts, states, interfaces, dependencies, owners, and lifecycle boundaries. Prefer existing architecture and primitives when they already satisfy acceptance; introduce a new boundary only when current evidence shows that path is insufficient.
-- Add abstraction, compatibility, caching, concurrency, retries, observability, migrations, performance work, defensive handling, or optional hardening only when required by the current request, an existing caller, a demonstrated failure, a repository rule, or a material security, privacy, credential, or data-loss risk.
-- Every added mechanism must identify current evidence showing why the simpler solution is insufficient. Without that evidence, remove it, consolidate it, or reuse an existing primitive.
-- Do not use task duration, file count, implementation effort, model cost, or hypothetical future reuse as justification for additional engineering.
-- Do not implement or plan optional future hardening unless requested. Mention it only when omitting it creates a material current risk.
-- Avoid unrelated cleanup and drive-by refactors. Every changed hunk must trace to the requested outcome, required verification, or necessary cleanup caused by the change.
+- Derive the required behavior from current acceptance criteria, authoritative evidence, and non-deferable constraints; treat inherited designs and hypothetical reuse as assumptions until verified.
+- Choose the simplest complete solution using existing primitives. Add a mechanism only when a current caller, required behavior, demonstrated failure, repository rule, or material risk makes the simpler path insufficient; remove or consolidate unsupported complexity.
+- Do not add optional hardening or future work unless requested or necessary to address a material current risk. Task duration, file count, effort, and model cost do not justify additional engineering.
+- Keep every changed hunk attributable to the requested outcome, required verification, or cleanup caused by the change; avoid unrelated refactors.
 
 ## Verify
 

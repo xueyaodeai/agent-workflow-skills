@@ -18,35 +18,19 @@ Higher-priority instructions, active permissions, and closer repository guidance
 - Ask only when missing information cannot be discovered safely and would materially change scope, interfaces, data, permissions, cost, external effects, or reversibility. Otherwise, state a low-risk assumption when useful and proceed.
 - Preserve unrelated work. Inspect repository status before editing, never broad-stage a dirty worktree, and stop only when overlapping changes cannot be separated safely.
 
-## Delegate
+## Delegate and wait
 
-- Keep architecture, cross-cutting decisions, integration, and core implementation in the main agent.
-- Delegate read-heavy exploration, independent research, test/log analysis, and verification when doing so keeps low-value detail out of the main context or enables useful parallelism.
-- Prefer parallel subagents when exploration spans multiple independent subsystems or dependency paths. Give each agent a bounded question and ask for conclusions, evidence, and relevant paths rather than raw output.
-- Use direct tools for trivial or localized searches. Do not delegate when the work is small, tightly coupled to the current implementation, or coordination would cost more than the exploration.
-- When uncertain, treat exploration likely to span several files or more than one subsystem as a signal to consider delegation, not as a mandatory threshold.
-
-## Async waiting
-
-- After spawning subagents, continue all useful independent main-agent work before waiting.
-- Call `wait_agent` only when no useful local work remains.
-- Wait for all relevant live agents in one call instead of polling them individually.
-- Prefer the longest bounded wait allowed by the active tool and instructions.
-- After a timeout, do not repeat the same wait with the same timeout unless new evidence arrived. Resume useful work or increase the wait interval.
-- Do not call `list_agents` merely as a heartbeat; use it only to diagnose a specific state.
-- For commands likely to finish within 30 seconds, use a 30-second initial yield when supported. For longer commands, use one bounded poll instead of frequent short polls.
+- Keep architecture, cross-cutting decisions, integration, and core implementation in the main agent. Delegate bounded exploration, research, test/log analysis, or verification when parallel work or reduced context load outweighs coordination cost.
+- Prefer parallel subagents for independent subsystems or dependency paths; use direct tools for small or tightly coupled searches. Ask for conclusions, evidence, and relevant paths rather than raw output.
+- Continue useful independent work before waiting. Use the available host's wait tool, batch relevant agents where supported, and avoid repeated status polling. After an unchanged timeout, resume useful work or increase the wait within tool and communication limits.
+- Use status-listing tools only to diagnose a specific state. For commands likely to finish within 30 seconds, use a 30-second initial yield when supported; otherwise use a bounded poll.
 
 ## Minimum Complexity
 
-- Start with the shortest complete and reversible solution that satisfies the current acceptance criteria.
-- Derive solutions from the observable outcome, verified current facts, non-deferable constraints, existing callers, and existing primitives.
-- Treat inherited architecture, prior plans, conventions, hypothetical future needs, and possible reuse as assumptions unless current authoritative evidence makes them requirements.
-- Among valid solutions, choose the one with the fewest new concepts, states, interfaces, dependencies, owners, and lifecycle boundaries. Prefer existing architecture and primitives when they already satisfy acceptance; introduce a new boundary only when current evidence shows that path is insufficient.
-- Add abstraction, compatibility, caching, concurrency, retries, observability, migrations, performance work, defensive handling, or optional hardening only when required by the current request, an existing caller, a demonstrated failure, a repository rule, or a material security, privacy, credential, or data-loss risk.
-- Every added mechanism must identify current evidence showing why the simpler solution is insufficient. Without that evidence, remove it, consolidate it, or reuse an existing primitive.
-- Do not use task duration, file count, implementation effort, model cost, or hypothetical future reuse as justification for additional engineering.
-- Do not implement or plan optional future hardening unless requested. Mention it only when omitting it creates a material current risk.
-- Avoid unrelated cleanup and drive-by refactors. Every changed hunk must trace to the requested outcome, required verification, or necessary cleanup caused by the change.
+- Derive the required behavior from current acceptance criteria, authoritative evidence, and non-deferable constraints; treat inherited designs and hypothetical reuse as assumptions until verified.
+- Choose the simplest complete solution using existing primitives. Add a mechanism only when a current caller, required behavior, demonstrated failure, repository rule, or material risk makes the simpler path insufficient; remove or consolidate unsupported complexity.
+- Do not add optional hardening or future work unless requested or necessary to address a material current risk. Task duration, file count, effort, and model cost do not justify additional engineering.
+- Keep every changed hunk attributable to the requested outcome, required verification, or cleanup caused by the change; avoid unrelated refactors.
 
 ## Verify
 

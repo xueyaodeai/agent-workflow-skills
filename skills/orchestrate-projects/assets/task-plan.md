@@ -11,9 +11,9 @@ Use this core for Level 1. Delete any optional line that cannot change execution
 
 - In scope: <authorized work>
 - Boundary: <only the consequential exclusion or side-effect limit>
-- Deferred/non-goal: <work excluded from current scope, decision authority, and reconsideration trigger>
-- Blocker threshold: <what may stop this task>
-- Stop condition: <evidence after which implementation must stop expanding>
+- Deferred/non-goal: <only when needed to preserve an exclusion or accepted deferral>
+- Blocker threshold: <only when a specific condition changes whether this task may continue>
+- Stop condition: <only when acceptance checks alone do not define when to stop>
 
 ## Plan and progress
 
