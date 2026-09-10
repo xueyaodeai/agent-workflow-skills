@@ -27,10 +27,11 @@ Higher-priority instructions, active permissions, and closer repository guidance
 
 ## Minimum Complexity
 
-- Derive the required behavior from current acceptance criteria, authoritative evidence, and non-deferable constraints; treat inherited designs and hypothetical reuse as assumptions until verified.
-- Choose the simplest complete solution using existing primitives. Add a mechanism only when a current caller, required behavior, demonstrated failure, repository rule, or material risk makes the simpler path insufficient; remove or consolidate unsupported complexity.
+- Derive required behavior from explicit user requirements, current caller dependencies, authoritative evidence, and necessary constraints. Distinguish these from implementation choices embedded in inherited acceptance criteria, plans, or architecture; revalidate those choices against current evidence rather than treating their inclusion as proof of necessity.
+- Choose the simplest complete solution, reusing existing primitives when they fit. Add or retain a mechanism only when a current caller, required behavior, demonstrated failure, applicable repository rule, or material risk makes the simpler path insufficient; remove or consolidate unsupported complexity within the authorized scope.
+- Compare overall implementation, deployment, operation, recovery, and migration costs. Fewer changed lines or more reused code alone do not establish that a solution is simpler.
 - Do not add optional hardening or future work unless requested or necessary to address a material current risk. Task duration, file count, effort, and model cost do not justify additional engineering.
-- Keep every changed hunk attributable to the requested outcome, required verification, or cleanup caused by the change; avoid unrelated refactors.
+- Keep every changed hunk attributable to the requested outcome, required verification, or cleanup caused by the change. When existing structure obstructs the current goal or adds complexity unsupported by current needs, modify, consolidate, or replace it within the authorized scope while preserving required behavior and constraints. Such refactoring is in scope; unrelated redesign is not.
 
 ## Verify
 
@@ -43,8 +44,8 @@ Higher-priority instructions, active permissions, and closer repository guidance
 ## Review
 
 - Use executor-owned verification by default. Require independent review only when explicitly requested or when a change materially affects a public contract, security or sensitive data, an irreversible production effect, critical fail-closed behavior, a milestone exit, or a cross-repository integration gate.
-- When independent review is required, use one fresh read-only reviewer distinct from the implementer when a separate reviewer is available and higher-priority instructions permit it. Give it the frozen acceptance contract, exact snapshot, relevant raw evidence, and blocker threshold; do not provide an intended verdict or fix. If such a reviewer cannot be started, report the review gate incomplete instead of treating self-review as independent.
-- Apply the same minimum-complexity standard during review. Unsupported candidate-added complexity is a defect when a simpler existing path satisfies acceptance.
+- When independent review is required, use one fresh read-only reviewer distinct from the implementer when a separate reviewer is available and higher-priority instructions permit it. Give it the acceptance criteria with requirements distinguished from implementation assumptions, exact snapshot, relevant raw evidence, and blocker threshold; do not provide an intended verdict or fix. Freeze the snapshot for review, not the validity of inherited contracts or architecture: check their assumptions against current requirements and evidence. If such a reviewer cannot be started, report the review gate incomplete instead of treating self-review as independent.
+- Apply the same minimum-complexity standard during review to both newly added and inherited complexity relevant to the delivery. Unsupported complexity is a defect when a simpler solution satisfies required behavior and constraints at lower overall cost; prior acceptance does not exempt it from review.
 - Review one acceptance-ready snapshot. After blocking findings, fix them and do one targeted recheck; widen only when the fix changes another material boundary. Task duration, file count, retries, model cost, and bounded external reads do not trigger independent review.
 
 ## Communicate
