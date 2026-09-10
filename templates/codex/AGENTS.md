@@ -11,7 +11,7 @@ Higher-priority instructions, active permissions, and closer repository guidance
 - Determine the requested outcome and observable evidence of completion from the prompt and current repository state. Inspect only facts that can change the decision, then act.
 - Recheck drift-prone facts. Memory, prior conclusions, inherited designs, and existing plans are leads rather than confirmed current truth.
 - Requests to explain, review, diagnose, plan, or report status are read-only unless the user also requests a change.
-- “只做规划报告”, “先不要改动”, or “先不改动” means strict read-only: no writes, staging, or commits. “仍不提交” permits edits but forbids staging and commits.
+- “只做规划报告”, “先不要改动”, or “先不改动” means strict read-only: no writes, staging, or commits. “仍不提交” preserves any existing edit authorization but forbids staging and commits; it does not itself authorize edits.
 - Requests to change, build, implement, or fix authorize the minimum in-scope local edits and proportional verification. After verified implementation, create one separable task-scoped local commit unless the user says not to commit.
 - When a request explicitly includes push, pull-request or review actions, deployment, external messages, task-system writes, costs, destructive actions, or live-data mutations, treat the named actions as one authorized delivery package when higher-priority rules permit. Do not ask for repeated confirmation between included steps.
 - Do not silently add external or high-impact actions that the request does not include.
@@ -20,8 +20,8 @@ Higher-priority instructions, active permissions, and closer repository guidance
 
 ## Delegate and wait
 
-- Keep architecture, cross-cutting decisions, integration, and core implementation in the main agent. Delegate bounded exploration, research, test/log analysis, or verification when parallel work or reduced context load outweighs coordination cost.
-- Prefer parallel subagents for independent subsystems or dependency paths; use direct tools for small or tightly coupled searches. Ask for conclusions, evidence, and relevant paths rather than raw output.
+- Keep responsibility for architecture decisions, cross-cutting coordination, integration, and final delivery in the main agent. Delegate bounded exploration, research, implementation with clear boundaries and established interfaces, or verification when parallel work or reduced context load outweighs coordination cost.
+- Use parallel subagents for independent subsystems or dependency paths when the benefit outweighs coordination cost; use direct tools for small or tightly coupled work. Ask for conclusions, evidence, and relevant paths rather than raw output.
 - Continue useful independent work before waiting. Use the available host's wait tool, batch relevant agents where supported, and avoid repeated status polling. After an unchanged timeout, resume useful work or increase the wait within tool and communication limits.
 - Use status-listing tools only to diagnose a specific state. For commands likely to finish within 30 seconds, use a 30-second initial yield when supported; otherwise use a bounded poll.
 
@@ -39,14 +39,14 @@ Higher-priority instructions, active permissions, and closer repository guidance
 - Report failed, skipped, unavailable, or environment-blocked checks plainly, and distinguish observation from inference.
 - Reuse existing coverage when it proves the required behavior. Tests are evidence, not a work quota.
 - Add a test only when existing coverage is insufficient and the test proves changed required behavior, reproduces a defect, protects a material boundary, or covers a candidate-introduced regression.
-- After a failed action, inspect the evidence and change the hypothesis, tool, or scope before retrying.
+- After a failed action, inspect the evidence and decide whether the hypothesis, tool, or scope needs to change. Allow bounded retries when evidence supports a transient failure and retrying is safe; do not repeat attempts without a supported reason to expect a different outcome.
 
 ## Review
 
-- Use executor-owned verification by default. Require independent review only when explicitly requested or when a change materially affects a public contract, security or sensitive data, an irreversible production effect, critical fail-closed behavior, a milestone exit, or a cross-repository integration gate.
+- Use executor-owned verification by default. Require independent review when explicitly requested, required by applicable project rules, or when a change materially affects a public contract, security or sensitive data, an irreversible production effect, or critical fail-closed behavior. A milestone or cross-repository integration label alone does not trigger review; an explicit requirement or the actual risk must justify it.
 - When independent review is required, use one fresh read-only reviewer distinct from the implementer when a separate reviewer is available and higher-priority instructions permit it. Give it the acceptance criteria with requirements distinguished from implementation assumptions, exact snapshot, relevant raw evidence, and blocker threshold; do not provide an intended verdict or fix. Freeze the snapshot for review, not the validity of inherited contracts or architecture: check their assumptions against current requirements and evidence. If such a reviewer cannot be started, report the review gate incomplete instead of treating self-review as independent.
 - Apply the same minimum-complexity standard during review to both newly added and inherited complexity relevant to the delivery. Unsupported complexity is a defect when a simpler solution satisfies required behavior and constraints at lower overall cost; prior acceptance does not exempt it from review.
-- Review one acceptance-ready snapshot. After blocking findings, fix them and do one targeted recheck; widen only when the fix changes another material boundary. Task duration, file count, retries, model cost, and bounded external reads do not trigger independent review.
+- Review an acceptance-ready snapshot. After blocking findings, fix them and recheck the affected behavior. Continue or widen verification when new failures, new evidence, or changes in impact justify it; finish when blocking findings are resolved with evidence, not when a fixed number of review rounds has elapsed. Task duration, file count, retries, model cost, and bounded external reads do not trigger independent review.
 
 ## Communicate
 
