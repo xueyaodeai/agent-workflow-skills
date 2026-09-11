@@ -6,6 +6,7 @@ Reusable agent skills for durable project coordination, task-system organization
 
 | Skill | Purpose |
 | --- | --- |
+| `plan-outcomes` | Turn task or roadmap goals into sourced requirements, phased work, and verifiable stage and final acceptance criteria. |
 | `orchestrate-projects` | Coordinate long-running projects across tasks, milestones, branches, worktrees, and roadmap transitions. |
 | `organize-dida365` | Audit and reorganize Dida365/TickTick projects, tasks, priorities, dates, tags, and paused work. Explicit invocation only. |
 | `triage-dida365-inbox` | Sort the Dida365 Inbox into owning projects and queue agent-ready work. Explicit invocation only. |
@@ -13,6 +14,8 @@ Reusable agent skills for durable project coordination, task-system organization
 | `prepare-agent-handoff` | Package current context into a self-contained execution, schedule, external-model, or evaluation contract. |
 
 Each skill is self-contained under `skills/<skill-name>/` and includes its own triggering metadata, workflow, and optional references or templates.
+
+Use `plan-outcomes` for planning content, including a short plan within one conversation. Use `orchestrate-projects` when execution also needs durable coordination; it incorporates the requirements and acceptance into the existing task plan or roadmap. Neither planning skill authorizes implementation from a planning-only request.
 
 Explicit-only skills stay inactive until the user names them, for example `/organize-dida365`, `$organize-dida365`, or `organize-dida365`.
 
@@ -49,7 +52,7 @@ Run that from the repository root. If `~/.codex/AGENTS.md` already exists as a r
 
 ## Dependencies
 
-- `orchestrate-projects` and `prepare-agent-handoff` are tool-agnostic; they preserve the permissions and tools available in the active agent environment.
+- `plan-outcomes`, `orchestrate-projects`, and `prepare-agent-handoff` are tool-agnostic; they preserve the permissions and tools available in the active agent environment.
 - `organize-dida365`, `triage-dida365-inbox`, and `dispatch-dida365-agent-tasks` require an available Dida365/TickTick integration or equivalent task-management tools. This repository does not provide account access or credentials.
 - `dispatch-dida365-agent-tasks` also needs a host that can create a user-visible independent agent or task. Hidden subagents are not a substitute.
 

@@ -9,7 +9,16 @@
 
 ## Completion criteria
 
-- [ ] <criterion with verifiable evidence>
+- [ ] <required outcome reference, observable pass condition, verification method, and evidence to obtain>
+- [ ] <overall flow or deliverable passes at the authorized delivery boundary; define its check and required evidence>
+
+## Requirements and coverage
+
+| Requirement | Required behavior | Source | Owning milestone/task | Final acceptance criterion |
+|---|---|---|---|---|
+| R1 | <scenario and observable result> | <user request or authoritative constraint> | <M1/task path> | <completion criterion reference> |
+
+Keep implementation assumptions separate from requirements. Record consequential unresolved choices under Blockers and required decisions, including the dependent work they block. Planned evidence is not an observed pass.
 
 ## Constraints and non-goals
 
@@ -32,9 +41,11 @@
 
 ## Milestones
 
-| Milestone | Expected result | Owner/task plan | Depends on | Status | Exit evidence |
+| Milestone | Expected result/requirements | Owner/task plan | Entry conditions/depends on | Status | Exit criteria and required evidence |
 |---|---|---|---|---|---|
-| M1 | <result> | <owner/path> | <input> | not_started | <evidence> |
+| M1 | <result; R1> | <owner/path> | <necessary input> | not_started | <observable pass condition, verification method, evidence to obtain> |
+
+Task plans hold executable actions, deliverables, dependencies, and acceptance references. Keep later milestones at outcome level until their named refinement trigger is reached; do not invent distant implementation tasks.
 
 ## Workstreams and dependencies
 

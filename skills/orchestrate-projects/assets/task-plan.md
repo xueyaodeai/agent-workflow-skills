@@ -5,7 +5,8 @@ Use this core for Level 1. Delete any optional line that cannot change execution
 ## Objective
 
 - Observable result: <one result this task must produce>
-- Acceptance checks: <evidence that proves the result>
+- Requirement basis: <user request or authoritative constraint; distinguish implementation assumptions>
+- Acceptance checks: <scenario/action, observable pass condition, verification method, and evidence to obtain; use requirement references when needed>
 
 ## Scope
 
@@ -17,7 +18,9 @@ Use this core for Level 1. Delete any optional line that cannot change execution
 
 ## Plan and progress
 
-- [ ] <ordered step and evidence expected>
+- [ ] <action and deliverable, required input/dependency, and acceptance check it serves>
+
+Group steps into stages only for an independent outcome or real dependency/delivery boundary; give each stage its result and exit checks. Keep consequential unresolved decisions explicit and identify the dependent work they block. Simple tasks need no separate stage or requirement table.
 
 ## Current state
 
