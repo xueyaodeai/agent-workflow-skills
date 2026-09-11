@@ -1,48 +1,48 @@
-# <任务或项目名称>规划
+# Outcome Plan: <task or project name>
 
-按复杂度裁剪；简单任务可用短段落替代表格。已有计划应合并到对应章节，不复制台账。规划阶段的证据均为待获取，不填写虚构的执行结果。
+Adapt to complexity and use the user's language. Short paragraphs may replace tables for simple tasks. Merge into the corresponding sections of an existing plan rather than duplicating its ledger. Planning evidence is still to be obtained; do not invent execution results.
 
-## 目标与范围
+## Goal and scope
 
-- 最终结果：<谁在什么场景获得什么可观察结果>
-- 范围与交付边界：<本次包含的工作和交付到哪里>
-- 非目标与已授权延期：<排除项及其依据；无则删除>
+- Final result: <who receives which observable result in what scenario>
+- Scope and delivery boundary: <included work and where delivery ends>
+- Non-goals and authorized deferrals: <exclusions and their basis; omit if absent>
 
-## 需求与依据
+## Requirements and basis
 
-| 需求 | 场景与必需行为 | 依据 | 承接阶段或任务 | 最终验收 |
+| Requirement | Scenario and required behavior | Basis | Owning stage or task | Final acceptance |
 |---|---|---|---|---|
-| R1 | <行为和结果> | <用户要求或权威约束> | <M1/T1> | <A1> |
+| R1 | <behavior and result> | <user request or authoritative constraint> | <M1/T1> | <A1> |
 
-## 待决问题与实现假设
+## Open decisions and implementation assumptions
 
-仅保留影响规划的条目；影响需求的未决选择不能标为已确认。
+Keep only items that affect planning. Unresolved choices affecting requirements must not be marked confirmed.
 
-| 类型 | 问题或假设 | 依据或推荐选择 | 影响与下一步 |
+| Type | Question or assumption | Basis or recommended choice | Impact and next action |
 |---|---|---|---|
-| <待决/假设> | <内容> | <依据或建议及理由> | <受影响的需求/任务；需谁回答或何时重查> |
+| <open decision/assumption> | <content> | <evidence or recommendation and rationale> | <affected requirements/tasks; who must answer or when to recheck> |
 
-## 阶段与任务
+## Stages and tasks
 
-只有真实阶段边界时保留阶段表。远期任务未细化时注明细化触发条件，不假装已可执行。
+Keep the stage table only for real stage boundaries. For distant tasks not yet detailed, state the refinement trigger rather than pretending they are executable.
 
-| 阶段 | 可观察成果与需求 | 进入条件/依赖 | 退出条件与预期证据 |
+| Stage | Observable outcome and requirements | Entry conditions/dependencies | Exit criteria and expected evidence |
 |---|---|---|---|
-| M1 | <成果；R1> | <必要输入或无前置依赖> | <本阶段通过条件、验收引用与证据> |
+| M1 | <outcome; R1> | <necessary inputs or no prerequisites> | <stage pass conditions, acceptance references, and evidence> |
 
-| 任务 | 动作与交付物 | 依赖 | 关联需求及验收 |
+| Task | Action and deliverable | Dependencies | Requirements and acceptance |
 |---|---|---|---|
-| T1 | <具体动作和结果；所属阶段> | <必要输入或无前置依赖> | <R1/A1> |
+| T1 | <specific action and result; owning stage> | <necessary inputs or no prerequisites> | <R1/A1> |
 
-## 验收标准
+## Acceptance criteria
 
-| 验收 | 场景/前置条件与动作 | 可观察的通过条件 | 验证方法与预期证据 |
+| Acceptance | Scenario/preconditions and action | Observable pass condition | Verification method and expected evidence |
 |---|---|---|---|
-| A1（R1） | <条件与动作> | <结果及必要的禁止行为> | <具体检查、证据；当前待验证> |
+| A1 (R1) | <conditions and action> | <result and necessary prohibited outcomes> | <specific check and evidence; verification pending> |
 
-## 最终完成条件
+## Final completion conditions
 
-- 必需需求的最终验收：<完整引用，避免与上表重复维护标准>
-- 整体结果验证：<完整流程或整体交付物的检查及通过条件>
-- 交付边界：<约定的交付结果及其证据>
-- 当前可开始的任务：<任务与必要前提；阻塞部分如实说明>
+- Final acceptance of required outcomes: <complete references, avoiding duplicate criteria from the table above>
+- Overall result verification: <complete flow or overall deliverable check and pass condition>
+- Delivery boundary: <agreed delivery result and its evidence>
+- Tasks ready to start: <tasks and necessary preconditions; identify blocked portions truthfully>

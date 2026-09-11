@@ -1,75 +1,77 @@
 ---
 name: plan-outcomes
-description: 明确任务或 roadmap 的需求、阶段任务与可验证的完成标准。用于制定或修订实施计划、拆分里程碑、澄清目标与范围，或补齐模糊验收条件；普通执行进度更新不触发。
+description: Define requirements, phased work, and verifiable completion criteria for a task or roadmap. Use when creating or revising implementation plans, splitting milestones, clarifying goals and scope, or sharpening vague acceptance criteria. Do not trigger for routine execution status updates.
 ---
 
-# 明确需求与验收
+# Plan Outcomes and Acceptance
 
-把目标整理成可执行、可验收的计划：每项必需需求有依据、有承接任务、有通过条件，阶段完成后能说明交付了什么，最终验收能证明整体目标达成。
+Turn goals into executable, verifiable plans. Every required outcome needs a source, owning work, and a pass condition. Each stage must identify what it delivers, and final acceptance must prove the overall objective.
 
-## 选择输出边界
+Use the user's language for plans, questions, and explanations, regardless of this skill's language.
 
-- 单次任务用简短计划即可；只有存在独立结果、真实依赖或交付边界时才分阶段，不按固定阶段数或技术层强拆。
-- 多阶段 roadmap 先明确最终结果，再倒推阶段成果和任务。近期任务写到可执行；远期只保留结果、依赖、验收条件和细化触发点。
-- 优先补齐已有计划的对应部分，保持一处权威记录。未请求持久文件时在对话中输出；“只做规划”“先不改动”保持严格只读。规划不授权实施、提交、创建外部任务或发布。
-- 若同时使用 `orchestrate-projects`，本技能负责需求与验收内容，它负责持久化、状态和协调；把内容写入其现有计划或 roadmap，不另建一套台账。本技能可独立使用，不要求安装其他技能。
+## Choose the output boundary
 
-## 1. 查清目标与依据
+- A single task may need only a short plan. Split stages only for independent outcomes, real dependencies, or delivery boundaries, not a fixed stage count or technical layers.
+- For a multi-stage roadmap, define the final result first, then work backward to stage outcomes and tasks. Make near-term tasks executable; keep distant work at the level of outcomes, dependencies, acceptance conditions, and a trigger for further detail.
+- Fill gaps in the existing plan and maintain one authoritative record. Return the plan in chat when durable files were not requested. Requests for planning only or no changes remain strictly read-only. Planning does not authorize implementation, commits, external task creation, or publication.
+- When used with `orchestrate-projects`, this skill owns requirements and acceptance content; that skill owns persistence, state, and coordination. Put the content in its existing task plan or roadmap rather than creating another ledger. This skill also works independently and requires no other skill.
 
-先读用户要求、已有计划和与决策有关的代码、文档或运行证据。只检查会改变范围、行为、依赖或验收的事实。
+## 1. Establish the goal and its basis
 
-区分以下内容，不把它们混写成承诺：
+Read the user's requirements, existing plans, and decision-relevant code, documentation, or runtime evidence. Inspect only facts that can change scope, behavior, dependencies, or acceptance.
 
-- **需求**：谁在什么场景下需要什么可观察结果；注明用户要求或权威约束的来源。
-- **现状**：已查证的行为与缺口。现有代码证明当前行为，不自动决定目标行为。
-- **待决问题**：答案会改变需求、边界或验收，且无法从现有证据获得。
-- **实现假设**：可替换的技术方案或低风险默认值；写明理由及何时需要重查。继承计划中的架构不是天然需求。
+Distinguish the following instead of treating them all as commitments:
 
-先说明最终受益者、目标结果、范围和明确排除项。缺少依据的性能数值、日期、优先级或上线要求只能作为建议，不能写成已确认标准。
+- **Requirements:** who needs which observable result in what scenario; cite the user request or authoritative constraint.
+- **Current state:** verified behavior and gaps. Existing code establishes current behavior, not automatically the target behavior.
+- **Open decisions:** answers that would change requirements, boundaries, or acceptance and cannot be obtained from existing evidence.
+- **Implementation assumptions:** replaceable technical choices or low-risk defaults; state the rationale and when to recheck. Architecture inherited from a plan is not inherently a requirement.
 
-## 2. 按依赖澄清关键问题
+State the beneficiary, target result, scope, and explicit exclusions. Unsupported performance numbers, dates, priorities, or launch requirements are proposals, not confirmed criteria.
 
-先查可查事实，再问必须由用户决定的问题。优先问会改变后续分支的问题；依赖未定答案的问题留到下一轮。每次只提出足以推进当前决策的少量问题，说明影响和推荐选择。
+## 2. Clarify consequential questions in dependency order
 
-等待答案时继续不依赖它的规划。重大范围、接口、数据、费用或外部影响的决策未解决时，相关部分标为待决，不替用户确定；低风险可逆的实现选择可以带理由暂定。不要为了遍历所有想象中的分支而持续追问，也不设置统一的再次确认门槛。
+Discover accessible facts before asking for user decisions. Prioritize questions that change downstream branches; defer questions that depend on unsettled answers. Ask only the few questions needed to advance the current decision, explaining their impact and recommended choices.
 
-遇到会影响验收的模糊词（如“完成”“账户”“同步成功”），给出具体含义和反例。涉及实体、关系或状态时，用最短业务流程说明谁执行什么动作、状态如何变化、哪些条件必须始终成立。只有会改变需求或验收的概念才需要建模；不强制创建术语表或 ADR 文件。
+Continue independent planning while waiting. Leave consequential scope, interface, data, cost, or external-effect decisions open rather than deciding for the user. Low-risk, reversible implementation choices may be provisional with a rationale. Do not keep interviewing to exhaust imagined branches or impose a universal reconfirmation gate.
 
-用实际场景检验理解：正常流程，以及需求或现有风险支持的重要失败、边界场景。发现术语、文档、代码与用户目标不一致时，指出差异并区分“当前如此”和“目标应当如此”。
+Give concrete meanings and counterexamples for ambiguous terms that affect acceptance, such as "complete," "account," or "sync succeeded." When entities, relationships, or states matter, use the shortest business flow that explains who acts, how state changes, and which conditions must always hold. Model only concepts that change requirements or acceptance; do not require glossary or ADR files.
 
-## 3. 从最终验收倒推阶段任务
+Check understanding against concrete scenarios: the happy path and important failure or boundary cases justified by requirements or existing risks. Surface conflicts between terminology, documentation, code, and the user's goal, distinguishing current behavior from intended behavior.
 
-先为每项必需需求定义通过条件，再决定由什么工作证明它。多需求或多阶段时使用稳定引用（如 R1、A1、M1、T1）；简单任务直接对应即可。
+## 3. Work backward from final acceptance to stage tasks
 
-每项验收条件包含：
+Define pass conditions for each required outcome before deciding what work will establish them. Use stable references such as R1, A1, M1, and T1 for multiple requirements or stages; direct correspondence is sufficient for a simple task.
 
-- 场景或前置条件，以及触发动作；
-- 可观察的预期结果，必要时包括不得发生的结果；
-- 验证方法、判定通过的具体条件，以及预期证据；
-- 关联需求；会影响结论时才补充环境、版本、数据范围或验收责任人。
+Each acceptance criterion includes:
 
-“实现接口”“测试通过”“体验良好”本身不足以证明需求；说明接口必须表现出的行为、哪些测试证明什么，或采用什么可判定的人工检查。沿用适合的现有覆盖，不强制全部自动化。规划阶段写的是**待执行的检查与预期证据**，不能伪装成已有通过结果。无法验证时写明证据缺口、影响及补齐动作。
+- the scenario or preconditions and triggering action;
+- the observable expected result, including prohibited outcomes when necessary;
+- the verification method, specific pass condition, and expected evidence;
+- the associated requirement; add environment, version, data scope, or acceptance owner only when it changes the conclusion.
 
-每个阶段写出独立可观察的结果、承接需求、进入所需输入、退出条件及其证据。再拆成必要任务，每项写清动作、交付物、依赖和验收引用；只有涉及多人或跨任务执行才需要分配负责人。一个阶段可承接多个需求，一个需求也可跨阶段完成，但必须明确在哪一阶段最终验收。
+"Implement the API," "tests pass," or "good user experience" alone do not prove a requirement. Specify the required API behavior, what the tests establish, or a manual check with a decidable result. Reuse suitable existing coverage; not every check needs automation. During planning, record **checks to perform and evidence to obtain**, never fictional passing results. If verification is unavailable, state the evidence gap, its impact, and how to close it.
 
-最终验收要检查完整用户流程或整体交付物，以及明确约定的交付边界。阶段各自通过不自动代表整体验收通过；发布、部署、观察期等只有在授权范围内才是必需条件。探索阶段以回答具体不确定性并提供决策证据为结果，不预先承诺尚未证明可行的实现。
+For each stage, state its independently observable result, associated requirements, necessary inputs, exit criteria, and evidence. Then identify the necessary tasks, each with an action, deliverable, dependencies, and acceptance references. Assign owners only for multiple people or cross-task execution. A stage may serve several requirements and a requirement may span stages, but identify where each requirement receives final acceptance.
 
-## 4. 交付前检查计划是否闭合
+Final acceptance checks the complete user flow or overall deliverable and the agreed delivery boundary. Passing stages separately does not automatically prove the whole result. Publication, deployment, or an observation period is required only within the authorized scope. An exploration stage delivers an answer to a specific uncertainty and evidence for a decision; do not precommit to an implementation whose feasibility is unproven.
 
-逐项检查，发现缺口就在当前计划修正：
+## 4. Check the plan for completeness
 
-- 每项必需需求是否有任务承接和最终通过条件？每项任务是否服务于需求、必要验证或已证实的约束？
-- 阶段之间的输入输出能否衔接，是否存在循环依赖或无法开始的任务？
-- 是否把实现偏好、建议阈值、待决事项或远期想法误写成必需条件？
-- 是否说明单个阶段与整体分别何时算完成，以及证据尚未获得时如何继续？
-- 非目标、延期项与未满足的必需需求是否明确区分？删除或延期必需需求必须有相应范围授权，不能为了结项自行降级。
+Inspect the following and repair gaps in the current plan:
 
-需求变化时同步修改受影响的任务、阶段退出条件和最终验收，指出失效的已有证据，不默认重开所有阶段。
+- Does every required outcome have owning work and a final pass condition? Does every task serve a requirement, necessary verification, or an established constraint?
+- Do stage inputs and outputs connect without circular dependencies or tasks that cannot start?
+- Have implementation preferences, suggested thresholds, open decisions, or future ideas been mistaken for requirements?
+- Is it clear when individual stages and the overall result are complete, and how to proceed while evidence is still missing?
+- Are non-goals, deferrals, and unmet requirements distinct? Removing or deferring required work needs the corresponding scope authority; do not downgrade it merely to close the project.
 
-完成规划意味着需求有依据、工作与验收可追溯、依赖可执行、重大待决问题已解决或明确阻塞其相关部分。计划中可以保留被阻塞的分支，但不能将它称为可直接执行；完成规划不意味着实施或验收已完成。
+When requirements change, update affected tasks, stage exit criteria, and final acceptance together. Identify invalidated evidence without automatically reopening every stage.
 
-需要起草多需求或多阶段计划时，按需使用 [assets/outcome-plan.md](assets/outcome-plan.md)。已有格式只补缺口，简单任务用几行覆盖同样的信息。
+Planning is complete when requirements have a basis, work and acceptance are traceable, dependencies are executable, and consequential open decisions are resolved or explicitly block their dependent portions. A plan may retain blocked branches, but must not describe them as ready to execute. Completing a plan does not mean implementation or acceptance is complete.
 
-## 参考来源
+Use [assets/outcome-plan.md](assets/outcome-plan.md) when drafting a plan with multiple requirements or stages. Fill gaps in existing formats; cover the same information in a few lines for simple tasks.
 
-借鉴 [grilling](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md) 的依赖顺序提问，以及 [domain-modeling](https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md) 的术语与场景澄清；本版本围绕需求、阶段交付和验收组织，不采用穷尽式访谈或自动写领域文档的规则。
+## Sources
+
+Inspired by dependency-ordered questions in [grilling](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md) and terminology and scenario clarification in [domain-modeling](https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md). This version centers requirements, stage deliverables, and acceptance without adopting exhaustive interviews or automatic domain-document writes.

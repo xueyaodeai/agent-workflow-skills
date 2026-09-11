@@ -1,4 +1,4 @@
 interface:
   display_name: "需求与验收规划"
   short_description: "把任务和路线图的需求对应到阶段成果、执行任务及可验证的完成标准"
-  default_prompt: "使用 $plan-outcomes 根据当前要求和已有证据制定计划，明确需求、阶段任务、依赖与最终验收，并区分待决问题和实现假设。"
+  default_prompt: "Use $plan-outcomes to plan from current requirements and evidence, defining phased work, dependencies, and final acceptance while distinguishing open decisions from implementation assumptions. Respond in the user’s language."
