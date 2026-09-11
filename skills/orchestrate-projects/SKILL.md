@@ -37,6 +37,7 @@ Choose the delivery topology independently from the coordination level:
 Load optional workflows only when their trigger applies:
 
 - For Git changes or task-scoped delivery, read [references/git-delivery.md](references/git-delivery.md).
+- When a merged PR/MR must close out issues, deployment evidence, or an existing plan, use the merge-closeout procedure in that Git reference. Do not infer deployment or issue-writing authority from a merge notification.
 - For an initiative integration branch or primary-branch promotion, read [references/integration-branch.md](references/integration-branch.md).
 - For carryover alignment or a successor roadmap, read [references/next-round-alignment.md](references/next-round-alignment.md).
 
