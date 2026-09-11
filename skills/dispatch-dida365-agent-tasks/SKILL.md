@@ -52,7 +52,7 @@ Do not persist grouping IDs, roadmap-candidate tags, or dispatch states in Dida3
 
 ## Prepare and start each task
 
-Build the smallest runnable execution handoff for each dispatch unit: destination, objective, authoritative sources or required rechecks, remaining ownership, consequential authority limits, deliverables and completion evidence, and first action. Reference durable sources instead of copying long task histories.
+Use `prepare-agent-handoff`, when available, to package each dispatch unit from the readiness assessment and existing sources. Without it, pass the outcome, source/recheck instructions, remaining work, authority limits, and completion evidence; add a first action only when it is not discoverable. Do not repeat discovery or clarification already settled during readiness assessment. This step packages context; task creation and Dida365 closeout remain this skill's responsibility.
 
 For a coordinating unit, tell the destination to use `orchestrate-projects`, inspect current project artifacts, and choose the smallest coordination level before creating or changing a roadmap.
 

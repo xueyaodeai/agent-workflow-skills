@@ -240,6 +240,20 @@ def validate(path: Path) -> list[str]:
                     errors.append("gate does not advance without an unresolved blocker")
 
     if FINAL_COMPLETE_RE.search(text):
+        if kind == "roadmap":
+            unfinished = sorted({
+                match.group("value")
+                for match in STATE_RE.finditer(text)
+                if match.group("label") == "Status"
+                and match.group("value") in {
+                    "not_started", "in_progress", "ready_for_verification", "blocked"
+                }
+            })
+            if unfinished:
+                errors.append(
+                    "final status is complete while unfinished milestone states remain: "
+                    + ", ".join(unfinished)
+                )
         if UNCHECKED_RE.search(text):
             errors.append("final status is complete while unchecked criteria remain")
         contradictions = sorted(set(markdown_cells(text)) & CONTRADICTORY_CELLS)

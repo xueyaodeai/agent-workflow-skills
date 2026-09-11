@@ -18,51 +18,23 @@ Classify every residual item:
 
 Record source, verified state, observation time, reason it remains, proposed disposition, evidence, and whether an authorized decision is required. Keep unverified claims visibly unverified. Do not convert a deferred idea into a committed milestone silently.
 
-## Separate facts, authority, and proposals
-
-Keep these record types distinct:
-
-- `verified_fact`: supported by a named source, version, and observation time; it informs but does not authorize a choice.
-- `policy_constraint`: imposed by a named policy or authority owner.
-- `user_decision`: explicitly decided by the user or delegated decision owner.
-- `agent_proposal`: a recommendation that remains unapproved.
-
-Evidence is never a decision authority. When a later decision changes an earlier one, preserve the prior record and add an explicit superseding record.
-
 ## Align only unresolved choices
 
-Start from the carryover inventory, then discuss only what cannot be derived safely: desired outcome, new capabilities, removals, constraints, non-goals, sequencing, delivery boundaries, and acceptance evidence.
-
-Discuss one coherent decision set at a time. After each material exchange:
-
-- append a dated round to the authorized notes file; or
-- for read-only work, return a proposed round entry in chat.
-
-Each round records evidence reviewed, confirmed decisions, remaining proposals, rejected or deferred options, open questions, and the next focus. Do not manufacture extra discussion rounds when all required decisions are already durable and current.
+Apply the planning procedure in [SKILL.md](../SKILL.md#plan) to the carryover inventory and new requirements. This transition adds disposition and provenance, not another requirements interview. Record material decisions in the authorized alignment notes, or return proposed entries in chat for read-only work. Preserve the distinction between verified facts, policy constraints, user decisions, and agent proposals; a superseding decision must reference the prior record rather than erase it. Do not manufacture discussion rounds when the necessary decisions are already current.
 
 ## Gate roadmap generation
 
-Consolidate carryover into the fewest milestones that preserve independently observable outcomes, hard dependencies, distinct authority or side-effect boundaries, or contexts that must resume independently. Do not create milestones per subsystem, implementation phase, failure code, or test category unless one of those boundaries requires it.
+Generate a reconciled successor roadmap when the level-appropriate planning contract is established and every carryover item has an authorized disposition. Reconciliation below must preserve that mapping, including outstanding obligations and explicit blockers.
 
-Generate a reconciled successor roadmap only when:
-
-- every carryover item has a disposition;
-- the next outcome and measurable completion criteria are understood;
-- constraints, non-goals, removals, and compatibility boundaries are recorded;
-- milestone order, dependencies, and evidence requirements are coherent;
-- consequential decisions are resolved or explicitly accepted as blockers;
-- facts, constraints, confirmed decisions, and proposals remain distinguishable.
-
-If alignment is incomplete, use the authorized planning scope to produce a provisional roadmap with explicit assumptions and unresolved decisions; the user need not separately request a draft. Label it `draft_unreviewed` and do not treat it as an execution ledger. Keep existing alignment notes in `alignment_in_progress`. Return the draft in chat for read-only planning; write it only when durable output is authorized. Ask only for consequential user-only decisions that cannot be resolved from accessible evidence, and continue independent planning while they remain open.
+If alignment is incomplete, produce a provisional roadmap within the authorized planning scope; the user need not separately request a draft. Label it `draft_unreviewed`, identify unresolved decisions and dependent work, and do not treat it as an execution ledger. Keep alignment notes `alignment_in_progress`. Return the draft in chat for read-only planning; write it only when durable output is authorized.
 
 ## Materialize and reconcile
 
-Generate the roadmap from consolidated durable records, not hidden chat context. Include:
+Generate the roadmap from the reconciled records: authorized durable notes or decisions explicitly listed in the current chat. A standalone roadmap must include the necessary decisions or link accessible records; do not make its interpretation depend on hidden chat history. Include:
 
 - predecessor roadmap and alignment provenance;
 - carryover mapping to milestones, deferrals, drops, or external owners;
-- final outcome, boundaries, milestones, exit evidence, dependencies, risks, and blockers;
-- first-milestone entry criteria and recommended first task.
+- the planning contract in the existing roadmap format, with the first milestone and task identified.
 
 Compare the roadmap back to the alignment records. Confirm that no agreed item disappeared, no proposal became a decision, no dropped work reappeared, and no milestone claims nonexistent evidence. Mark the notes `aligned` and record the successor path only after reconciliation passes.
 

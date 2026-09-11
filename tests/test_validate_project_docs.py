@@ -149,6 +149,43 @@ class MilestoneAuditValidationTests(unittest.TestCase):
 
 
 class RoadmapContractValidationTests(unittest.TestCase):
+    def completed_roadmap(self, milestone_status: str) -> str:
+        return f"""
+            # Project Roadmap: Demo
+
+            ## Current milestone
+            - Milestone: M1
+
+            ## Milestones
+            ### M1: Export
+            - Status: `{milestone_status}`
+            - Required happy path: sample.json to report.csv
+            - Exit criteria: end-to-end test passes
+            - Current non-goals and accepted deferrals: remote upload excluded by owner
+            - Blocker threshold: required flow regresses
+            - Stop condition: exit evidence is complete
+
+            ## Evidence index
+            - Export verified on revision abc123 by run-1.
+
+            ## Project closeout
+            - Final status: complete
+        """
+
+    def test_complete_roadmap_rejects_unfinished_milestone_sections(self) -> None:
+        for status in ("not_started", "in_progress", "ready_for_verification", "blocked"):
+            with self.subTest(status=status):
+                errors = validate_text(self.completed_roadmap(status))
+                self.assertIn(
+                    "final status is complete while unfinished milestone states remain: " + status,
+                    errors,
+                )
+
+    def test_complete_roadmap_accepts_closed_milestone_sections(self) -> None:
+        for status in ("complete", "deferred", "cancelled", "superseded"):
+            with self.subTest(status=status):
+                self.assertEqual(validate_text(self.completed_roadmap(status)), [])
+
     def test_roadmap_requires_frozen_contract_fields(self) -> None:
         errors = validate_text(
             """

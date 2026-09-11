@@ -28,26 +28,30 @@ Keep implementation assumptions separate from requirements. Record consequential
 
 ## Current milestone
 
-- Milestone: <identifier and name>
+- Milestone: <link to the active milestone below; state and criteria live there>
+- Current/next action: <one resumable statement>
+
+## Milestones
+
+Keep one record per milestone. Reference its criteria from task plans and audits rather than restating them. For later milestones, retain only outcome, requirements, necessary inputs, exit checks, and the trigger for detailing the remaining contract.
+
+### M1: <name>
+
+- Requirements: <R1 or other requirement references>
+- Owner/task plan: <owner and path>
+- Entry conditions/depends on: <necessary input or no prerequisite>
 - Status: `not_started | in_progress | ready_for_verification | blocked | complete | deferred | cancelled | superseded`
-- State owner: <owner>
 - Required happy path: <smallest end-to-end flow this milestone must prove>
-- Exit criteria: <frozen observable checks>
+- Exit criteria: <observable pass conditions, verification method, and evidence to obtain>
 - Current non-goals and accepted deferrals: <excluded work, authority, and reconsideration trigger>
 - Blocker threshold: <what may stop this milestone>
 - Stop condition: <evidence after which implementation must stop expanding>
 - Last observed: <date/time>
-- Exit evidence: <required proof>
-
-## Milestones
-
-| Milestone | Expected result/requirements | Owner/task plan | Entry conditions/depends on | Status | Exit criteria and required evidence |
-|---|---|---|---|---|---|
-| M1 | <result; R1> | <owner/path> | <necessary input> | not_started | <observable pass condition, verification method, evidence to obtain> |
-
-Task plans hold executable actions, deliverables, dependencies, and acceptance references. Keep later milestones at outcome level until their named refinement trigger is reached; do not invent distant implementation tasks.
+- Exit evidence: <observed result and evidence-index reference; pending until checked>
 
 ## Workstreams and dependencies
+
+Include only when independently owned workstreams have cross-task dependencies not already represented by milestones or task plans. Otherwise omit this section; reference existing records instead of duplicating their state.
 
 | Workstream | Owner/task plan | Depends on | Produces | Status |
 |---|---|---|---|---|
@@ -70,10 +74,6 @@ Task plans hold executable actions, deliverables, dependencies, and acceptance r
 | Subject/version | Evidence | Observed at | Result | Location |
 |---|---|---|---|---|
 | <artifact/revision/environment> | <test/review/source> | <date/time> | <result> | <path/link> |
-
-## Next milestone entry criteria
-
-- [ ] <condition required before advancing>
 
 ## Recent material updates
 
