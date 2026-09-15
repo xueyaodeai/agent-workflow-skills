@@ -47,4 +47,4 @@ Process unambiguous items without blocking on unrelated ambiguous ones when the 
 
 ## Verify and report
 
-Re-read every affected task. Verify its project, active state, exact `agent委派` presence or absence, retained fields, dates, and timezone. Report counts for user-owned tasks moved, Agent-ready tasks queued, unchanged ambiguous tasks, and failed changes. Do not claim completion from write responses alone.
+Re-read every affected task. Verify its project, active state, exact `agent委派` presence or absence, and preservation of unrelated fields; check dates and timezone when relevant to the changes. Briefly report the resulting routing and any unresolved or failed changes, with counts when useful. Do not claim completion from write responses alone.

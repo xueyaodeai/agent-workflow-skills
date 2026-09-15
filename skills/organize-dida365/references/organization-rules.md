@@ -10,7 +10,6 @@
 6. Lifecycle states
 7. Agent delegation lifecycle
 8. Habits and recurring tasks
-9. Cleanup and verification examples
 
 ## 1. Project, task, and tag decision table
 
@@ -92,7 +91,7 @@ Duration, a missing next action, or percentage-only progress are signals to clar
 
 Use a parent task plus subtasks when the aggregate outcome is meaningful. Use a project when the workstream will continue to receive new independent tasks. Use a checklist only for short mechanical steps that do not need their own dates, priorities, tags, or lifecycle.
 
-For an uncertain product idea, create an analysis/continue-or-stop decision task first. Do not preload implementation tasks before the decision. For obsolete language-learning or content-selection plans, abandon the old execution tasks and create one new planning task rather than editing incompatible plans in place.
+When execution depends on an unresolved decision, represent that decision first. Replace an obsolete plan only when the user no longer intends its original outcome; preserve still-valid work.
 
 ## 5. Dates and priorities
 
@@ -104,7 +103,7 @@ Assign a date only when it represents one of:
 - a dependency boundary;
 - a recurring schedule.
 
-Clear dates from backlog, paused work, or reading options that are not current commitments. Preserve a current book's deadline while clearing unrelated book dates. For sequential reading, encode the real sequence: finish the current book by its deadline, then start the next book on the agreed date for the agreed duration.
+Clear dates that no longer represent commitments. Preserve real deadlines and agreed sequences when rescheduling related tasks.
 
 Use exact dates and the user's timezone. Translate phrases such as “8月初”“8月中下旬”“月底” into dates only after the user accepts the planning interpretation or when an existing convention makes the mapping unambiguous.
 
@@ -114,7 +113,7 @@ Use native priority:
 - medium: committed work for the current planning horizon;
 - low or none: useful backlog without a current commitment.
 
-Do not mark every H2 objective high. Priority should distinguish what receives attention first, not express general importance.
+Use priority to distinguish what receives attention first, rather than general importance.
 
 ## 6. Lifecycle states
 
@@ -135,7 +134,7 @@ Use the single `agent委派` tag as the delegation queue marker. An active tagge
 
 The destination Agent task owns implementation and delivery. Do not keep the Dida365 task active to mirror Agent progress or reopen it from later Agent outcomes. This delegation completion boundary does not apply to a task whose stated outcome is still the delivered fix, feature, analysis, or other work result.
 
-The whole-system organizer may audit these lifecycle facts but must not select or start Agent work unless the user explicitly invokes the dispatch workflow and chooses the tasks.
+The whole-system organizer may audit these lifecycle facts. Start Agent work through the dispatch workflow only when the user explicitly requests launch and selects exact tasks or an unambiguous set; the user need not repeat the skill name.
 
 ## 8. Habits and recurring tasks
 
@@ -144,29 +143,3 @@ Use a habit for repeated behavioral training such as early rising, reading pract
 Merge or remove a separate recurring task when it is only another representation of the same habit. For example, keep a “阅读20分钟” behavior and fold “听书” into it when listening is merely an allowed mode, but keep separate exercise habits when their training targets differ.
 
 Stopping one behavior does not imply stopping its paired behavior. Apply exact intent, such as stopping “早睡” while retaining “早起”。
-
-## 9. Cleanup and verification examples
-
-### Project versus tag
-
-- “自动化” can be a project when it owns a backlog and deliverables.
-- “知识库” can be a tag when knowledge work appears across multiple projects.
-- “H2” can be a temporary planning tag if it supports a deliberate half-year review; remove it later when the review horizon is no longer useful.
-
-### Parent and children
-
-If a parent task and its child tasks are all waiting for the same cross-team alignment, move the whole tree to pause. If only one child is blocked, keep the parent active and pause only that child.
-
-### Transferred work
-
-If another colleague now owns the problem, mark the user's task abandoned and optionally record the transfer in its content. Do not keep a dated active task that the user can no longer complete.
-
-### Verification summary
-
-Follow the verification and reporting rules in [SKILL.md](../SKILL.md). Depending on the changes, useful details include:
-
-- affected task and project counts;
-- tag count before and after tag-definition cleanup;
-- exact removed and retained ambiguous labels;
-- unresolved items requiring future alignment;
-- checks skipped because the connector does not expose historical or destructive operations.

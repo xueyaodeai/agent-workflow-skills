@@ -1,6 +1,6 @@
 ---
 name: dispatch-dida365-agent-tasks
-description: Find active Dida365/TickTick tasks tagged `agent委派`, assess readiness and related work, let the user choose which tasks to start, then create user-visible independent Agent tasks and close only the successfully dispatched Dida365 items. Use only when the user explicitly invokes `dispatch-dida365-agent-tasks`. Do not trigger from ordinary task, Agent, roadmap, or planning conversation, and do not monitor the delegated work to completion.
+description: Find active Dida365/TickTick tasks tagged `agent委派`, assess readiness and related work, let the user choose which tasks to start, then create user-visible independent Agent tasks and close only the successfully dispatched Dida365 items. Use only when the user explicitly requests this dispatch workflow, by name or by asking to launch selected Dida365 Agent work. Do not trigger from ordinary task, Agent, roadmap, or planning conversation, and do not monitor the delegated work to completion.
 disable-model-invocation: true
 ---
 
@@ -73,4 +73,4 @@ If creation or reference writeback fails, leave the affected Dida365 task active
 
 ## Verify and report
 
-Re-read affected Dida365 tasks and confirm title, completion state, retained tag, destination reference, project, dates, and unrelated fields. Report selected items, dispatch grouping, created Agent tasks, completed Dida365 tasks, reused prior references, and tasks left active. Do not claim dispatch complete from creation or write responses alone.
+Re-read affected Dida365 tasks and confirm title, completion state, retained tag, destination reference, and preservation of unrelated fields; check project and dates when relevant to the changes. Report the resulting dispatch units and destination references, plus any items left active or failed changes. Do not claim dispatch complete from creation or write responses alone.

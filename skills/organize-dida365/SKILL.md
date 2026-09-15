@@ -12,7 +12,7 @@ Use `triage-dida365-inbox` for routine Inbox routing and `dispatch-dida365-agent
 
 ## Load the detailed rules
 
-Read [references/organization-rules.md](references/organization-rules.md) before proposing structural changes, splitting tasks, or cleaning tags. It contains the decision tables and examples for projects, tags, task granularity, dates, priorities, and lifecycle states.
+Read the relevant sections of [references/organization-rules.md](references/organization-rules.md) before proposing or applying changes to projects, tags, task granularity, dates, priorities, lifecycle states, or recurring work. Use its contents to locate only the rules needed for the current operation.
 
 ## Follow the workflow
 
@@ -44,7 +44,7 @@ Classify findings into these buckets:
 
 1. structural: duplicate projects, mixed outcomes, misplaced tasks, oversized tasks;
 2. execution: stale dates, missing next actions, unrealistic concurrent commitments;
-3. lifecycle: finished H1 work, paused work, transferred ownership, obsolete plans;
+3. lifecycle: finished work, paused work, transferred ownership, obsolete plans;
 4. metadata: synonym tags, one-off tags, date or priority encoded as tags, orphan tag trees;
 5. recurring work: habits duplicated as tasks or tasks with incompatible recurrence.
 

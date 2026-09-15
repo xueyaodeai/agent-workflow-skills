@@ -9,15 +9,11 @@ Keep long-running work resumable and evidence-backed without turning ordinary ta
 
 ## Core invariants
 
-1. Use the smallest structure that survives the actual context boundaries. Do not create durable project files for a self-contained single-session task unless requested.
-2. Persist cross-task decisions, scope, ownership, and coordination state. Verify implementation and runtime facts against their authoritative live sources.
-3. Give each shared project artifact one writer. The coordinating task owns roadmap reconciliation; worker tasks update only their own plans or return a handoff.
-4. Scale completion evidence to the coordination level. Bind evidence to a revision, environment, or observation time only when that identity can change the conclusion.
-5. Follow the applicable user- and repository-level Authority rules. This skill records only project-specific narrowing and the selected delivery package; it never expands authority.
-6. Keep every implementation change attributable to one task and preserve unrelated work.
-7. Scale independent review to demonstrated risk separately from coordination level. Long duration, multiple files or attempts, and bounded external reads do not make review a default completion step.
-8. For Level 1, establish the observable objective, acceptance checks, consequential scope boundary, and next action; record additional contract fields only when they change execution. For Level 2/3, freeze the milestone contract: required happy path, exit criteria, non-goals, accepted deferrals, blocker threshold, and stop condition. Freezing records the applicable user request and authorized decisions; it does not require another confirmation. Workers and reviewers must not add completion conditions; only the user or delegated scope authority may expand them.
-9. Among solutions that satisfy the frozen contract and non-deferable rules, choose the one with the fewest new concepts, states, interfaces, dependencies, owners, and lifecycle boundaries. Add complexity only when a current caller, required behavior, demonstrated failure, or material risk proves the simpler path insufficient.
+1. Use the smallest structure needed for continuation, following the routing below. Respect user and repository authority; record only project-specific limits and the authorized delivery package.
+2. Keep scope, decisions, ownership, and coordination state in project files. Verify code, runtime, and external facts at their authoritative sources; bind evidence to a revision, environment, or time when it affects the conclusion.
+3. For Level 1, record the objective, acceptance checks, consequential scope boundary, and next action. For Level 2/3, record the milestone’s required flow, exit criteria, exclusions, accepted deferrals, blocker threshold, and stop condition from existing authorization.
+4. A frozen contract preserves sourced requirements and authority boundaries, not inherited implementation choices. Recheck technical assumptions against current evidence and revise them within scope without reconfirmation. Only the user or delegated scope owner may change required outcomes or authorized boundaries; workers and reviewers must not invent completion conditions.
+5. Choose the simplest complete solution by total implementation and lifecycle cost. Apply this to new and inherited mechanisms within scope; retain complexity only for a current caller, requirement, demonstrated failure, applicable rule, or material risk. Preserve unrelated work.
 
 ## 1. Route the request before loading details
 
@@ -26,7 +22,7 @@ Inspect applicable instructions, established project artifacts, and current evid
 1. **Level 0 — ephemeral execution:** The work can finish and be verified in the current task, with no independent continuation or durable status view. Use the current task's lightweight plan if useful; do not create a project file.
 2. **Level 1 — resumable task:** One outcome must survive a task, session, or environment boundary. Use the established task-plan format or copy `assets/task-plan.md`.
 3. **Level 2 — multi-task project:** Coordination state must survive across multiple tasks, milestones, repositories, environments, or owners. Add the established roadmap or copy `assets/project-roadmap.md`; merely touching multiple repositories in one self-contained task does not require a roadmap.
-4. **Level 3 — audited project:** Material parallelism or high-risk, irreversible, production, or cross-repository integration changes require an explicit milestone gate. Add `assets/milestone-audit.md`; changing requirements or multiple checks alone do not raise the level.
+4. **Level 3 — audited project:** An explicit milestone gate is required by the user, project rules, or a demonstrated coordination or delivery risk. Add `assets/milestone-audit.md`; parallel work or cross-repository changes alone do not raise the level.
 
 Choose the delivery topology independently from the coordination level:
 
@@ -56,7 +52,7 @@ Treat project files as coordination ledgers, not universal factual authorities:
 
 Use these write rules:
 
-- The coordinating task is the single writer for the roadmap and shared decision ledger.
+- Give each shared artifact one writer. The coordinating task owns the roadmap and shared decision ledger.
 - Each worker task owns its task plan. It must not edit the roadmap concurrently; return conclusion, changes, evidence, risks, and next step to the coordinator.
 - On resume, recheck drift-prone facts and reconcile stale documents to live evidence.
 - Write durable files only when the user requested them or an established, authorized project workflow already requires them.
@@ -105,19 +101,19 @@ Do not store command logs, detailed exploration, every failed attempt, or worker
 
 ### Task plan
 
-For Level 1, default to the core task plan: observable objective, acceptance checks, consequential scope boundary, current plan/state, and closeout evidence plus delivery boundary. Record task-level non-goals, accepted deferrals, blocker threshold, or stop condition when they prevent scope expansion or change execution. Add owner, assumptions, detailed evidence metadata, decisions, blockers, or handoff only when another context must resume them.
+Use the Level 1 core defined above, with current state and closeout evidence. Add decisions, ownership, blockers, or handoff details only when they change execution or another context needs them to resume.
 
 Use `assets/task-plan-coordination-addon.md` for cross-task decisions, blockers, or downstream handoff. Use other add-ons only when their trigger applies. Do not fill unused sections with `none` or `not applicable`; omit them.
 
-## 5. Select execution units conservatively
+## 5. Choose execution units
 
 1. Keep work in the current task when it directly serves the current outcome and shares the same context.
-2. Delegate only bounded, independently verifiable exploration, test or log analysis, or verification when it materially reduces uncertainty or latency and higher-priority instructions permit it. Keep architecture, integration, and core implementation in the main agent; do not delegate when coordination cost exceeds the benefit.
+2. Delegate bounded exploration, implementation with established interfaces, or verification when the benefit outweighs coordination cost and higher-priority instructions permit it. The main agent owns architecture decisions, integration, and final delivery.
 3. Create or fork an independent task only when the user explicitly asks and durable visibility or isolation is required.
-4. Use a separate local task when validation depends on machine-local login, device, desktop, simulator, or permission state.
+4. Run validation in the environment that has the required login, device, simulator, or permissions. If an authorized separate task is needed there, carry over the relevant context and evidence.
 5. Isolate concurrent repository writers with dedicated branches and worktrees; never let two worktrees use the same branch.
 
-For a delegated or independently resumable execution unit, specify the objective, allowed scope, consequential authority constraints, expected evidence, and return destination. Give a reviewer the frozen acceptance contract and blocker threshold; do not authorize it to invent current task or milestone requirements. A current-task or low-risk unit needs only the fields that can change execution.
+Give each execution unit its objective, consequential bounds, expected evidence, and return destination. Include only context it does not already inherit; use the independent-review reference for reviewer inputs.
 
 ## 6. Run the coordination loop
 
@@ -131,13 +127,13 @@ Identify the current task or milestone, bounded execution units, dependencies, e
 
 Use `plan-outcomes`, when available, to create or revise requirements, work decomposition, and acceptance. Without it, map each sourced requirement to work and a check specifying the scenario, observable pass condition, and evidence to obtain; cover the overall delivery as well as stage results, and mark consequential unresolved decisions as blocking their dependent work. Keep this contract in the existing artifact, or in the chat plan when durable output is not authorized. This skill owns coordination state and completion evidence, not a second planning process.
 
-Before comparing solutions, derive the minimum required behavior from the frozen contract and authoritative live evidence. Identify which existing primitives already satisfy it, treat inherited designs, prior plans, conventions, and hypothetical future needs as assumptions unless current evidence makes them requirements, and add only the missing mechanism. Then apply the core minimum-complexity rule to choose among candidates.
+Check which existing primitives satisfy the required behavior before adding a mechanism. Apply the core rules for scope and complexity when comparing solutions.
 
-Split milestones or execution units only for an independently observable result, hard dependency, distinct authority or side-effect boundary, or context that must resume independently. Implementation layers, subsystems, failure codes, test categories, task size, and estimated effort do not justify separate milestones or extra coordination by themselves.
+Split milestones for independently observable outcomes, hard dependencies, distinct authority or side-effect boundaries, or independently resumable contexts. Use bounded work units for parallel execution without turning each unit into a milestone.
 
 ### Execute
 
-Perform current-task work directly. Preserve unrelated changes and keep worker-local detail out of the roadmap. Report material progress as completed, next, and blocked, with evidence.
+Execute or delegate the selected units. Keep worker-local detail out of the roadmap and report only progress that changes the result, next action, or blocker.
 
 ### Integrate
 
@@ -150,12 +146,12 @@ Apply the level-specific completion conditions in section 3. Level 0/1 does not 
 Verification is always required; independent review is conditional:
 
 - Use executor-owned checks proportional to the acceptance criteria and demonstrated regression risk. Reuse existing evidence; add tests only to prove required behavior, reproduce a defect, or protect a material boundary. After checks pass, repeat or broaden them only for new changes, failures, or unresolved concerns.
-- Require independent review when the user or an applicable rule requires it, or when the change materially affects a public contract, security or sensitive data, an irreversible production effect, or critical fail-closed behavior. A milestone exit, coordination level, or cross-repository integration label alone does not trigger review; an explicit gate or the actual risk must justify it. File count, duration, attempts, model cost, and bounded external reads alone do not trigger review.
+- Require independent review when the user or an applicable rule requires it, or when the change materially affects a public contract, security or sensitive data, an irreversible production effect, or critical fail-closed behavior. Coordination level, file count, duration, attempts, and bounded external reads alone do not trigger review.
 - When independent review is required, read [references/independent-review.md](references/independent-review.md) for reviewer setup, blocker criteria, and targeted rechecks. Otherwise, use executor preflight for bounded low-risk operations without adding independent approval steps.
 
 ### Advance or stop
 
-Advance only when the frozen acceptance or exit evidence and the next entry criteria are satisfied. Otherwise record the exact blocker, owner, and smallest required action. Stop expanding implementation when the applicable stop condition is met; route other valid findings to later work without silently expanding the active task or milestone. Close the project with final evidence, residual risks, and follow-up ownership.
+Advance when required exit evidence and the next entry criteria are satisfied; otherwise record the blocker, owner, and next action. At the agreed completion boundary, close with evidence and any material follow-up ownership.
 
 ## 7. Use the right template modules
 
@@ -171,4 +167,4 @@ Advance only when the frozen acceptance or exit evidence and the next entry crit
 
 Adapt modules to repository conventions and omit irrelevant sections instead of filling them with `not applicable`. Do not rename an established project artifact merely to match this skill.
 
-For Level 2/3 artifacts materialized from these templates, run `python3 scripts/validate_project_docs.py <files...>` once before closeout. Level 1 does not require this validator by default; use it only when repository policy or a strict template workflow requires it. The validator checks unresolved placeholders, base-state values, and obvious completion contradictions; it does not replace evidence review or support arbitrary custom schemas.
+For Level 2/3 artifacts materialized from these templates, run `python3 scripts/validate_project_docs.py <files...>` once before closeout. Level 1 does not require this validator by default; use it only when repository policy or a strict template workflow requires it. The validator checks required template fields and tables, unresolved placeholders, state values, and completion contradictions; it does not replace evidence review or support arbitrary custom schemas.
