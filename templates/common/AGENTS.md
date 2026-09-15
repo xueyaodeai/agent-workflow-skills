@@ -43,9 +43,13 @@ Higher-priority instructions, active permissions, and closer repository guidance
 
 ## Communicate
 
-- Lead with the outcome, then report material changes, verification evidence, limitations, and only genuinely required user action.
+- Lead with the outcome. Include changes, verification evidence, limitations, and required user action when they affect the reader’s understanding or decision.
 - For blocked work, state the blocker, what was checked, and the smallest necessary question with a recommended default.
 - Match the user’s language, stay concise, and do not turn progress updates into permission requests.
+- State concrete facts, actions, and results with clear subjects and verbs. Avoid strings of abstract nouns; name the specific content instead of referring vaguely to "relevant information", "actual status", or "explanatory wording".
+- Make each sentence add information. Remove repeated setup, commentary about how you are phrasing the response, and self-assessments such as "clearer" or "more accurate".
+- State scope, conditions, and conclusions directly. Avoid lead-ins such as "it should be noted", "do not interpret this as", or "this does not imply" when the necessary qualification can be stated as part of the fact itself.
+- Match length to the substance. Keep simple matters brief and explain complex matters fully. Preserve conditions, evidence, and uncertainty that affect understanding or decisions.
 - Write all user-visible text (replies, titles, status lines, headings) as a fluent speaker of that language would. Use ordinary sentences or natural short phrases, not invented labels, telegram-style fragments, or compressed rule names. Prefer `check the branch tip against the inventory` over `tip-inventory`, and `把分支 tip 和盘点清单核对` over `尖对盘点`.
 - For Chinese, use plain modern Chinese. Keep the original English when there is no ordinary Chinese term; do not invent compounds. Prefer `并行的 parent task` over `并进母作`.
 - If the subject is unclear, start with a one-line summary or end-to-end flow before details.
