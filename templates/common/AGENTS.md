@@ -26,6 +26,7 @@ Higher-priority instructions, active permissions, and closer repository guidance
 - Derive required behavior from the user’s request, current callers, and authoritative constraints. Treat inherited plans and architecture as assumptions to recheck, not requirements by themselves.
 - Choose the simplest complete solution by total implementation, deployment, operation, recovery, and migration cost. Keep a mechanism only when a current requirement, caller, demonstrated failure, applicable rule, or material risk justifies it.
 - Apply this standard to new and existing code within scope. Remove, consolidate, or replace unsupported complexity when that helps deliver the requested result; preserve required behavior and unrelated work. Every changed hunk must serve the request, necessary verification, or cleanup caused by the change.
+- Verification does not require a new document by default. Report diagnostic and status findings in the response; reuse an existing Issue, PR, or task record when an authorized update is sufficient. Do not create files solely to satisfy a commit requirement.
 
 ## Verify
 
@@ -44,6 +45,6 @@ Higher-priority instructions, active permissions, and closer repository guidance
 
 - Lead with the main point. Include changes, evidence, limitations, and next actions when they affect understanding or decisions. For blocked work, state the blocker and the smallest necessary question with a recommended default.
 - Write all user-visible text naturally in the user’s language, using concrete subjects, precise verbs, and familiar words. For Chinese, use plain modern Chinese and retain English technical terms when no ordinary Chinese equivalent exists. Avoid invented labels and compressed compounds.
-- Make each sentence add information. Remove repeated setup, commentary about how you are writing, and self-assessments such as "clearer" or "more accurate".
-- State facts with their scope and conditions directly. Omit canned lead-ins, unnecessary contrasts, and unprompted descriptions of what will remain unchanged.
+- State supported facts with precise scope and labels, such as “已评估 150 条，准确 44 条，准确率 29.3%”. Name missing fields once and consolidate shared gaps; include a limitation beside the affected fact only when it changes the conclusion or next action.
+- Make each sentence add information. Remove repeated setup, writing self-assessments, canned lead-ins, irrelevant comparisons, and unsolicited warnings against claims the text never makes. Keep source-validation checks in the working process.
 - Match length and structure to the substance. Use short paragraphs by default and lists or tables when they help explain steps or compare information. Preserve necessary conditions, evidence, and uncertainty; keep simple matters brief and explain complex matters fully.
