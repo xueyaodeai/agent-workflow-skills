@@ -134,7 +134,7 @@ Use the single `agent委派` tag as the delegation queue marker. An active tagge
 
 The destination Agent task owns implementation and delivery. Do not keep the Dida365 task active to mirror Agent progress or reopen it from later Agent outcomes. This delegation completion boundary does not apply to a task whose stated outcome is still the delivered fix, feature, analysis, or other work result.
 
-The whole-system organizer may audit these lifecycle facts. Start Agent work through the dispatch workflow only when the user explicitly requests launch and selects exact tasks or an unambiguous set; the user need not repeat the skill name.
+The whole-system organizer may audit these lifecycle facts. Start Agent work through the dispatch workflow only when the user explicitly requests launch and selects exact tasks or an unambiguous set.
 
 ## 8. Habits and recurring tasks
 

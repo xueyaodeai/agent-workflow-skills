@@ -60,6 +60,10 @@ Run that from the repository root. If `~/.codex/AGENTS.md` already exists as a r
 
 The skills are validated with the official `skill-creator` validator and checked through local `npx skills` discovery before release.
 
+## Credits
+
+`plan-outcomes` draws on dependency-ordered questions from [grilling](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md) and scenario clarification from [domain-modeling](https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md).
+
 ## License
 
 [MIT](LICENSE)

@@ -71,7 +71,3 @@ When requirements change, update affected tasks, stage exit criteria, and final 
 Planning is complete when requirements have a basis, work and acceptance are traceable, dependencies are executable, and consequential open decisions are resolved or explicitly block their dependent portions. A plan may retain blocked branches, but must not describe them as ready to execute. Completing a plan does not mean implementation or acceptance is complete.
 
 Use [assets/outcome-plan.md](assets/outcome-plan.md) when drafting a plan with multiple requirements or stages. Fill gaps in existing formats; cover the same information in a few lines for simple tasks.
-
-## Sources
-
-Inspired by dependency-ordered questions in [grilling](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md) and terminology and scenario clarification in [domain-modeling](https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md). This version centers requirements, stage deliverables, and acceptance without adopting exhaustive interviews or automatic domain-document writes.
