@@ -15,8 +15,6 @@ Reusable agent skills for durable project coordination, task-system organization
 
 Each skill is self-contained under `skills/<skill-name>/` and includes its own triggering metadata, workflow, and optional references or templates.
 
-Use `plan-outcomes` for planning content, including a short plan within one conversation. Use `orchestrate-projects` when execution also needs durable coordination; it incorporates the requirements and acceptance into the existing task plan or roadmap. Neither planning skill authorizes implementation from a planning-only request.
-
 Explicit-only skills stay inactive until the user names them, for example `/organize-dida365`, `$organize-dida365`, or `organize-dida365`.
 
 ## Install

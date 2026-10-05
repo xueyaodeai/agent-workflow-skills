@@ -26,7 +26,7 @@ Apply the planning procedure in [SKILL.md](../SKILL.md#plan) to the carryover in
 
 Generate a reconciled successor roadmap when the level-appropriate planning contract is established and every carryover item has an authorized disposition. Reconciliation below must preserve that mapping, including outstanding obligations and explicit blockers.
 
-If alignment is incomplete, produce a provisional roadmap within the authorized planning scope; the user need not separately request a draft. Label it `draft_unreviewed`, identify unresolved decisions and dependent work, and do not treat it as an execution ledger. Keep alignment notes `alignment_in_progress`. Return the draft in chat for read-only planning; write it only when durable output is authorized.
+If alignment is incomplete, produce a provisional roadmap within the authorized planning scope; the user need not separately request a draft. Label it `draft_unreviewed`, identify unresolved decisions and dependent work, and do not treat it as an execution ledger. Keep alignment notes `alignment_in_progress`.
 
 ## Materialize and reconcile
 

@@ -12,7 +12,7 @@ Choose the contract from the user's request, repository policy, and established 
 
 Do not treat a commit as universally required. Follow the governing Authority rules and record a bounded delivery package only when a durable task plan exists. One explicit request may authorize a normal package such as edit + verify + commit + push; execute included steps without inserting repeated confirmation. Never infer an action outside that package.
 
-Append `assets/task-plan-git-addon.md` only when Git identity or isolation must survive a context boundary, or when dirty/concurrent work makes ownership material. Also append `assets/task-plan-integration-addon.md` only when initiative integration is enabled.
+Append `assets/task-plan-git-addon.md` only when Git identity or isolation must survive a context boundary, or when dirty/concurrent work makes ownership material.
 
 ## Orient before editing
 
@@ -83,4 +83,4 @@ Before closing Git delivery, confirm:
 - unrelated changes remain untouched;
 - continuation-critical branch, worktree, baseline, changed paths, and delivery identity are recorded when applicable;
 - skipped checks and residual risk are explicit;
-- when independent review was required, any later material change to the reviewed contract, security or sensitive-data boundary, production side effect, critical reliability behavior, milestone exit, or integration gate renewed the relevant verdict; ordinary local fixes and identity-only or status-only closeout updates do not create a review requirement.
+- when independent review was required, a later change that again meets the review trigger in `SKILL.md` renewed the verdict; ordinary local fixes and identity-only or status-only closeout updates do not.

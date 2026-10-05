@@ -34,7 +34,6 @@ Load optional workflows only when their trigger applies:
 
 - For Git changes or task-scoped delivery, read [references/git-delivery.md](references/git-delivery.md).
 - When a merged PR/MR must close out issues, deployment evidence, or an existing plan, use the merge-closeout procedure in that Git reference. Do not infer deployment or issue-writing authority from a merge notification.
-- For an initiative integration branch or primary-branch promotion, read [references/integration-branch.md](references/integration-branch.md).
 - For carryover alignment or a successor roadmap, read [references/next-round-alignment.md](references/next-round-alignment.md).
 
 ## 2. Establish fact and artifact ownership
@@ -103,7 +102,7 @@ Do not store command logs, detailed exploration, every failed attempt, or worker
 
 Use the Level 1 core defined above, with current state and closeout evidence. Add decisions, ownership, blockers, or handoff details only when they change execution or another context needs them to resume.
 
-Use `assets/task-plan-coordination-addon.md` for cross-task decisions, blockers, or downstream handoff. Use other add-ons only when their trigger applies. Do not fill unused sections with `none` or `not applicable`; omit them.
+Add the add-ons listed in section 7 only when their trigger applies.
 
 ## 5. Choose execution units
 
@@ -125,9 +124,9 @@ Read the roadmap and active task plan when present, applicable instructions, and
 
 Identify the current task or milestone, bounded execution units, dependencies, evidence requirements, authority boundaries, and delivery topology. Establish the level-appropriate contract described in the core invariants from existing authorization. Record only material assumptions and unresolved decisions.
 
-Use `plan-outcomes`, when available, to create or revise requirements, work decomposition, and acceptance. Without it, map each sourced requirement to work and a check specifying the scenario, observable pass condition, and evidence to obtain; cover the overall delivery as well as stage results, and mark consequential unresolved decisions as blocking their dependent work. Keep this contract in the existing artifact, or in the chat plan when durable output is not authorized. This skill owns coordination state and completion evidence, not a second planning process.
+Use `plan-outcomes`, when available, for requirements, work decomposition, and acceptance. Without it, map each sourced requirement to work and an observable check, and mark consequential unresolved decisions as blocking their dependent work. Keep this contract in the existing artifact, or in the chat plan when durable output is not authorized.
 
-Check which existing primitives satisfy the required behavior before adding a mechanism. Apply the core rules for scope and complexity when comparing solutions.
+Check which existing primitives satisfy the required behavior before adding a mechanism.
 
 Split milestones for independently observable outcomes, hard dependencies, distinct authority or side-effect boundaries, or independently resumable contexts. Use bounded work units for parallel execution without turning each unit into a milestone.
 
@@ -141,7 +140,7 @@ Verify returned work rather than accepting summaries uncritically. The coordinat
 
 ### Verify and close
 
-Apply the level-specific completion conditions in section 3. Level 0/1 does not require roadmap reconciliation, handoff, audit, or template validation unless another active rule requires it. For Level 3, complete the milestone audit without substituting it for any independently required code review or runtime validation. Record only skipped checks that leave material risk.
+Apply the level-specific completion conditions in section 3. For Level 3, complete the milestone audit without substituting it for any independently required code review or runtime validation. Record only skipped checks that leave material risk.
 
 Verification is always required; independent review is conditional:
 

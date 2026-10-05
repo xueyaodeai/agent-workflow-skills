@@ -13,7 +13,7 @@ Use a temporary initiative integration branch only when one or more conditions m
 
 Prefer the repository's normal feature-to-primary workflow when milestones remain independently releasable, reversible, and compatible with repository policy. Record the decision, evidence, expected benefit, owner, and retirement condition in the roadmap.
 
-Append `assets/task-plan-git-addon.md` and `assets/task-plan-integration-addon.md` to applicable task plans. Use `assets/promotion-gate.md` for primary-branch promotion.
+Append `assets/task-plan-git-addon.md` and `assets/task-plan-integration-addon.md` to applicable task plans.
 
 ## Bootstrap and protect the branch
 
@@ -65,13 +65,8 @@ Use contextual judgment rather than promoting every milestone or deferring every
 
 ## Run the promotion gate
 
-1. Freeze and record the exact integration candidate SHA.
-2. Synchronize the latest primary branch and resolve conflicts inside the authorized integration workflow.
-3. Run required integration and regression suites against the candidate.
-4. Audit the accumulated delta since the previous promotion and verify the complete identity chain.
-5. Confirm no blocking finding, missing milestone evidence, or unapproved policy exception remains.
-6. Complete `assets/promotion-gate.md`.
-7. Open or update a formal review request only when authorized; merge only after required approval and checks.
-8. Record the resulting primary SHA and post-merge validation.
+1. Freeze the integration candidate SHA, synchronize the latest primary branch inside the authorized integration workflow, and complete every precondition in `assets/promotion-gate.md`.
+2. Open or update a formal review request only when authorized; merge only after required approval and checks.
+3. Record the resulting primary SHA and post-merge validation.
 
 After the final promotion, record whether the integration branch continues or retires. Delete local or remote branches only when separately authorized and safe for all active work.

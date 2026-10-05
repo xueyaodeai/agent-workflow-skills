@@ -36,9 +36,7 @@
 
 ## Findings
 
-A finding is blocking only when it proves that a frozen exit criterion fails, a non-deferable higher-priority rule is violated, or the reviewed candidate introduces or materially worsens a protected existing behavior such as a public contract, security or sensitive-data boundary, production or irreversible side effect, or critical fail-closed behavior. Current reachability alone is insufficient. Route other technically valid findings to warnings, notes, or deferred follow-ups; the auditor must not expand the active milestone.
-
-Assess new and inherited complexity within the audit scope against current requirements and total lifecycle cost. Recheck technical assumptions; prior acceptance does not make them requirements. Apply the blocker criteria above.
+Classify findings with the blocker criteria in the `orchestrate-projects` independent-review reference. Route other findings to warnings, notes, or deferred follow-ups; the auditor must not expand the active milestone.
 
 | Severity | Finding | Contract, rule, or protected behavior violated | Current-flow or candidate-change evidence | Disposition | Status |
 |---|---|---|---|---|---|
@@ -46,13 +44,13 @@ Assess new and inherited complexity within the audit scope against current requi
 
 ## Gate decision
 
-`do_not_advance` requires at least one unresolved blocker above that is linked to the frozen milestone contract, a non-deferable higher-priority rule, or a candidate-introduced protected-behavior regression. A scope-expansion proposal alone cannot fail the gate.
+`do_not_advance` requires at least one unresolved blocker above. A scope-expansion proposal alone cannot fail the gate.
 
 - Decision: `advance | do_not_advance | user_decision_required`
 - Assessment authority: <auditor>
 - Scope-change authority: <user or named policy owner>
 - Rationale: <evidence-backed reason>
-- Required corrections: <only unresolved blockers linked to the frozen contract, non-deferable rules, or candidate-introduced protected-behavior regressions>
+- Required corrections: <unresolved blockers only>
 - Next milestone entry criteria: <conditions>
 
 ## Roadmap reconciliation

@@ -10,7 +10,7 @@ When review is required, consolidate it around one acceptance-ready semantic sna
 
 ## Blocking findings
 
-Apply the core complexity rule to new and inherited mechanisms within the reviewed scope. Unsupported complexity is a finding when a simpler solution satisfies the requirements at lower total cost; assess whether it blocks completion using the criteria below.
+Unsupported new or inherited complexity under core invariant 5 is a finding; assess whether it blocks completion using the criteria below.
 
 Current reachability alone does not make a finding blocking. A blocker must identify the declared acceptance or exit criterion, non-deferable higher-priority rule, or protected existing behavior it violates; evidence linking the violation to the required current flow or candidate change; the material effect on truthful completion; and why existing controls do not cover it.
 

@@ -87,7 +87,7 @@ Split a task when any of these apply:
 - one part can finish while another is paused or abandoned;
 - its discovery, decision, implementation, or verification work has independently valuable outcomes or separate lifecycle states.
 
-Duration, a missing next action, or percentage-only progress are signals to clarify the observable result and next action, not automatic reasons to split. Split only when the work has independently valuable deliverables, different owners, or separately progressing lifecycle states.
+Duration, a missing next action, or percentage-only progress are signals to clarify the observable result and next action, not automatic reasons to split.
 
 Use a parent task plus subtasks when the aggregate outcome is meaningful. Use a project when the workstream will continue to receive new independent tasks. Use a checklist only for short mechanical steps that do not need their own dates, priorities, tags, or lifecycle.
 
@@ -130,11 +130,7 @@ When the user says “挂起/暂停”, preserve the task and remove misleading 
 
 ## 7. Agent delegation lifecycle
 
-Use the single `agent委派` tag as the delegation queue marker. An active tagged task is waiting for user selection and launch. A completed tagged task represents successful delegation only when its title or content truthfully defines the Dida365 outcome as delegation and it records a valid independent Agent task reference.
-
-The destination Agent task owns implementation and delivery. Do not keep the Dida365 task active to mirror Agent progress or reopen it from later Agent outcomes. This delegation completion boundary does not apply to a task whose stated outcome is still the delivered fix, feature, analysis, or other work result.
-
-The whole-system organizer may audit these lifecycle facts. Start Agent work through the dispatch workflow only when the user explicitly requests launch and selects exact tasks or an unambiguous set.
+Use the single `agent委派` tag as the delegation queue marker; an active tagged task awaits selection and launch. A completed tagged task is valid only when its stated outcome is delegation and it records an independent Agent task reference; a task whose stated outcome is the work result itself stays active until that result exists. Launching and closing delegation belong to `dispatch-dida365-agent-tasks`.
 
 ## 8. Habits and recurring tasks
 

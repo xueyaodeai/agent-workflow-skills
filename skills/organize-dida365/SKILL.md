@@ -36,7 +36,7 @@ Use the Dida365 connector to inspect current state within the requested scope. F
 - tag definitions and actual task usage;
 - habits when the request includes recurring behavior.
 
-For local changes, read only the affected objects and relationships that can change the decision or verification; include timezone when dates matter. Paginate the relevant scope where supported. Before archiving a project, distinguish an empty active project from one containing only completed or abandoned history. Before deleting a tag, check task use, hierarchy, and intended future use; a zero count in the sidebar is insufficient.
+For local changes, read only the affected objects and relationships that can change the decision or verification; include timezone when dates matter. Paginate the relevant scope where supported. Before archiving a project, distinguish an empty active project from one containing only completed or abandoned history. Before deleting a tag, apply the deletion checks in the tag rules.
 
 ### 3. Diagnose before editing
 
@@ -77,12 +77,11 @@ Prefer reversible task updates and moves over deletion.
 - Move temporarily inactive work into the user's pause holding area without inventing completion.
 - Clear speculative dates; retain dates that are commitments or real start windows.
 - Move tasks to the project that owns the outcome.
-- Remove redundant tags from tasks before deleting tag definitions.
 - Archive a project only after resolving all active children and confirming it no longer represents live work.
 
 Preserve unrelated fields when updating a task: title, content or description, checklist items, parent, project, dates, timezone, reminders, recurrence, priority, and retained tags. Batch homogeneous updates within the authorized scope when their intended result is clear, and respect connector limits. Do not batch undecided items when the user requested item-by-item alignment.
 
-If the connector cannot delete a tag definition, use an authenticated browser only after the user has explicitly authorized the exact deletion set. Verify each target has no remaining task use, delete only exact-name matches, and accept only the corresponding confirmation dialogs.
+If the connector cannot delete a tag definition, use an authenticated browser only after the user has explicitly authorized the exact deletion set, and accept only the corresponding confirmation dialogs.
 
 ### 6. Verify against live state
 
