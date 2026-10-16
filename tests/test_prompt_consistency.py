@@ -34,7 +34,7 @@ class PromptConsistencyTests(unittest.TestCase):
             text = read(f'skills/{skill}/SKILL.md')
             header = text.split('---', 2)[1]
             self.assertIn('disable-model-invocation: true', header)
-        self.assertIn('allow_implicit_invocation: false', read('skills/dispatch-dida365-agent-tasks/agents/openai.yaml'))
+            self.assertIn('allow_implicit_invocation: false', read(f'skills/{skill}/agents/openai.yaml'))
 
     def test_dispatch_default_does_not_force_reselection(self):
         text = read('skills/dispatch-dida365-agent-tasks/agents/openai.yaml')

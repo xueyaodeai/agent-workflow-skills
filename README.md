@@ -62,9 +62,11 @@ Run that from the repository root. If `~/.codex/AGENTS.md` already exists as a r
 
 ## Validation
 
-Run the dependency-free repository checks with Python 3.10 or later:
+Run the repository checks with Python 3.10 or later:
 
 ```bash
+python3 -m pip install -r tests/requirements.txt
+python3 scripts/validate_skill_metadata.py
 python3 -m unittest discover -s tests -v
 ```
 
@@ -75,7 +77,7 @@ python3 skills/orchestrate-projects/scripts/validate_project_docs.py path/to/tas
 python3 skills/orchestrate-projects/scripts/validate_project_docs.py --require-ready path/to/task-plan.md
 ```
 
-The suite checks document contradictions and prompt consistency, not real model behavior. See [tests/README.md](tests/README.md) for supported schemas, migration, behavioral cases, and the live-model evaluation protocol. Run the official `skill-creator` validator and local `npx skills` discovery separately before release; report checks not actually run as untested. Prompt design sources and their scope are recorded in [docs/prompt-guidance.md](docs/prompt-guidance.md).
+The suite checks document contradictions and prompt consistency, not real model behavior. See [tests/README.md](tests/README.md) for supported schemas, migration, behavioral cases, and the live-model evaluation protocol. The repository metadata validator supports the Claude Code invocation extension and checks both host policies for explicit-only skills. The bundled `skill-creator` validator may reject that extension; its result is separate from repository validation. Run local `npx skills` discovery separately before release; report checks not actually run as untested. Prompt design sources and their scope are recorded in [docs/prompt-guidance.md](docs/prompt-guidance.md).
 
 ## Credits
 

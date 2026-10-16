@@ -2,9 +2,20 @@
 
 ## Deterministic repository checks
 
-Run `python3 -m unittest discover -s tests -v` from the repository root with Python 3.10 or later. No network, provider credentials, third-party packages, or task-system writes are needed. Fixtures use synthetic evidence; their content is not a claim about a real implementation.
+Run `python3 -m unittest discover -s tests -v` from the repository root with Python 3.10 or later. Install the test dependency first with `python3 -m pip install -r tests/requirements.txt`. Once PyYAML is installed, checks need no network, provider credentials, or task-system writes. Fixtures use synthetic evidence; their content is not a claim about a real implementation.
 
 The suite covers ready and not-ready contracts, each required field, scoped milestones, completion/evidence contradictions, unsupported formats, command exit codes, prompt consistency, and evaluation-case integrity. Negative completion tests start from otherwise valid new-format contracts: they must fail for the actual contradiction, not merely for missing newly added fields. String-level consistency checks are not model-behavior evaluations.
+
+## Skill metadata validator
+
+Run `python3 scripts/validate_skill_metadata.py` to check all repository skills, or pass specific skill directories. This repository-owned check leaves the installed `skill-creator` untouched. It validates required name/description fields, rejects unknown frontmatter and policy fields and duplicate YAML keys, and checks invocation fields as booleans rather than matching text.
+
+The three explicit-only Dida365 skills must retain both configurations:
+
+- `SKILL.md`: `disable-model-invocation: true` for Claude Code.
+- `agents/openai.yaml`: `policy.allow_implicit_invocation: false` for Codex.
+
+The supported frontmatter fields are `name`, `description`, `license`, `allowed-tools`, `metadata`, and the known `disable-model-invocation` extension. This is a repository schema, not a complete validator for every host's extensions or UI/dependency metadata. The bundled OpenAI `quick_validate.py` rejects the Claude Code extension in its current allowlist; that does not establish a runtime failure. Do not delete the extension just to satisfy that generic check. Actual host invocation behavior still requires host-level evaluation.
 
 ## Document validator scope
 
