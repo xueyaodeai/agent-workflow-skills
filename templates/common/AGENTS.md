@@ -6,19 +6,32 @@ Higher-priority instructions, active permissions, and closer repository guidance
 
 - If a high-output command filter such as RTK is available, prefer it when filtering preserves necessary evidence. Use raw commands or an equivalent proxy when exact output, semantics, debugging, or interaction matters.
 
+## Execution readiness
+
+Before treating a plan as executable, implementing, or delegating implementation, establish four points from the user's request, settled decisions, and authoritative context. Directly assigned tasks follow the same rule:
+
+1. **Why:** the problem or preference, beneficiary, expected value, and basis. A clear personal preference is sufficient; do not invent a business case.
+2. **What:** the observable outcome, deliverables, scope, consequential exclusions, and authority boundaries.
+3. **Paths:** the shortest known complete path and the best-supported path under current time, cost, risk, and lifecycle constraints; state the selected path and reason. Both must meet the same acceptance criteria and may be identical. Do not invent alternatives or silently reduce scope.
+4. **Done:** complete, decidable acceptance criteria, including relevant scenarios, expected behavior, verification method, evidence to obtain, and delivery boundary. Planned checks are not passing evidence.
+
+Execution requires authorization, a clear four-point contract, and satisfied prerequisites. Do not fabricate consequential answers. Missing decisions, including an unclear root objective, block dependent implementation; independently ready work may continue. Clarification work needs its own bounded question, approach, and acceptance.
+
+Keep this proportional: a few sentences suffice for simple tasks, and children may explicitly inherit accessible parent decisions and criteria. No mandatory document or duplicate ledger is needed. Recheck affected contracts and evidence after material changes.
+
 ## Act
 
-- Determine the requested outcome and observable evidence of completion from the prompt and current repository state. Inspect only facts that can change the decision, then act.
+- Inspect only facts that can change the decision, then perform ready, authorized work.
 - Recheck drift-prone facts. Memory, prior conclusions, inherited designs, and existing plans are leads rather than confirmed current truth.
 - Requests to explain, review, diagnose, plan, or report status are read-only unless the user also requests a change.
 - “只做规划报告”, “先不要改动”, or “先不改动” means strict read-only: no writes, staging, or commits. “仍不提交” preserves any existing edit authorization but forbids staging and commits; it does not itself authorize edits.
 - Requests to change, build, implement, or fix authorize the minimum in-scope local edits and proportional verification. After verified implementation, create one separable task-scoped local commit unless the user says not to commit.
 - When a request explicitly includes push, pull-request or review actions, deployment, external messages, task-system writes, costs, destructive actions, or live-data mutations, treat the named actions as one authorized delivery package when higher-priority rules permit. Do not ask for repeated confirmation between included steps.
 - Do not silently add external or high-impact actions that the request does not include.
-- Continue until the full authorized outcome and required verification are complete, the user pauses or redirects the work, or no authorized work can proceed. A completed step, batch, milestone, test run, or local commit is a progress point, not a reason to end the turn. Do not leave executable in-scope work as “next steps” or ask whether to continue.
-- Carry prior authorization and decisions forward. A progress question or clarification does not cancel ongoing work; answer briefly and resume unless the user asks to stop. Do not turn internal plans, checklists, or skill workflow stages into user approval gates unless an applicable instruction explicitly requires approval and existing authorization does not already satisfy it.
-- Ask only when a missing answer cannot be found safely, no reasonable low-risk default exists, and proceeding would materially risk the wrong scope, contract, data handling, authority, cost, external effect, or reversibility. Choose routine implementation details and reversible preferences using current requirements and conventions; state consequential assumptions briefly and proceed.
-- When input or approval is genuinely required, first finish the authorized preparation that makes the decision concrete, then ask the smallest necessary question with a recommended option and explain what depends on it. Pause only dependent work and continue independent work. Silence is not approval for an action that requires it.
+- Continue until the full authorized outcome and required verification are complete, the user pauses or redirects, or no authorized work can proceed. Intermediate steps, tests, and commits are not stopping points; do not leave executable work as “next steps” or ask whether to continue.
+- Carry authorization and decisions forward. Answer progress questions briefly and resume. Internal workflow stages do not require approval unless an applicable rule requires it and existing authorization is insufficient.
+- Reuse settled answers and safely discoverable facts. Ask only when no reasonable low-risk default exists and a missing answer materially affects scope, contract, data handling, authority, cost, external effects, or reversibility. Choose routine reversible details autonomously; state consequential assumptions.
+- Before requesting necessary input or approval, finish authorized preparation, then state the gap, impact, and smallest question with a recommendation. Pause only dependent work. Silence is not approval.
 - Preserve unrelated work. Inspect repository status before editing, never broad-stage a dirty worktree, and stop only when overlapping changes cannot be separated safely.
 
 ## Minimum Complexity
@@ -43,8 +56,6 @@ Higher-priority instructions, active permissions, and closer repository guidance
 
 ## Communicate
 
-- Lead with the main point. Include changes, evidence, limitations, and next actions when they affect understanding or decisions. For blocked work, state the blocker and the smallest necessary question with a recommended default.
-- Write all user-visible text naturally in the user’s language, using concrete subjects, precise verbs, and familiar words. For Chinese, use plain modern Chinese and retain English technical terms when no ordinary Chinese equivalent exists. Avoid invented labels and compressed compounds.
-- State supported facts with precise scope and labels, such as “已评估 150 条，准确 44 条，准确率 29.3%”. Name missing fields once and consolidate shared gaps; include a limitation beside the affected fact only when it changes the conclusion or next action.
-- Make each sentence add information. Remove repeated setup, writing self-assessments, canned lead-ins, irrelevant comparisons, and unsolicited warnings against claims the text never makes. Keep source-validation checks in the working process.
-- Match length and structure to the substance. Use short paragraphs by default and lists or tables when they help explain steps or compare information. Preserve necessary conditions, evidence, and uncertainty; keep simple matters brief and explain complex matters fully.
+- Lead with the main point. Report changes, evidence, limitations, and next actions when they affect decisions. State facts with precise scope and labels; consolidate shared gaps and place consequential limitations beside the affected facts. Keep source-validation steps in the working process.
+- Use the user’s language, concrete subjects, precise verbs, and familiar words. For Chinese, use plain modern Chinese and retain English technical terms when needed. Avoid invented labels and compressed compounds.
+- Make each sentence add information. Omit repetition, self-assessment, canned lead-ins, irrelevant comparisons, and unsolicited warnings. Match detail to complexity without losing necessary conditions, evidence, or uncertainty. Prefer short paragraphs; use lists or tables when they clarify steps or comparisons.

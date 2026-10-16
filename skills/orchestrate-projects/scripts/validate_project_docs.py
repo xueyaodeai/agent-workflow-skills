@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate materialized orchestrate-projects Markdown artifacts."""
+"""Check supported Markdown contracts; never certify evidence or authorize actions."""
 
 from __future__ import annotations
 
@@ -50,21 +50,23 @@ FINDINGS_HEADER = (
     "status",
 )
 
-PLACEHOLDER_RE = re.compile(r"<[^<>\n]+>")
+PLACEHOLDER_RE = re.compile(r"<(?!https?://)[^<>\n]+>")
 STATE_RE = re.compile(
-    r"^- (?P<label>Status|Final status|Generation status):\s*`?(?P<value>[a-z_]+)`?\s*$",
+    r"^- (?P<label>Status|Final status|Generation status):[ \t]*(?P<value>[^\n]*)$",
     re.MULTILINE,
 )
 FINAL_COMPLETE_RE = re.compile(r"^- Final status:\s*`?complete`?\s*$", re.MULTILINE)
 DECISION_RE = re.compile(
-    r"^- Decision:\s*`?(?P<value>[a-z_]+)`?\s*$",
+    r"^- Decision:[ \t]*(?P<value>[^\n]*)$",
     re.MULTILINE,
 )
-UNCHECKED_RE = re.compile(r"^- \[ \] ", re.MULTILINE)
+UNCHECKED_RE = re.compile(r"^[ \t]*[-*] \[ \] ", re.MULTILINE)
 
 
 def artifact_kind(text: str) -> str:
-    first_line = text.splitlines()[0] if text else ""
+    first_line = text.lstrip("\ufeff\r\n").splitlines()[0] if text.strip("\ufeff\r\n") else ""
+    if first_line.startswith("# Outcome Plan:"):
+        return "outcome"
     if first_line.startswith("# Task Plan:"):
         return "task"
     if first_line.startswith("# Project Roadmap:"):
@@ -76,20 +78,11 @@ def artifact_kind(text: str) -> str:
     return "custom"
 
 
-def markdown_cells(text: str) -> list[str]:
-    cells: list[str] = []
-    for line in text.splitlines():
-        if not line.startswith("|"):
-            continue
-        cells.extend(cell.strip().strip("`").lower() for cell in line.strip("|").split("|"))
-    return cells
-
-
 def missing_labels(text: str, labels: set[str]) -> list[str]:
     return sorted(
         label
         for label in labels
-        if not re.search(rf"^- {re.escape(label)}:\s*\S", text, re.MULTILINE)
+        if not re.search(rf"^- {re.escape(label)}:[ \t]*[^\s]", text, re.MULTILINE)
     )
 
 
@@ -141,23 +134,253 @@ def validated_table_rows(
     return data_rows, errors
 
 
-def validate(path: Path) -> list[str]:
+
+READY_STATES = {"ready", "not_ready"}
+EXECUTING_STATES = {"in_progress", "ready_for_verification", "complete"}
+UNFINISHED_STATES = {"not_started", "in_progress", "ready_for_verification", "blocked"}
+PATH_LABELS = {"Why", "Shortest path", "Best path", "Selected path"}
+TASK_LABELS = PATH_LABELS | {"Observable result", "Requirement basis", "In scope", "Acceptance checks"}
+OUTCOME_LABELS = PATH_LABELS | {"Final result", "Scope and delivery boundary"}
+ROOT_LABELS = PATH_LABELS | {"Final observable outcome", "In scope", "Side-effect boundary"}
+MILESTONE_LABELS = PATH_LABELS | ROADMAP_CONTRACT_LABELS | {"Requirements", "Entry conditions/depends on"}
+UNRESOLVED_RE = re.compile(
+    r"^(?:pending|tbd|todo|unknown|unresolved|awaiting|not[ _-]+(?:yet[ _-]+)?(?:run|verified|checked)|"
+    r"待验证|待确认|未验证|未运行)(?:\b|[ :：—-]|$)", re.IGNORECASE
+)
+
+
+def clean(value: str) -> str:
+    return value.strip().strip("`").strip()
+
+
+def without_examples(text: str) -> str:
+    """Ignore fenced examples and HTML comments, not actual contract fields."""
+    text = re.sub(r"<!--.*?-->", "", text, flags=re.DOTALL)
+    lines: list[str] = []
+    fence = ""
+    for line in text.splitlines():
+        marker = re.match(r"^ {0,3}(`{3,}|~{3,})", line)
+        if marker:
+            token = marker.group(1)
+            if not fence:
+                fence = token
+                continue
+            if token[0] == fence[0] and len(token) >= len(fence):
+                fence = ""
+                continue
+        if not fence:
+            lines.append(line)
+    return "\n".join(lines)
+
+
+def values(text: str, label: str) -> list[str]:
+    return [clean(v) for v in re.findall(rf"^- {re.escape(label)}:[ \t]*(.*)$", text, re.MULTILINE)]
+
+
+def value(text: str, label: str) -> str:
+    found = values(text, label)
+    return found[0] if found else ""
+
+
+def unusable(content: str) -> bool:
+    return (not content or content.casefold() in {"none", "n/a", "not applicable", "-", "—"}
+            or bool(UNRESOLVED_RE.match(content)))
+
+
+def require_fields(text: str, labels: set[str]) -> list[str]:
+    errors: list[str] = []
+    for label in sorted(labels):
+        found = values(text, label)
+        if len(found) != 1:
+            errors.append(f"expected one {label} field; found {len(found)}")
+        elif unusable(found[0]) and not (found[0].casefold() == "none" and label in {"Current non-goals and accepted deferrals", "Entry conditions/depends on"}):
+            errors.append(f"{label} is empty or unresolved")
+    return errors
+
+
+def section(text: str, heading: str) -> str:
+    match = re.search(rf"^## {re.escape(heading)}[ \t]*$\n?(.*?)(?=^## |\Z)",
+                      text, re.MULTILINE | re.DOTALL)
+    return match.group(1).strip() if match else ""
+
+
+def require_section(text: str, heading: str) -> list[str]:
+    body = section(text, heading)
+    if not body:
+        return [f"missing or empty {heading} section"]
+    if body.startswith("|"):
+        rows = section_table_rows(text, heading)
+        if len(rows) < 3 or not is_separator_row(rows[1]):
+            return [f"{heading} table has no valid data rows"]
+        if any(not cell for row in rows[2:] for cell in row):
+            return [f"{heading} table contains empty cells"]
+    return []
+
+
+def readiness_errors(text: str, labels: set[str], *, force: bool = False,
+                     executing: bool = False) -> list[str]:
+    found = values(text, "Readiness")
+    if len(found) != 1 or found[0] not in READY_STATES:
+        return ["expected one Readiness field: ready or not_ready"]
+    ready = found[0] == "ready"
+    errors: list[str] = []
+    if not ready:
+        if force or executing:
+            errors.append("not_ready contract cannot be used for selected or executing work")
+        blockers = values(text, "Readiness blockers")
+        if len(blockers) != 1 or not blockers[0] or blockers[0].casefold() in {"none", "pending", "tbd", "unknown"}:
+            errors.append("not_ready contract needs named Readiness blockers")
+    else:
+        if values(text, "Readiness blockers"):
+            errors.append("ready contract must remove resolved Readiness blockers")
+        errors.extend(require_fields(text, labels))
+    return errors
+
+
+def evidence_errors(text: str, result_label: str, evidence_label: str) -> list[str]:
+    errors = require_fields(text, {evidence_label})
+    if values(text, result_label) != ["pass"]:
+        errors.append(f"completion requires one {result_label}: pass")
+    return errors
+
+
+def table_states(text: str, heading: str) -> list[str]:
+    """Read each current table under matching headings, including template add-ons.
+
+    Stop at the next heading so historical subsections do not become current
+    evidence. Each table owns its columns; separate tables may differ in shape.
+    """
+    states: list[str] = []
+    active = False
+    header: list[str] | None = None
+    columns: list[int] = []
+    for line in text.splitlines():
+        match = re.match(r"^#{1,6} (.+?)[ \t]*$", line)
+        if match:
+            active = match.group(1) == heading
+            header = None
+            columns = []
+            continue
+        if not active or not line.startswith("|"):
+            header = None
+            columns = []
+            continue
+        row = [clean(cell).lower() for cell in line.strip("|").split("|")]
+        if header is None:
+            header = row
+            columns = [i for i, name in enumerate(header)
+                       if name in {"status", "result", "verdict"}]
+        elif not is_separator_row(row):
+            states.extend(row[i] for i in columns if i < len(row))
+    return states
+
+
+def contract_errors(text: str, kind: str, require_ready: bool) -> list[str]:
+    errors: list[str] = []
+    if kind == "task":
+        status = value(text, "Status")
+        if len(values(text, "Status")) != 1:
+            errors.append("task requires exactly one current Status")
+        errors.extend(readiness_errors(text, TASK_LABELS, force=require_ready,
+                                       executing=status in EXECUTING_STATES))
+        final = value(text, "Final status")
+        if len(values(text, "Final status")) > 1:
+            errors.append("duplicate Final status")
+        if final and final != status:
+            errors.append("current Status contradicts Final status")
+        if status == "complete" and final != "complete":
+            errors.append("completed task requires Final status: complete")
+        if status == "complete" or final == "complete":
+            errors.extend(evidence_errors(text, "Verification result", "Verification"))
+            errors.extend(require_fields(text, {"Result", "Delivery boundary"}))
+    elif kind == "outcome":
+        errors.extend(readiness_errors(text, OUTCOME_LABELS, force=require_ready))
+        if value(text, "Readiness") == "ready":
+            errors.extend(require_section(text, "Acceptance criteria"))
+            errors.extend(require_fields(text, {"Final acceptance of required outcomes", "Overall result verification", "Delivery boundary", "Tasks ready to start"}))
+        if values(text, "Final status"):
+            errors.append("Outcome Plan defines planned acceptance, not implementation closeout")
+    elif kind == "roadmap":
+        body = section(text, "Milestones")
+        matches = list(re.finditer(r"^### (.+)$", body, re.MULTILINE))
+        milestones: list[tuple[str, str]] = []
+        for i, match in enumerate(matches):
+            end = matches[i + 1].start() if i + 1 < len(matches) else len(body)
+            milestones.append((match.group(1).split(":", 1)[0].strip(), body[match.end():end]))
+        root = re.sub(r"^## Milestones[ \t]*$\n?.*?(?=^## |\Z)", "", text,
+                      flags=re.MULTILINE | re.DOTALL)
+        active = any(value(block, "Status") in EXECUTING_STATES for _, block in milestones)
+        errors.extend(readiness_errors(root, ROOT_LABELS, force=require_ready, executing=active or value(root, "Final status") == "complete"))
+        if value(root, "Readiness") == "ready":
+            errors.extend(require_section(root, "Completion criteria"))
+        if not milestones:
+            errors.append("roadmap has no scoped milestone records")
+        names = [name for name, _ in milestones]
+        if len(names) != len(set(names)):
+            errors.append("duplicate milestone identifiers")
+        current = value(root, "Milestone")
+        final = value(root, "Final status")
+        # Template references use a plain ID or a Markdown link beginning with it.
+        current_id = re.match(r"\[?([A-Za-z]+\d+)\b", current)
+        selected = current_id.group(1) if current_id else ""
+        if require_ready and final != "complete" and selected not in names:
+            errors.append("selected readiness check requires a resolvable current Milestone ID")
+        for name, block in milestones:
+            status = value(block, "Status")
+            local = readiness_errors(block, MILESTONE_LABELS,
+                                     force=require_ready and name == selected,
+                                     executing=status in EXECUTING_STATES)
+            if len(values(block, "Status")) != 1:
+                local.append("milestone requires exactly one Status")
+            if status == "complete":
+                local.extend(evidence_errors(block, "Exit result", "Exit evidence"))
+                if UNCHECKED_RE.search(block):
+                    local.append("completed milestone has unchecked criteria")
+            if final == "complete" and status in UNFINISHED_STATES:
+                local.append("project is complete while milestone is unfinished")
+            errors.extend(f"{name}: {error}" for error in local)
+        if len(values(root, "Final status")) > 1:
+            errors.append("duplicate Final status")
+        if final == "complete":
+            errors.extend(evidence_errors(root, "Completion result", "Completion evidence"))
+            errors.extend(require_section(root, "Evidence index"))
+        workstream_states = table_states(root, "Workstreams and dependencies")
+        for state in workstream_states:
+            if state not in BASE_STATES:
+                errors.append(f"invalid workstream status '{state}'")
+            elif final == "complete" and state in UNFINISHED_STATES:
+                errors.append(f"project is complete while workstream is {state}")
+    elif require_ready:
+        errors.append("--require-ready supports only Task Plans, Outcome Plans, and Project Roadmaps")
+    return errors
+
+
+def validate(path: Path, *, require_ready: bool = False) -> list[str]:
     errors: list[str] = []
     try:
         text = path.read_text(encoding="utf-8")
     except (OSError, UnicodeError) as exc:
         return [f"cannot read UTF-8 Markdown: {exc}"]
 
+    text = without_examples(text)
     kind = artifact_kind(text)
+    if kind == "custom":
+        return ["unsupported artifact type; use a supported template or review its custom schema separately"]
+    errors.extend(contract_errors(text, kind, require_ready))
     placeholders = PLACEHOLDER_RE.findall(text)
     if placeholders:
         preview = ", ".join(placeholders[:3])
         suffix = "..." if len(placeholders) > 3 else ""
         errors.append(f"unresolved placeholders: {preview}{suffix}")
 
+    for label in ("Verification result", "Exit result", "Completion result"):
+        for result in values(text, label):
+            if result not in {"pass", "fail", "blocked", "pending"}:
+                errors.append(f"invalid {label} '{result}'")
+
     for match in STATE_RE.finditer(text):
         label = match.group("label")
-        value = match.group("value")
+        state = clean(match.group("value"))
         if label == "Generation status":
             allowed = GENERATION_STATES
         elif kind == "alignment" and label == "Status":
@@ -166,17 +389,10 @@ def validate(path: Path) -> list[str]:
             allowed = TERMINAL_STATES
         else:
             allowed = BASE_STATES
-        if value == "partial":
+        if state == "partial":
             errors.append("'partial' is not a valid terminal state")
-        elif value not in allowed:
-            errors.append(f"invalid {label.lower()} '{value}'")
-
-    if kind == "roadmap":
-        missing = missing_labels(text, ROADMAP_CONTRACT_LABELS)
-        if missing:
-            errors.append(
-                "missing frozen milestone contract fields: " + ", ".join(missing)
-            )
+        elif state not in allowed:
+            errors.append(f"invalid {label.lower()} '{state}'")
 
     if kind == "audit":
         missing = missing_labels(text, AUDIT_CONTRACT_LABELS)
@@ -222,7 +438,7 @@ def validate(path: Path) -> list[str]:
         if not decision_match:
             errors.append("missing gate decision")
         else:
-            decision = decision_match.group("value")
+            decision = clean(decision_match.group("value"))
             if decision not in AUDIT_DECISIONS:
                 errors.append(f"invalid gate decision '{decision}'")
             else:
@@ -240,34 +456,14 @@ def validate(path: Path) -> list[str]:
                     errors.append("gate does not advance without an unresolved blocker")
 
     if FINAL_COMPLETE_RE.search(text):
-        if kind == "roadmap":
-            unfinished = sorted({
-                match.group("value")
-                for match in STATE_RE.finditer(text)
-                if match.group("label") == "Status"
-                and match.group("value") in {
-                    "not_started", "in_progress", "ready_for_verification", "blocked"
-                }
-            })
-            if unfinished:
-                errors.append(
-                    "final status is complete while unfinished milestone states remain: "
-                    + ", ".join(unfinished)
-                )
         if UNCHECKED_RE.search(text):
             errors.append("final status is complete while unchecked criteria remain")
-        contradictions = sorted(set(markdown_cells(text)) & CONTRADICTORY_CELLS)
-        if contradictions:
-            errors.append(
-                "final status is complete while contradictory table states remain: "
-                + ", ".join(contradictions)
-            )
-        if kind == "task" and not (
-            "## Verification evidence" in text or re.search(r"^- Verification:\s*\S", text, re.MULTILINE)
-        ):
-            errors.append("completed task has no verification evidence")
-        if kind == "roadmap" and "## Evidence index" not in text:
-            errors.append("completed roadmap has no evidence index")
+        # Only current state/result columns contradict closeout. Requirements and
+        # historical evidence may legitimately describe failures or pending cases.
+        for heading in ("Current state", "Closeout", "Project closeout", "Blockers and required decisions", "Verification evidence"):
+            contradictions = sorted(set(table_states(text, heading)) & CONTRADICTORY_CELLS)
+            if contradictions:
+                errors.append(f"completion contradicts {heading}: " + ", ".join(contradictions))
 
     return errors
 
@@ -277,18 +473,20 @@ def main() -> int:
         description="Check materialized orchestrate-projects Markdown artifacts."
     )
     parser.add_argument("files", nargs="+", type=Path)
+    parser.add_argument("--require-ready", action="store_true",
+                        help="require a ready selected contract, not only a valid draft")
     args = parser.parse_args()
 
     failed = False
     for path in args.files:
-        errors = validate(path)
+        errors = validate(path, require_ready=args.require_ready)
         if errors:
             failed = True
             print(f"[FAIL] {path}")
             for error in errors:
                 print(f"  - {error}")
         else:
-            print(f"[PASS] {path}")
+            print(f"[VALID] {path} (structure only; verify evidence, readiness, and authority separately)")
     return 1 if failed else 0
 
 

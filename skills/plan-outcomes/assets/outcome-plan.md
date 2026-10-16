@@ -4,6 +4,9 @@ Adapt to complexity and use the user's language. Short paragraphs may replace ta
 
 ## Goal and scope
 
+- Why: <problem or preference, beneficiary, expected value, and basis>
+- Readiness: `ready | not_ready`
+- Readiness blockers: <consequential gaps and dependent work; omit when ready>
 - Final result: <who receives which observable result in what scenario>
 - Scope and delivery boundary: <included work and where delivery ends>
 - Non-goals and authorized deferrals: <exclusions and their basis; omit if absent>
@@ -13,6 +16,12 @@ Adapt to complexity and use the user's language. Short paragraphs may replace ta
 | Requirement | Scenario and required behavior | Basis | Owning stage or task | Final acceptance |
 |---|---|---|---|---|
 | R1 | <behavior and result> | <user request or authoritative constraint> | <M1/T1> | <A1> |
+
+## Paths and selection
+
+- Shortest path: <fastest known feasible route to full acceptance, including verification and delivery>
+- Best path: <best-supported tradeoff under current time/cost/risk/lifecycle constraints>
+- Selected path: <choice, rationale, material tradeoffs, and recheck trigger; paths may be identical>
 
 ## Open decisions and implementation assumptions
 
@@ -30,9 +39,11 @@ Keep the stage table only for real stage boundaries. For distant tasks not yet d
 |---|---|---|---|
 | M1 | <outcome; R1> | <necessary inputs or no prerequisites> | <stage pass conditions, acceptance references, and evidence> |
 
-| Task | Action and deliverable | Dependencies | Requirements and acceptance |
-|---|---|---|---|
-| T1 | <specific action and result; owning stage> | <necessary inputs or no prerequisites> | <R1/A1> |
+| Task | Action and deliverable | Dependencies | Requirements and acceptance | Contract and readiness |
+|---|---|---|---|---|
+| T1 | <specific action and result; owning stage> | <necessary inputs or no prerequisites> | <R1/A1> | <why/path choice inherited from accessible parent or task-specific; ready or not_ready with blocker> |
+
+Only independently ready, authorized tasks with satisfied prerequisites may start. Missing root decisions block dependent tasks, even for direct assignments. Root readiness does not imply all children are ready.
 
 ## Acceptance criteria
 

@@ -13,7 +13,7 @@ Treat active `agent委派` tasks as a user-controlled launch queue. Help the use
 - Listing, analyzing, and recommending tasks are read-only.
 - If the user has not selected exact tasks or an unambiguous set such as “all ready high-priority tasks,” show the queue and wait for one selection before creating independent Agent tasks or changing Dida365.
 - An explicit selection plus “启动”“委派”“开始” or equivalent wording authorizes creation of the selected independent Agent tasks and the exact Dida365 comments, title updates, and completions required to record successful dispatch. Do not ask again when the user already made an exact selection.
-- Create user-visible independent Agent tasks, not hidden subagents. The user owns subsequent alignment in those tasks.
+- Create user-visible independent Agent tasks, not hidden subagents. Resolve readiness before launch; subsequent alignment covers only new findings or changed requirements.
 - Use the current host's user-visible independent agent or task primitive. Typical equivalents are a Codex task, a Cursor Cloud Agent or new conversation, or a Claude Code session the user can open. If the host has only hidden subagents, stop and report that limitation instead of launching one.
 
 ## Read the active queue
@@ -24,15 +24,14 @@ If an active task already records a valid destination task reference, do not cre
 
 ## Assess readiness
 
-A task is ready when the destination can discover or has been given:
+A task is ready only when current, accessible context establishes:
 
-- one observable outcome;
-- authoritative sources or a safe first place to inspect;
-- consequential scope and authority limits;
-- observable completion evidence; and
-- one concrete first action.
+- **Why:** the problem or preference, beneficiary, expected value, and basis;
+- **What:** one observable outcome, deliverables, scope, and authority limits;
+- **Paths:** shortest complete path, best path under current constraints, and selected approach with rationale; both meet the same acceptance and may be identical;
+- **Done:** full acceptance scenarios, pass conditions, verification method, required evidence, and delivery boundary.
 
-Discover safe facts before asking. Mark a task as needing input only when a user-only decision would materially change execution. Do not require exhaustive repository history, implementation steps, or a fixed handoff template.
+Also identify authoritative sources, satisfied prerequisites, and a concrete first action. Direct selections and the `agent委派` tag do not bypass readiness. Reuse settled answers and discover safe facts before asking; do not invent answers or ask for repeated approval. Missing consequential decisions block dependent implementation. Dispatch a clarification task only when separately authorized and its own question, scope, paths, and acceptance are clear. Continue independently ready selected work. Do not require exhaustive history or a fixed template.
 
 Present a compact selection view with task number, title, project, real date or priority, readiness, and recommended dispatch unit. Keep non-ready tasks visible but do not start them.
 
@@ -52,7 +51,7 @@ Do not persist grouping IDs, roadmap-candidate tags, or dispatch states in Dida3
 
 ## Prepare and start each task
 
-Use `prepare-agent-handoff`, when available, to package each dispatch unit from the readiness assessment and existing sources. Without it, pass the outcome, source/recheck instructions, remaining work, authority limits, and completion evidence; add a first action only when it is not discoverable. Do not repeat discovery or clarification already settled during readiness assessment. This step packages context; task creation and Dida365 closeout remain this skill's responsibility.
+Use `prepare-agent-handoff`, when available, to package each dispatch unit from the readiness assessment and existing sources. Without it, pass all four readiness points, source/recheck instructions, remaining work, authority limits, and completion evidence; add a first action only when it is not discoverable. Do not repeat discovery or clarification already settled during readiness assessment. This step packages context; task creation and Dida365 closeout remain this skill's responsibility.
 
 For a coordinating unit, tell the destination to use `orchestrate-projects`, inspect current project artifacts, and choose the smallest coordination level before creating or changing a roadmap.
 

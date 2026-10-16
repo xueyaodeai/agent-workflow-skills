@@ -17,6 +17,12 @@ Each skill is self-contained under `skills/<skill-name>/` and includes its own t
 
 Explicit-only skills stay inactive until the user names them, for example `/organize-dida365`, `$organize-dida365`, or `organize-dida365`.
 
+## Execution readiness
+
+Before implementation or implementation dispatch, establish **why**, **what**, **shortest and best paths with the selected approach**, and **complete acceptance criteria**. Direct assignments follow the same rule. Both paths satisfy the same acceptance and may be identical. Reuse existing answers; missing consequential decisions block dependent work, not independently ready and authorized work. Collection, planning, authorization, execution readiness, and completion are distinct.
+
+Each skill carries the guard needed for standalone use. For direct tasks outside a loaded skill, install the appropriate personal defaults below into the guidance file your host actually reads; installing a skill alone does not install a universal rule. These prompts and structural checks are not a tool-level permission enforcement system.
+
 ## Install
 
 Inspect the available skills:
@@ -56,7 +62,22 @@ Run that from the repository root. If `~/.codex/AGENTS.md` already exists as a r
 
 ## Validation
 
-The skills are validated with the official `skill-creator` validator and checked through local `npx skills` discovery before release.
+Run the repository checks with Python 3.10 or later:
+
+```bash
+python3 -m pip install -r tests/requirements.txt
+python3 scripts/validate_skill_metadata.py
+python3 -m unittest discover -s tests -v
+```
+
+For materialized template-shaped documents:
+
+```bash
+python3 skills/orchestrate-projects/scripts/validate_project_docs.py path/to/task-plan.md
+python3 skills/orchestrate-projects/scripts/validate_project_docs.py --require-ready path/to/task-plan.md
+```
+
+The suite checks document contradictions and prompt consistency, not real model behavior. See [tests/README.md](tests/README.md) for supported schemas, migration, behavioral cases, and the live-model evaluation protocol. The repository metadata validator supports the Claude Code invocation extension and checks both host policies for explicit-only skills. The bundled `skill-creator` validator may reject that extension; its result is separate from repository validation. Run local `npx skills` discovery separately before release; report checks not actually run as untested. Prompt design sources and their scope are recorded in [docs/prompt-guidance.md](docs/prompt-guidance.md).
 
 ## Credits
 

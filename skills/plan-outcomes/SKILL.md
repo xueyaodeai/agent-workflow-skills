@@ -1,11 +1,13 @@
 ---
 name: plan-outcomes
-description: Define requirements, phased work, and verifiable completion criteria for a task or roadmap. Use when creating or revising implementation plans, splitting milestones, clarifying goals and scope, or sharpening vague acceptance criteria. Do not trigger for routine execution status updates.
+description: Clarify why to do a task, what to deliver, shortest and best paths, and verifiable acceptance. Use when planning or revising work, splitting milestones, or resolving unclear goals, scope, tradeoffs, or completion criteria before implementation. Do not trigger for routine status updates.
 ---
 
 # Plan Outcomes and Acceptance
 
-Turn goals into executable, verifiable plans. Every required outcome needs a source, owning work, and a pass condition. Each stage must identify what it delivers, and final acceptance must prove the overall objective.
+Turn goals into executable, verifiable plans. Before marking work ready, establish why it should be done, what it delivers, the shortest and best paths with a selected approach, and complete acceptance criteria. Direct assignments are not exempt. Authorization does not resolve an unclear contract.
+
+Reuse settled answers; discover safe facts before asking. Missing consequential decisions block dependent implementation, not independently ready and authorized work. Do not invent answers or require repeated approval. A clarification task must have its own bounded question, approach, and acceptance; it must not implement the unresolved solution. Every executable child must own or explicitly inherit the four points from accessible sources. Each stage must identify what it delivers, and final acceptance must prove the overall objective.
 
 Use the user's language for plans, questions, and explanations, regardless of this skill's language.
 
@@ -27,7 +29,7 @@ Distinguish the following instead of treating them all as commitments:
 - **Open decisions:** answers that would change requirements, boundaries, or acceptance and cannot be obtained from existing evidence.
 - **Implementation assumptions:** replaceable technical choices or low-risk defaults; state the rationale and when to recheck. Architecture inherited from a plan is not inherently a requirement.
 
-State the beneficiary, target result, scope, and explicit exclusions. Unsupported performance numbers, dates, priorities, or launch requirements are proposals, not confirmed criteria.
+State the beneficiary, current problem or explicit preference, expected value, target result, scope, and exclusions, with their basis. Consider doing nothing, deferring, or reusing existing behavior when that could change the decision; small repairs and personal preferences do not need a manufactured business case. Unsupported performance numbers, dates, priorities, or launch requirements are proposals, not confirmed criteria.
 
 ## 2. Clarify consequential questions in dependency order
 
@@ -39,7 +41,7 @@ Give concrete meanings and counterexamples for ambiguous terms that affect accep
 
 Check understanding against concrete scenarios: the happy path and important failure or boundary cases justified by requirements or existing risks. Surface conflicts between terminology, documentation, code, and the user's goal, distinguishing current behavior from intended behavior.
 
-## 3. Work backward from final acceptance to stage tasks
+## 3. Define acceptance and compare paths
 
 Define pass conditions for each required outcome before deciding what work will establish them. Use stable references such as R1, A1, M1, and T1 for multiple requirements or stages; direct correspondence is sufficient for a simple task.
 
@@ -52,21 +54,32 @@ Each acceptance criterion includes:
 
 "Implement the API," "tests pass," or "good user experience" alone do not prove a requirement. Specify the required API behavior, what the tests establish, or a manual check with a decidable result. Reuse suitable existing coverage; not every check needs automation. During planning, record **checks to perform and evidence to obtain**, never fictional passing results. If verification is unavailable, state the evidence gap, its impact, and how to close it.
 
+Compare paths against the same complete acceptance criteria:
+
+- **Shortest path:** the fastest known feasible route to the full agreed result, including necessary verification and delivery. A reduced-scope prototype is a different proposal, not completion of the original task.
+- **Best path:** the best-supported tradeoff under current time, cost, risk, maintenance, and migration constraints, not an idealized architecture or a claim of global optimality.
+- **Selected path:** the choice, rationale, material tradeoffs, and conditions that would justify revisiting it. The two paths may be identical; explain briefly instead of fabricating a second option.
+
+Use current evidence and delegated decision authority. If an unresolved value judgment would materially change the choice, block the dependent work rather than silently choosing for the user. Reversible technical details that do not change the contract remain implementation choices.
+
+## 4. Work backward to stages and tasks
+
 For each stage, state its independently observable result, associated requirements, necessary inputs, exit criteria, and evidence. Then identify the necessary tasks, each with an action, deliverable, dependencies, and acceptance references. Assign owners only for multiple people or cross-task execution. A stage may serve several requirements and a requirement may span stages, but identify where each requirement receives final acceptance.
 
 Final acceptance checks the complete user flow or overall deliverable and the agreed delivery boundary. Passing stages separately does not automatically prove the whole result. Publication, deployment, or an observation period is required only within the authorized scope. An exploration stage delivers an answer to a specific uncertainty and evidence for a decision; do not precommit to an implementation whose feasibility is unproven.
 
-## 4. Check the plan for completeness
+## 5. Check the plan for completeness
 
 Inspect the following and repair gaps in the current plan:
 
+- Are why, what, shortest/best paths, selected approach, and complete acceptance clear for every task proposed as ready, directly or through explicit inheritance?
 - Does every required outcome have owning work and a final pass condition? Does every task serve a requirement, necessary verification, or an established constraint?
 - Do stage inputs and outputs connect without circular dependencies or tasks that cannot start?
 - Have implementation preferences, suggested thresholds, open decisions, or future ideas been mistaken for requirements?
 - Is it clear when individual stages and the overall result are complete, and how to proceed while evidence is still missing?
 - Are non-goals, deferrals, and unmet requirements distinct? Removing or deferring required work needs the corresponding scope authority; do not downgrade it merely to close the project.
 
-When requirements change, update affected tasks, stage exit criteria, and final acceptance together. Identify invalidated evidence without automatically reopening every stage.
+When requirements change, update affected rationale, path choices, tasks, stage exit criteria, and final acceptance together. Identify invalidated evidence without automatically reopening every stage.
 
 Planning is complete when requirements have a basis, work and acceptance are traceable, dependencies are executable, and consequential open decisions are resolved or explicitly block their dependent portions. A plan may retain blocked branches, but must not describe them as ready to execute. Completing a plan does not mean implementation or acceptance is complete.
 

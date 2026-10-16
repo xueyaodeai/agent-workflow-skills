@@ -1,9 +1,10 @@
 # Task Plan: <task name>
 
-Use this core for Level 1. Delete any optional line that cannot change execution; add coordination or Git add-ons only when their trigger applies.
+Use this core for Level 1. Remove Closeout until a closeout decision exists. Readiness is separate from progress and authorization; not-ready drafts name their blockers. Delete any optional line that cannot change execution; add coordination or Git add-ons only when their trigger applies.
 
 ## Objective
 
+- Why: <problem or preference, beneficiary, value, and source; or accessible parent reference>
 - Observable result: <one result this task must produce>
 - Requirement basis: <user request or authoritative constraint; distinguish implementation assumptions>
 - Acceptance checks: <scenario/action, observable pass condition, verification method, and evidence to obtain; use requirement references when needed>
@@ -16,6 +17,12 @@ Use this core for Level 1. Delete any optional line that cannot change execution
 - Blocker threshold: <only when a specific condition changes whether this task may continue>
 - Stop condition: <only when acceptance checks alone do not define when to stop>
 
+## Approach
+
+- Shortest path: <fastest known route to the full acceptance, including verification and delivery>
+- Best path: <best-supported time/cost/risk/lifecycle tradeoff under current constraints>
+- Selected path: <choice and rationale; shortest and best may be identical>
+
 ## Plan and progress
 
 - [ ] <action and deliverable, required input/dependency, and acceptance check it serves>
@@ -23,6 +30,9 @@ Use this core for Level 1. Delete any optional line that cannot change execution
 Group steps into stages only for an independent outcome or real dependency/delivery boundary; give each stage its result and exit checks. Keep consequential unresolved decisions explicit and identify the dependent work they block. Simple tasks need no separate stage or requirement table.
 
 ## Current state
+
+- Readiness: `ready | not_ready`
+- Readiness blockers: <missing consequential decisions and dependent work; omit when ready>
 
 - Status: `not_started | in_progress | ready_for_verification | blocked | complete | deferred | cancelled | superseded`
 - Current/next action: <one resumable statement>
@@ -32,6 +42,7 @@ Group steps into stages only for an independent outcome or real dependency/deliv
 
 - Final status: `complete | blocked | deferred | cancelled | superseded`
 - Result: <what exists and where>
+- Verification result: `pass | fail | blocked | pending`
 - Verification: <check, subject, result, and evidence location>
 - Delivery boundary: <uncommitted change set, commit, artifact, external system, or other agreed package>
 - Residual risk/next action: <only when material>

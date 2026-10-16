@@ -153,11 +153,33 @@ class RoadmapContractValidationTests(unittest.TestCase):
         return f"""
             # Project Roadmap: Demo
 
+            ## Outcome and ownership
+            - Why: Restore the requested export for existing callers.
+            - Shortest path: Repair the exporter and verify the fixture.
+            - Best path: Same repair avoids unnecessary migration.
+            - Selected path: Local repair meets the agreed acceptance.
+            - Readiness: ready
+            - Final observable outcome: Export selected rows correctly.
+            - In scope: Exporter and regression verification.
+            - Side-effect boundary: Local commit only.
+
+            ## Completion criteria
+            - [x] Exported fixture matches the selected rows, verified by run-1.
+
             ## Current milestone
             - Milestone: M1
 
             ## Milestones
             ### M1: Export
+            - Why: Inherit the root export requirement.
+            - Shortest path: Inherit the root repair approach.
+            - Best path: Same as the root approach.
+            - Selected path: Inherit the selected local repair.
+            - Readiness: ready
+            - Requirements: User export requirement.
+            - Entry conditions/depends on: Fixture available.
+            - Exit result: pass
+            - Exit evidence: Export verified at abc123 by run-1.
             - Status: `{milestone_status}`
             - Required happy path: sample.json to report.csv
             - Exit criteria: end-to-end test passes
@@ -170,6 +192,8 @@ class RoadmapContractValidationTests(unittest.TestCase):
 
             ## Project closeout
             - Final status: complete
+            - Completion result: pass
+            - Completion evidence: Export verified at abc123 by run-1.
         """
 
     def test_complete_roadmap_rejects_unfinished_milestone_sections(self) -> None:
@@ -177,7 +201,7 @@ class RoadmapContractValidationTests(unittest.TestCase):
             with self.subTest(status=status):
                 errors = validate_text(self.completed_roadmap(status))
                 self.assertIn(
-                    "final status is complete while unfinished milestone states remain: " + status,
+                    "M1: project is complete while milestone is unfinished",
                     errors,
                 )
 
@@ -187,34 +211,13 @@ class RoadmapContractValidationTests(unittest.TestCase):
                 self.assertEqual(validate_text(self.completed_roadmap(status)), [])
 
     def test_roadmap_requires_frozen_contract_fields(self) -> None:
-        errors = validate_text(
-            """
-            # Project Roadmap: Demo
-
-            - Status: `in_progress`
-            """
-        )
-        self.assertTrue(
-            any(
-                error.startswith("missing frozen milestone contract fields:")
-                for error in errors
-            )
-        )
+        text = self.completed_roadmap("complete")
+        text = text.replace("- Exit criteria: end-to-end test passes", "")
+        errors = validate_text(text)
+        self.assertIn("M1: expected one Exit criteria field; found 0", errors)
 
     def test_roadmap_accepts_complete_frozen_contract(self) -> None:
-        errors = validate_text(
-            """
-            # Project Roadmap: Demo
-
-            - Status: `in_progress`
-            - Required happy path: sample.json to report.csv
-            - Exit criteria: end-to-end test passes
-            - Current non-goals and accepted deferrals: remote upload deferred by owner
-            - Blocker threshold: required flow or protected behavior regresses
-            - Stop condition: exit evidence is complete
-            """
-        )
-        self.assertEqual(errors, [])
+        self.assertEqual(validate_text(self.completed_roadmap("complete")), [])
 
 
 if __name__ == "__main__":
