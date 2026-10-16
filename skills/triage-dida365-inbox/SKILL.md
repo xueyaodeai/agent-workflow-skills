@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Triage Dida365 Inbox
 
-Use the Inbox as a capture boundary. Turn each captured item into either an active user-owned task or an active task in the Agent delegation queue without turning triage into project planning or execution.
+Use the Inbox as a capture boundary. Keep captured ideas active even when they still need clarification. Route clear user-owned tasks and ready Agent work without turning triage into project planning or execution.
 
 ## Establish authority
 
@@ -32,7 +32,8 @@ Use an established specific project when one clearly owns the outcome. If no cur
 Inspect task content, links, attachments, and safely discoverable sources before asking the user.
 
 - For a user-owned task, make the title a verb plus one observable result. Preserve or add a date, reminder, or priority only when it represents a real commitment, start window, deadline, or dependency.
-- For an Agent-ready task, capture only the desired observable outcome, authoritative source or discoverable location, consequential scope or authority limits, and completion evidence. Let the destination Agent inspect ordinary repository or system detail later.
+- Before calling an Agent task ready, establish why it matters, what observable result and scope it owns, the shortest complete and best-supported paths with the selected approach, and full acceptance scenarios, pass conditions, verification method, and evidence. Both paths meet the same criteria and may be identical. Reuse accessible parent decisions and authoritative sources; ordinary implementation details can wait.
+- Direct assignments follow the same check. Reuse settled answers without repeated approval; do not invent answers or start dependent implementation when consequential decisions are missing. A clarification task needs its own bounded question, paths, and acceptance. Collection and routing do not imply execution readiness.
 - Use repair, new behavior, refactor, data analysis, and error diagnosis only as temporary routing judgments. Do not create persistent subtype tags unless the user explicitly requests a taxonomy for repeated retrieval.
 - Ask only when missing user-only information would materially change the outcome, source, permission, external side effect, or acceptance decision. Do not require a fixed intake template.
 
@@ -40,10 +41,11 @@ Inspect task content, links, attachments, and safely discoverable sources before
 
 - Move a clear user-owned task to its owning project, keep it active, and remove `agent委派` if it was incorrectly applied.
 - Move a clear Agent-ready task to its owning project, keep it active, and apply the single canonical tag `agent委派`. When execution is authorized, create that exact tag if it does not exist; do not add handler or Agent subtype tags.
+- When the destination is clear but the contract is not ready, an authorized move may still place the active item there without `agent委派`; remove that tag if incorrectly applied. Report the blocking decision instead of inventing an executable task.
 - Preserve unrelated fields, including content, checklist items, parent, dates, timezone, reminders, recurrence, priority, and retained tags.
 - Do not group Agent-ready tasks, decide whether they need a roadmap, start an Agent, rename them as dispatched, or complete them. `dispatch-dida365-agent-tasks` owns that boundary.
 
-Process unambiguous items without blocking on unrelated ambiguous ones when the user authorized batch organization. Leave unresolved items unchanged and return one compact question covering only the decisions still needed.
+Process unambiguous items without blocking on unrelated ambiguous ones when the user authorized batch organization. Leave unresolved routing decisions unchanged; keep unresolved execution contracts out of the launch queue. Return one compact question covering only the decisions still needed.
 
 ## Verify and report
 

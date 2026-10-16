@@ -11,15 +11,19 @@ Package only the context a destination lacks. A handoff is self-contained when t
 
 Include a detail only when removing it could change the destination's action, source selection, authority, or completion decision.
 
-For a cold execution context, use this five-part semantic core. Keep each field to the minimum that changes execution:
+For a cold execution context, include this semantic core. References may replace repeated content only when the destination can access them:
 
 ```text
+Why: <problem or preference, beneficiary, expected value, and basis>
 Outcome: <required result>
+Paths: <shortest complete path; best path under current constraints; chosen path and reason; they may be identical>
 Resume from: <authoritative source, revision or recheck, and necessary current state>
 Remaining work: <work the destination owns>
 Bounds: <consequential scope or authority limits>
-Done when: <observable completion evidence>
+Done when: <full acceptance scenarios, pass conditions, verification method, evidence, and delivery boundary>
 ```
+
+Before handing off implementation, confirm why, what, shortest/best paths and selection, and complete acceptance. Direct assignments follow the same readiness check. Both paths must meet the same criteria. Missing consequential decisions block dependent implementation; never defer them to an implementation agent just to launch it. A separately authorized clarification task may instead resolve a bounded uncertainty using its own ready contract. Reuse settled answers without repeated approval and do not invent answers. Unrelated ready, authorized work may continue.
 
 Treat the destination as routing metadata. Include it only when the artifact may be reused or misrouted.
 
@@ -45,12 +49,12 @@ For a recurring schedule, external prompt, or evaluation case, read only the mat
 
 Read supplied material, applicable project files, current evidence, and authorized live state before asking the user to restate anything. For long-running work, cite durable plans, audits, repository paths, revisions, identifiers, or recheck instructions instead of copying history.
 
-Add rationale, completed work, decisions, non-goals, dependencies, a first action, validation detail, retry or stop behavior only when they can change execution. When facts, decisions, proposals, assumptions, or unresolved items coexist, label only the distinctions that matter.
+Add completed work, decisions, non-goals, dependencies, a first action, validation detail, retry or stop behavior only when they can change execution. When facts, decisions, proposals, assumptions, or unresolved items coexist, label only the distinctions that matter.
 
-Ask one concise group of questions only when an undiscoverable user-only answer would materially change scope, authority, selected data, deliverable, or acceptance. Otherwise:
+Ask one concise group of questions only when an undiscoverable user-only answer would materially change purpose, scope, path selection, authority, selected data, deliverable, or acceptance. Otherwise:
 
 - discover the fact with a safe read;
-- preserve it as unresolved when the destination can resolve it;
+- preserve it as a blocker and assign only a bounded clarification task when authorized;
 - record a low-risk assumption only when the user delegated the choice.
 
 Never silently invent permissions, facts, business rules, source priority, metric definitions, credentials, dates, or acceptance thresholds.
@@ -61,7 +65,7 @@ Default to returning one compact contract in chat. Write or update a durable fil
 
 Before returning it, verify that:
 
-- the destination can act using inherited context or named accessible sources;
+- the destination can recover all four readiness points using inherited context or named accessible sources; inaccessible references are gaps, not inherited answers;
 - drift-prone state has a revision, identifier, timestamp, or recheck instruction;
 - the contract narrows or preserves applicable authority and never expands it;
 - completion is observable;

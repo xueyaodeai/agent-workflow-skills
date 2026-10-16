@@ -2,6 +2,9 @@
 
 ## Outcome and ownership
 
+- Why: <problem or preference, beneficiary, expected value, and basis>
+- Readiness: `ready | not_ready`
+- Readiness blockers: <root decision gaps and dependent work; omit when ready>
 - Final observable outcome: <result the project must produce>
 - Coordinating task/owner: <single roadmap writer>
 - Roadmap update authority: <owner>
@@ -22,9 +25,17 @@ Keep implementation assumptions separate from requirements. Record consequential
 
 ## Constraints and non-goals
 
+- In scope: <authorized behaviors and deliverables>
+
 - Constraint: <hard boundary>
 - Non-goal: <explicitly excluded work>
 - Side-effect boundary: <write, publication, deployment, or external authority>
+
+## Approach
+
+- Shortest path: <fastest known complete route, including verification and delivery>
+- Best path: <best-supported approach under current time/cost/risk/lifecycle constraints>
+- Selected path: <choice and reason; paths may be identical under the same full acceptance>
 
 ## Current milestone
 
@@ -33,10 +44,16 @@ Keep implementation assumptions separate from requirements. Record consequential
 
 ## Milestones
 
-Keep one record per milestone. Reference its criteria from task plans and audits rather than restating them. For later milestones, retain only outcome, requirements, necessary inputs, exit checks, and the trigger for detailing the remaining contract.
+Keep one record per milestone. Reference its criteria from task plans and audits rather than restating them. For later milestones, retain outcome, requirements, necessary inputs, exit checks, and the trigger for detailing the remaining contract; mark them `Readiness: not_ready` with that blocker. Each ready milestone needs its own four-point contract or explicit accessible inheritance. Root readiness does not make every milestone ready. Omit Project closeout until a closeout decision exists.
 
 ### M1: <name>
 
+- Why: <contribution to the project outcome; may reference the root rationale>
+- Shortest path: <complete route or explicit inherited approach>
+- Best path: <best-supported route or explicit inherited approach>
+- Selected path: <choice and rationale, including any departure from the root approach>
+- Readiness: `ready | not_ready`
+- Readiness blockers: <decision gap or refinement trigger; omit when ready>
 - Requirements: <R1 or other requirement references>
 - Owner/task plan: <owner and path>
 - Entry conditions/depends on: <necessary input or no prerequisite>
@@ -47,6 +64,7 @@ Keep one record per milestone. Reference its criteria from task plans and audits
 - Blocker threshold: <what may stop this milestone>
 - Stop condition: <evidence after which implementation must stop expanding>
 - Last observed: <date/time>
+- Exit result: `pass | fail | blocked | pending`
 - Exit evidence: <observed result and evidence-index reference; pending until checked>
 
 ## Workstreams and dependencies
@@ -82,6 +100,7 @@ Include only when independently owned workstreams have cross-task dependencies n
 ## Project closeout
 
 - Final status: `complete | blocked | deferred | cancelled | superseded`
+- Completion result: `pass | fail | blocked | pending`
 - Completion evidence: <subject and location>
 - Residual risks: <none or explicit list with owner>
 - Deferred follow-ups: <owner and reconsideration trigger>

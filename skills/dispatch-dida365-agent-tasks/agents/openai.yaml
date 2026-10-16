@@ -1,7 +1,7 @@
 interface:
   display_name: "Dida365 Agent 任务启动"
-  short_description: "列出待委派任务，经确认后启动独立 Agent 任务"
-  default_prompt: "Use $dispatch-dida365-agent-tasks to list my ready agent tasks and ask which ones to start."
+  short_description: "检查任务就绪情况，按用户已有选择启动独立 Agent 任务"
+  default_prompt: "Use $dispatch-dida365-agent-tasks to check why, what, shortest and best paths, and full acceptance for my queued tasks. Start only the ready tasks I explicitly selected; ask which to start only when my selection is unclear."
 
 policy:
   allow_implicit_invocation: false

@@ -11,7 +11,7 @@ Keep long-running work resumable and evidence-backed without turning ordinary ta
 
 1. Use the smallest structure needed for continuation, following the routing below. Respect user and repository authority; record only project-specific limits and the authorized delivery package.
 2. Keep scope, decisions, ownership, and coordination state in project files. Verify code, runtime, and external facts at their authoritative sources; bind evidence to a revision, environment, or time when it affects the conclusion.
-3. For Level 1, record the objective, acceptance checks, consequential scope boundary, and next action. For Level 2/3, record the milestone’s required flow, exit criteria, exclusions, accepted deferrals, blocker threshold, and stop condition from existing authorization.
+3. At every level, including Level 0 and direct assignments, establish why, what, the shortest and best complete paths with the selected approach, and complete acceptance. Both paths meet the same criteria and may be identical. Reuse settled answers; missing consequential decisions block dependent implementation, not independently ready authorized work. Do not invent answers or require repeated approval. For Level 1, record or reference this contract and the next action. For Level 2/3, also record the milestone’s required flow, exit criteria, exclusions, accepted deferrals, blocker threshold, and stop condition.
 4. A frozen contract preserves sourced requirements and authority boundaries, not inherited implementation choices. Recheck technical assumptions against current evidence and revise them within scope without reconfirmation. Only the user or delegated scope owner may change required outcomes or authorized boundaries; workers and reviewers must not invent completion conditions.
 5. Choose the simplest complete solution by total implementation and lifecycle cost. Apply this to new and inherited mechanisms within scope; retain complexity only for a current caller, requirement, demonstrated failure, applicable rule, or material risk. Preserve unrelated work.
 
@@ -70,6 +70,8 @@ Use side states deliberately:
 - `cancelled`: intentionally stopped by an authorized owner.
 - `superseded`: replaced by a newer artifact or decision, with a reference to the replacement.
 
+Track execution readiness separately from progress: `Readiness: ready | not_ready`, with named decision gaps when not ready. A ready contract is not permission, satisfied dependencies, completed implementation, or `ready_for_verification`. Each execution unit must own or explicitly inherit why, what, path choice, and acceptance from accessible sources. An unclear root objective blocks dependent implementation; bounded clarification may proceed only with its own ready, authorized contract. Recheck affected readiness after scope or evidence changes.
+
 Do not use `partial` as a terminal state. Keep unfinished work `in_progress` or `blocked`, or explicitly move it to `deferred`, `cancelled`, or `superseded`.
 
 Record only transitions that change a decision, blocker, downstream dependency, delivery identity, or next resumable action. Batch routine step progress; add an observation time only for drift-prone facts.
@@ -112,7 +114,7 @@ Add the add-ons listed in section 7 only when their trigger applies.
 4. Run validation in the environment that has the required login, device, simulator, or permissions. If an authorized separate task is needed there, carry over the relevant context and evidence.
 5. Isolate concurrent repository writers with dedicated branches and worktrees; never let two worktrees use the same branch.
 
-Give each execution unit its objective, consequential bounds, expected evidence, and return destination. Include only context it does not already inherit; use the independent-review reference for reviewer inputs.
+Give each execution unit its rationale, objective, shortest/best paths and selected approach, consequential bounds, acceptance and expected evidence, and return destination. Reuse accessible parent contracts instead of duplicating them. Include only context it does not already inherit; use the independent-review reference for reviewer inputs.
 
 ## 6. Run the coordination loop
 
@@ -124,7 +126,7 @@ Read the roadmap and active task plan when present, applicable instructions, and
 
 Identify the current task or milestone, bounded execution units, dependencies, evidence requirements, authority boundaries, and delivery topology. Establish the level-appropriate contract described in the core invariants from existing authorization. Record only material assumptions and unresolved decisions.
 
-Use `plan-outcomes`, when available, for requirements, work decomposition, and acceptance. Without it, map each sourced requirement to work and an observable check, and mark consequential unresolved decisions as blocking their dependent work. Keep this contract in the existing artifact, or in the chat plan when durable output is not authorized.
+Use `plan-outcomes`, when available, for requirements, work decomposition, and acceptance. Without it, establish why the work is justified, its observable deliverables and scope, the shortest and best paths under the same acceptance criteria, the chosen approach and reason, and scenario-based checks with pass conditions and required evidence. Mark consequential unresolved decisions as blocking their dependent work; direct assignments do not bypass this check. Keep this contract in the existing artifact, or in the chat plan when durable output is not authorized.
 
 Check which existing primitives satisfy the required behavior before adding a mechanism.
 
@@ -132,7 +134,7 @@ Split milestones for independently observable outcomes, hard dependencies, disti
 
 ### Execute
 
-Execute or delegate the selected units. Keep worker-local detail out of the roadmap and report only progress that changes the result, next action, or blocker.
+Execute or delegate only units whose contracts are ready, prerequisites satisfied, and actions authorized. Keep worker-local detail out of the roadmap and report only progress that changes the result, next action, or blocker.
 
 ### Integrate
 
@@ -166,4 +168,6 @@ Advance when required exit evidence and the next entry criteria are satisfied; o
 
 Adapt modules to repository conventions and omit irrelevant sections instead of filling them with `not applicable`. Do not rename an established project artifact merely to match this skill.
 
-For Level 2/3 artifacts materialized from these templates, run `python3 scripts/validate_project_docs.py <files...>` once before closeout. Level 1 does not require this validator by default; use it only when repository policy or a strict template workflow requires it. The validator checks required template fields and tables, unresolved placeholders, state values, and completion contradictions; it does not replace evidence review or support arbitrary custom schemas.
+For template-shaped roadmaps, milestone audits, and alignment notes, run `python3 scripts/validate_project_docs.py <files...>` once before closeout. Task and Outcome Plans are also supported, but Level 1 does not require this validator by default. Use `--require-ready` when checking a selected task or a roadmap's current execution scope before starting it. Drafts may remain explicitly not ready; a structural pass never grants execution authority.
+
+The validator checks supported fields, scoped milestone contracts, state values, placeholders, and completion contradictions. Unknown formats are reported as unsupported, not passing; standalone add-ons and promotion gates require their own evidence review. It does not establish the truth or accessibility of cited evidence, semantic completeness, or host-enforced permission. Preserve custom repository formats and review their equivalent contracts rather than renaming them to satisfy this script.
