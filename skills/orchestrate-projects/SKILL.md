@@ -5,7 +5,7 @@ description: Coordinate projects whose execution must survive multiple tasks, se
 
 # Orchestrate Projects
 
-Keep long-running work resumable and evidence-backed without turning ordinary tasks into project-management exercises.
+Keep long-running work resumable and evidence-backed. Help a human understand the outcome, current gap, and next action before reading execution detail.
 
 ## Core invariants
 
@@ -87,6 +87,18 @@ Do not add a higher-level condition to a lower-level task merely because the tem
 
 ## 4. Keep project and task state separate
 
+### Reading order and information ownership
+
+Write in the user's language. Open with the problem and intended outcome, then what exists, what is still missing, the next action or required decision, and the delivery boundary. Keep this opening brief and tied to the current records below; do not create a separate summary file. Explain technical terms where they first affect a decision and name milestones by observable outcomes, retaining IDs for references.
+
+Give each document a distinct job:
+
+- An existing progress/index page points to the active work with a short conclusion, next action, and link. Do not copy experiment histories or detailed acceptance there.
+- The roadmap explains project outcomes, milestone order, dependencies, completion conditions, and consequential decisions.
+- The task plan explains the current solution, execution steps, exact acceptance checks, and task evidence.
+
+Keep detailed state at its owning record and link to it. Summarize only conclusions that change project coordination; reconcile those summaries when the owning record changes. Put revisions, hashes, per-attempt counts, commands, and detailed budgets beside the execution or evidence they identify, unless they change the immediate decision.
+
 ### Project roadmap
 
 Store only global coordination state:
@@ -105,6 +117,14 @@ Do not store command logs, detailed exploration, every failed attempt, or worker
 Use the Level 1 core defined above, with current state and closeout evidence. Add decisions, ownership, blockers, or handoff details only when they change execution or another context needs them to resume.
 
 Add the add-ons listed in section 7 only when their trigger applies.
+
+### Compact contracts and current decisions
+
+Preserve why, what, path choice, and acceptance without repeating the same explanation at every level. Reference accessible parent requirements and boundaries, then describe the task or milestone's specific contribution and differences. When shortest and best paths coincide, explain the route and reason once; in template-shaped documents keep the supported field labels with short references. In custom prose they may share one sentence. Keep distant milestones at outcome, dependency, exit, and refinement-trigger detail until needed.
+
+Maintain one unambiguous current plan. When a decision changes, update the affected current approach, steps, acceptance, readiness, and next action together, within the artifact's write ownership. Cross-artifact changes go through the owning writer. Preserve earlier decisions and results in a clearly historical section or a fixed revision with its path; name what supersedes them. Keep historical records out of current state/contract fields parsed by the validator. A top note saying “the latest decision overrides the following” does not reconcile obsolete instructions. Preserve unresolved requirements and evidence gaps when reorganizing; readability is not authority to weaken acceptance or erase history.
+
+Use tables for comparisons, dependencies, or repeated acceptance scenarios when they help scanning. Avoid dense paragraphs or table cells that combine several decisions. State what a status means for the reader and distinguish implementation, functional verification, measured improvement, and deployment acceptance. Keep planned checks separate from observed results. Retain the established machine-readable states and field labels when using the supported templates; custom repository formats keep their own conventions.
 
 ## 5. Choose execution units
 
@@ -143,6 +163,8 @@ Verify returned work rather than accepting summaries uncritically. The coordinat
 ### Verify and close
 
 Apply the level-specific completion conditions in section 3. For Level 3, complete the milestone audit without substituting it for any independently required code review or runtime validation. Record only skipped checks that leave material risk.
+
+Check reading usability in the same closeout: can a new reader identify the outcome, current result and gap, next action, and delivery boundary from the opening? Can an executor find the single current plan and full acceptance without interpreting historical overrides? Do links lead to the owning detail, and do summaries agree with it? Repair ambiguity in the existing artifacts without adding an approval stage or treating length limits as proof of readability.
 
 Verification is always required; independent review is conditional:
 
