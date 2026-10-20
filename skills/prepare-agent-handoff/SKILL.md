@@ -61,7 +61,7 @@ Never silently invent permissions, facts, business rules, source priority, metri
 
 ### 3. Emit and check
 
-Default to returning one compact contract in chat. Write or update a durable file only when the user requested it, an established project workflow requires it, or another authorized task needs a stable path. Preserve repository conventions and link to existing evidence rather than creating a second source of truth.
+Default to returning one compact contract in chat. When another local session or worktree needs a file path, write it under `$(git rev-parse --git-common-dir)/agent/`; when shared team visibility is needed, write it to the authorized Issue or MR/PR. Do not commit handoff, spec, or task-plan files to the Git repository unless the user explicitly requested a version-controlled file. Link to existing evidence rather than creating a second source of truth.
 
 Before returning it, verify that:
 

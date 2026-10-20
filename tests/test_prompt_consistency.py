@@ -20,6 +20,22 @@ class PromptConsistencyTests(unittest.TestCase):
                     for host in ('common', 'codex')]
         self.assertEqual(*sections)
 
+    def test_common_and_codex_minimum_complexity_sections_match(self):
+        sections = [read(f'templates/{host}/AGENTS.md').split('## Minimum Complexity\n', 1)[1].split('## Verify\n', 1)[0]
+                    for host in ('common', 'codex')]
+        self.assertEqual(*sections)
+        self.assertIn('--git-common-dir', sections[0])
+        self.assertIn('out of version control by default', sections[0])
+
+    def test_skills_keep_process_ledgers_out_of_git_by_default(self):
+        for path in ('skills/orchestrate-projects/SKILL.md',
+                     'skills/orchestrate-projects/references/git-delivery.md',
+                     'skills/plan-outcomes/SKILL.md',
+                     'skills/prepare-agent-handoff/SKILL.md'):
+            text = read(path)
+            with self.subTest(path=path):
+                self.assertIn('--git-common-dir', text)
+
     def test_each_standalone_skill_has_the_semantic_guard(self):
         # Intentional small overlap: standalone installs cannot depend on siblings.
         for skill in SKILLS:
