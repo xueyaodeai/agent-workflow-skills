@@ -23,8 +23,7 @@ Use a dedicated branch and separate worktree before concurrent tasks write to th
 ## Preserve change ownership and keep process ledgers out of Git
 
 - Keep a concrete list of files and, when necessary, hunks owned by the task.
-- Do not stage or commit execution ledgers (`task-plan`, `roadmap`, `milestone-audit`, `PROGRESS.md`, alignment notes, or replay/audit evidence) unless the user explicitly asked to track them in Git. Keep local coordination files under `$(git rev-parse --git-common-dir)/agent/` and record shared milestones, delivery contracts, and verification evidence in the repository host's native tracker (check whether the project is on GitHub first and use GitHub Issue/Milestone/PR; otherwise use the project's own host such as Gongfeng/GitLab Issue/Milestone/MR).
-- Never create standalone `docs(...)` or `chore(...)` commits merely to checkpoint intermediate progress, test/replay attempts, or closeout status. When a task changes enduring system behavior, update the relevant system documentation (for example, architecture or usage docs) in the same commit as the code change.
+- Apply the [coordination storage rules](../SKILL.md#2-establish-fact-and-artifact-ownership); exclude process ledgers from staging unless the user explicitly requested tracking them.
 - Do not absorb unrelated dirty-worktree changes because they are present.
 - Do not stash, reset, discard, rewrite, or commit another task's changes.
 - If task and unrelated edits overlap one file, stage only separable, reviewable hunks. Otherwise leave the delivery blocked and request the minimum decision.
@@ -58,7 +57,7 @@ Carry forward any explicit authorization for those actions from the current task
 2. Compare each in-scope issue's required behavior with the merged implementation and relevant validation. Classify it as resolved within the agreed boundary, partially resolved, or not addressed. A plan title or passing generic test suite does not establish issue resolution.
 3. Keep code completion and operational recovery separate. For recovery claims, match the deployed version and a new execution's actual checkout/image to the fix. A requested target SHA or an old failing build cannot prove which code ran. Unavailable deployment evidence means unknown, not failed or recovered.
 4. Reuse the existing issue for remaining work. Split out shared deployment verification only when it has a distinct owner or verifiable outcome; link the original issues and do not lose their unresolved acceptance criteria.
-5. Within the authorized write scope, update issue descriptions/comments/states, MR/PR notes, or the untracked local ledger under `$(git rev-parse --git-common-dir)/agent/`, then read back the affected records. Do not create a post-merge `docs(...)` commit in the repository to record merge closeout or production observation unless the user explicitly requested a tracked document update. Without write authority, return the proposed changes and evidence. Preserve other tasks' ownership of shared coordination files.
+5. Within the authorized write scope, update the owning issue, PR/MR, or local ledger, then read back the affected records. Without write authority, return the proposed changes and evidence. Preserve other tasks' ownership of shared coordination files.
 
 Use a small reconciliation table when there are several issues:
 

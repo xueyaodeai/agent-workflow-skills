@@ -27,16 +27,13 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertIn('--git-common-dir', sections[0])
         self.assertIn('out of version control by default', sections[0])
 
-    def test_skills_keep_process_ledgers_out_of_git_by_default(self):
+    def test_standalone_skills_define_coordination_storage(self):
         for path in ('skills/orchestrate-projects/SKILL.md',
-                     'skills/orchestrate-projects/references/git-delivery.md',
                      'skills/plan-outcomes/SKILL.md',
                      'skills/prepare-agent-handoff/SKILL.md'):
             text = read(path)
             with self.subTest(path=path):
                 self.assertIn('--git-common-dir', text)
-                self.assertIn('GitHub', text)
-                self.assertIn("project's own host", text)
 
     def test_each_standalone_skill_has_the_semantic_guard(self):
         # Intentional small overlap: standalone installs cannot depend on siblings.

@@ -2,7 +2,7 @@
 
 Read this reference when the user asks what should follow the current roadmap, requests a successor roadmap, or starts aligning future milestones before the current round closes.
 
-Use `assets/roadmap-alignment-notes.md` as the temporary decision ledger and append `assets/project-roadmap-transition-addon.md` to the successor roadmap. Store local alignment notes and roadmaps under `$(git rev-parse --git-common-dir)/agent/` or in the repository host's native tracker (GitHub Issue/Milestone/PR when the project is on GitHub, otherwise the project's own host) rather than committing them to the repository, unless the user explicitly requested a version-controlled file. For read-only planning, return the same structure in chat without changing files.
+Use `assets/roadmap-alignment-notes.md` as the temporary decision ledger and append `assets/project-roadmap-transition-addon.md` to the successor roadmap. Apply the [coordination storage rules](../SKILL.md#2-establish-fact-and-artifact-ownership). For read-only planning, return the same structure in chat without changing files.
 
 ## Build the carryover inventory
 

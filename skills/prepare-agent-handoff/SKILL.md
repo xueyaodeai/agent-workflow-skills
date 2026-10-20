@@ -61,7 +61,7 @@ Never silently invent permissions, facts, business rules, source priority, metri
 
 ### 3. Emit and check
 
-Default to returning one compact contract in chat. When another local session or worktree needs a file path, write it under `$(git rev-parse --git-common-dir)/agent/`; when shared team visibility is needed, write it to the repository host's native tracker (check if the project is on GitHub first for GitHub Issue/Milestone/PR, otherwise use the project's own host). Do not commit handoff, spec, or task-plan files to the Git repository unless the user explicitly requested a version-controlled file. Link to existing evidence rather than creating a second source of truth.
+Default to returning one compact contract in chat. For authorized local persistence, use `$(git rev-parse --git-common-dir)/agent/` in Git repositories or an existing authorized local location outside Git; the destination must be able to access it. Shared records belong in the project's own tracker within the authorized write scope. Do not commit process handoffs unless the user explicitly requests tracking them. Link to existing evidence rather than creating a second source of truth.
 
 Before returning it, verify that:
 
