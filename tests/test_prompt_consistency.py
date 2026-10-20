@@ -35,6 +35,8 @@ class PromptConsistencyTests(unittest.TestCase):
             text = read(path)
             with self.subTest(path=path):
                 self.assertIn('--git-common-dir', text)
+                self.assertIn('GitHub', text)
+                self.assertIn("project's own host", text)
 
     def test_each_standalone_skill_has_the_semantic_guard(self):
         # Intentional small overlap: standalone installs cannot depend on siblings.

@@ -23,7 +23,7 @@ Use a dedicated branch and separate worktree before concurrent tasks write to th
 ## Preserve change ownership and keep process ledgers out of Git
 
 - Keep a concrete list of files and, when necessary, hunks owned by the task.
-- Do not stage or commit execution ledgers (`task-plan`, `roadmap`, `milestone-audit`, `PROGRESS.md`, alignment notes, or replay/audit evidence) unless the user explicitly asked to track them in Git. Keep local coordination files under `$(git rev-parse --git-common-dir)/agent/` and record shared delivery contracts and verification evidence in the Issue or MR/PR.
+- Do not stage or commit execution ledgers (`task-plan`, `roadmap`, `milestone-audit`, `PROGRESS.md`, alignment notes, or replay/audit evidence) unless the user explicitly asked to track them in Git. Keep local coordination files under `$(git rev-parse --git-common-dir)/agent/` and record shared milestones, delivery contracts, and verification evidence in the repository host's native tracker (check whether the project is on GitHub first and use GitHub Issue/Milestone/PR; otherwise use the project's own host such as Gongfeng/GitLab Issue/Milestone/MR).
 - Never create standalone `docs(...)` or `chore(...)` commits merely to checkpoint intermediate progress, test/replay attempts, or closeout status. When a task changes enduring system behavior, update the relevant system documentation (for example, architecture or usage docs) in the same commit as the code change.
 - Do not absorb unrelated dirty-worktree changes because they are present.
 - Do not stash, reset, discard, rewrite, or commit another task's changes.
