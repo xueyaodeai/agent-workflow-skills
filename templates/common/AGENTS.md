@@ -41,6 +41,7 @@ Keep this proportional: a few sentences suffice for simple tasks, and children m
 - Apply this standard to new and existing code within scope. Remove, consolidate, or replace unsupported complexity when that helps deliver the requested result; preserve required behavior and unrelated work. Every changed hunk must serve the request, necessary verification, or cleanup caused by the change.
 - Keep execution ledgers (`task-plan`, `roadmap`, `milestone-audit`, `PROGRESS.md`, and run logs) out of version control by default unless the user explicitly requests tracking them. For authorized local persistence, use `$(git rev-parse --git-common-dir)/agent/` in Git repositories or an existing authorized local location outside Git. Use the project's own tracker for shared records within the authorized write scope.
 - Do not create commits merely to checkpoint progress or test attempts, or files solely to satisfy a commit requirement. Update enduring documentation with related code changes; documentation-only fixes may have their own commit.
+- In user interfaces, add visible text only when the layout, standard controls, and existing content cannot convey the meaning. Omit secondary labels, helper descriptions, and captions that restate what is already visible. Keep form labels, error, empty, and status messages, and an accessible name for every control; when a visible label is redundant, keep the name in code with a visually hidden label or `aria-label`.
 
 ## Verify
 
