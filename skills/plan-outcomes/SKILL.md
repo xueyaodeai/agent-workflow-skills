@@ -35,7 +35,7 @@ State the beneficiary, current problem or explicit preference, expected value, t
 
 Discover accessible facts before asking for user decisions. Prioritize questions that change downstream branches; defer questions that depend on unsettled answers. Ask only the few questions needed to advance the current decision, explaining their impact and recommended choices.
 
-Continue independent planning while waiting. Leave consequential scope, interface, data, cost, or external-effect decisions open rather than deciding for the user. Low-risk, reversible implementation choices may be provisional with a rationale. Do not keep interviewing to exhaust imagined branches or impose a universal reconfirmation gate.
+Continue independent planning while waiting. Leave consequential scope, interface, data, cost, or external-effect decisions open rather than deciding for the user. Low-risk, reversible implementation choices may be provisional with a rationale. A recommended default the user did not address is not their decision: keep a consequential one open and ask about it directly. Do not keep interviewing to exhaust imagined branches or impose a universal reconfirmation gate.
 
 Give concrete meanings and counterexamples for ambiguous terms that affect acceptance, such as "complete," "account," or "sync succeeded." When entities, relationships, or states matter, use the shortest business flow that explains who acts, how state changes, and which conditions must always hold. Model only concepts that change requirements or acceptance; do not require glossary or ADR files.
 
