@@ -130,11 +130,12 @@ Use tables for comparisons, dependencies, or repeated acceptance scenarios when 
 
 ## 5. Choose execution units
 
-1. Keep work in the current task when it directly serves the current outcome and shares the same context.
-2. Delegate bounded exploration, implementation with established interfaces, or verification when the benefit outweighs coordination cost and higher-priority instructions permit it. The main agent owns architecture decisions, integration, and final delivery.
-3. Create or fork an independent task only when the user explicitly asks and durable visibility or isolation is required.
-4. Run validation in the environment that has the required login, device, simulator, or permissions. If an authorized separate task is needed there, carry over the relevant context and evidence.
-5. Isolate concurrent repository writers with dedicated branches and worktrees; never let two worktrees use the same branch.
+1. Keep implementation in the current task by default. The main agent owns architecture decisions, implementation, integration, and final delivery.
+2. Delegate bounded search, analysis, or verification when parallel work or reduced main-context load outweighs the delegate's cold-start and coordination cost, and higher-priority instructions permit it. Ask for conclusions, evidence, and relevant paths.
+3. Delegate implementation only when its interfaces are frozen, the unit shares no open decisions with other work, it can run in parallel with other work, and the main agent can verify its acceptance cheaply.
+4. Create or fork an independent task only when the user explicitly asks and durable visibility or isolation is required.
+5. Run validation in the environment that has the required login, device, simulator, or permissions. If an authorized separate task is needed there, carry over the relevant context and evidence.
+6. Isolate concurrent repository writers with dedicated branches and worktrees; never let two worktrees use the same branch.
 
 Give each execution unit its rationale, objective, shortest/best paths and selected approach, consequential bounds, acceptance and expected evidence, and return destination. Reuse accessible parent contracts instead of duplicating them. Include only context it does not already inherit; use the independent-review reference for reviewer inputs.
 
