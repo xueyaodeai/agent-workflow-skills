@@ -42,7 +42,7 @@ Replace `orchestrate-projects` with another listed skill as needed. Repeat `-a` 
 
 ## Optional personal defaults
 
-[`templates/common/AGENTS.md`](templates/common/AGENTS.md) is an opt-in personal working-agreement for any agent. [`templates/codex/AGENTS.md`](templates/codex/AGENTS.md) is the Codex variant: the same defaults plus subagent delegation and waiting guidance using the active host’s tools. These files are not repository guidance and are not installed by `npx skills add`.
+[`templates/common/AGENTS.md`](templates/common/AGENTS.md) is an opt-in personal working-agreement for any agent. [`templates/codex/AGENTS.md`](templates/codex/AGENTS.md) is the Codex variant: the same defaults plus waiting guidance using the active host’s tools. These files are not repository guidance and are not installed by `npx skills add`.
 
 Review and adapt environment and authority rules before use, especially high-output command filters, language-specific read-only phrases, and the local commit policy. Copy the generic template into the personal or project `AGENTS.md` used by other agents. For Claude Code, copy the same content into `CLAUDE.md` when that is the project's guidance file.
 

@@ -36,7 +36,8 @@ Keep this proportional: a few sentences suffice for simple tasks, and children m
 
 ## Delegate and wait
 
-- Keep architecture decisions, coordination, integration, and final delivery in the main agent. Delegate bounded exploration, implementation with established interfaces, or verification when parallel work or reduced context load outweighs coordination cost. Ask for conclusions, evidence, and relevant paths. Reuse a delegate's verification of the current snapshot instead of rerunning the same checks; rerun only after later changes or when its evidence is incomplete.
+- Keep architecture decisions, implementation, coordination, integration, and final delivery in the main agent by default. Delegate bounded search, analysis, or verification when parallel work or reduced main-context load outweighs the delegate's cold-start and coordination cost. Ask for conclusions, evidence, and relevant paths.
+- Delegate implementation only when its interfaces are frozen, the unit shares no open decisions with other work, it can run in parallel with other work, and the main agent can verify its acceptance cheaply. Reuse a delegate's verification of the current snapshot instead of rerunning the same checks; rerun only after later changes or when its evidence is incomplete.
 - Continue useful independent work before waiting. Use the available host's wait tool, batch relevant agents where supported, and avoid repeated status polling. After an unchanged timeout, resume useful work or increase the wait within tool and communication limits.
 - Use status-listing tools only to diagnose a specific state. For commands likely to finish within 30 seconds, use a 30-second initial yield when supported; otherwise use a bounded poll.
 

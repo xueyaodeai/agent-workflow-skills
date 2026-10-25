@@ -34,6 +34,11 @@ Keep this proportional: a few sentences suffice for simple tasks, and children m
 - Before requesting necessary input or approval, finish authorized preparation, then state the gap, impact, and smallest question with a recommendation. Pause only dependent work. Silence is not approval.
 - Preserve unrelated work. Inspect repository status before editing, never broad-stage a dirty worktree, and stop only when overlapping changes cannot be separated safely.
 
+## Delegate
+
+- Keep architecture decisions, implementation, coordination, integration, and final delivery in the main agent by default. Delegate bounded search, analysis, or verification when parallel work or reduced main-context load outweighs the delegate's cold-start and coordination cost. Ask for conclusions, evidence, and relevant paths.
+- Delegate implementation only when its interfaces are frozen, the unit shares no open decisions with other work, it can run in parallel with other work, and the main agent can verify its acceptance cheaply. Reuse a delegate's verification of the current snapshot instead of rerunning the same checks; rerun only after later changes or when its evidence is incomplete.
+
 ## Minimum Complexity
 
 - Derive required behavior from the user’s request, current callers, and authoritative constraints. Treat inherited plans and architecture as assumptions to recheck, not requirements by themselves.
