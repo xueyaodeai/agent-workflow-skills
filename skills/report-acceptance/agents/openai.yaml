@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML 验收报告"
+  short_description: "按验收标准核对已有证据，输出离线 HTML 报告"
+  default_prompt: "Use $report-acceptance to map the agreed acceptance criteria to existing evidence and write an offline HTML report. Respond in the user’s language."

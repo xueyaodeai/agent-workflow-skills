@@ -166,6 +166,8 @@ Verify returned work rather than accepting summaries uncritically. The coordinat
 
 Apply the level-specific completion conditions in section 3. For Level 3, complete the milestone audit without substituting it for any independently required code review or runtime validation. Record only skipped checks that leave material risk.
 
+When reporting delivery evidence, keep failed checks, missing or mismatched evidence, and pending human judgments distinct. Link native test, build, or run reports from the existing verification section instead of copying logs. Do not attribute historical evidence to the current revision, and do not infer installation or deployment from test success. Use `report-acceptance`, when available and an HTML acceptance report is requested.
+
 Check reading usability in the same closeout: can a new reader identify the outcome, current result and gap, next action, and delivery boundary from the opening? Can an executor find the single current plan and full acceptance without interpreting historical overrides? Do links lead to the owning detail, and do summaries agree with it? Repair ambiguity in the existing artifacts without adding an approval stage or treating length limits as proof of readability.
 
 Verification is always required; independent review is conditional:

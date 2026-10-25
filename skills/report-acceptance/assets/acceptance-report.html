@@ -1,0 +1,111 @@
+<!doctype html>
+<!-- Fill every double-brace placeholder, repeat one <tr> per criterion, and delete
+unused sections. Status classes: pass, fail, missing, manual. Escape any text
+taken from logs, test names, or user data. Keep the page offline. -->
+<html lang="{{LANG}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:">
+<title>{{TITLE}}</title>
+<style>
+  :root {
+    --bg: #fbfbfa; --fg: #1d1d1b; --muted: #66665f; --line: #deded8; --card: #ffffff;
+    --pass: #1f7a3a; --fail: #b3261e; --missing: #9a5b00; --manual: #3b5bab;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161615; --fg: #ecece8; --muted: #a3a39b; --line: #34342f; --card: #1f1f1d;
+      --pass: #6fcf8a; --fail: #ff8a80; --missing: #f2b25c; --manual: #9db4ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+    font: 15px/1.55 system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  h2 { font-size: 1.1rem; margin: 32px 0 12px; }
+  .meta { color: var(--muted); margin: 0; overflow-wrap: anywhere; }
+  .verdict { display: inline-block; margin-top: 16px; padding: 6px 14px; border-radius: 6px;
+    font-weight: 600; color: var(--card); }
+  .verdict.pass { background: var(--pass); } .verdict.fail { background: var(--fail); }
+  .counts { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+  .counts li { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; }
+  .counts b { font-variant-numeric: tabular-nums; }
+  .table { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--card); }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  tr:last-child td { border-bottom: 0; }
+  th { color: var(--muted); font-weight: 600; font-size: .85rem; }
+  td { overflow-wrap: anywhere; }
+  td:first-child { white-space: nowrap; }
+  th:nth-child(2) { width: 28%; }
+  th:last-child { width: 18%; }
+  .status { font-weight: 600; white-space: nowrap; }
+  .status.pass { color: var(--pass); } .status.fail { color: var(--fail); }
+  .status.missing { color: var(--missing); } .status.manual { color: var(--manual); }
+  code { font: .9em ui-monospace, SFMono-Regular, Menlo, monospace; }
+  a { color: inherit; }
+  img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 4px; }
+  @media (max-width: 640px) {
+    thead { display: none; }
+    tr, td { display: block; }
+    td { border: 0; padding: 4px 12px; }
+    tr { border-bottom: 1px solid var(--line); padding: 8px 0; }
+    td[data-label]::before { content: attr(data-label) " "; color: var(--muted); font-size: .85rem; }
+  }
+  @media print { body { background: #fff; color: #000; } .table { overflow: visible; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>{{TITLE}}</h1>
+    <p class="meta">{{SUBJECT}} · {{REVISION_OR_BUILD}} · {{ENVIRONMENT}}</p>
+    <p class="meta">{{GENERATED_AT_WITH_TIMEZONE}} · {{SCOPE_AND_DELIVERY_BOUNDARY}}</p>
+    <!-- Use class "pass" only when every required criterion passes; otherwise "fail". -->
+    <div class="verdict {{OVERALL_CLASS}}">{{OVERALL_VERDICT}}</div>
+    <ul class="counts">
+      <li>pass <b>{{PASS_COUNT}}</b></li>
+      <li>fail <b>{{FAIL_COUNT}}</b></li>
+      <li>missing <b>{{MISSING_COUNT}}</b></li>
+      <li>manual <b>{{MANUAL_COUNT}}</b></li>
+    </ul>
+  </header>
+
+  <section>
+    <h2>{{CRITERIA_HEADING}}</h2>
+    <div class="table">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>{{COL_CRITERION}}</th><th>{{COL_STATUS}}</th><th>{{COL_OBSERVED}}</th><th>{{COL_EVIDENCE}}</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="ID"><code>{{CRITERION_ID}}</code></td>
+            <td data-label="{{COL_CRITERION}}"><strong>{{CRITERION_TITLE}}</strong><br>{{EXPECTED_BEHAVIOR}}</td>
+            <td data-label="{{COL_STATUS}}"><span class="status {{STATUS}}">{{STATUS}}</span></td>
+            <td data-label="{{COL_OBSERVED}}">{{OBSERVED_RESULT_OR_GAP}}<br><span class="meta">{{OBSERVED_AT_AND_REVISION}}</span></td>
+            <td data-label="{{COL_EVIDENCE}}"><a href="{{EVIDENCE_PATH_OR_URL}}">{{EVIDENCE_LABEL}}</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>{{OPEN_ITEMS_HEADING}}</h2>
+    <ul>
+      <li>{{BLOCKING_GAP_OR_PENDING_JUDGMENT_AND_OWNER}}</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>{{LIMITS_HEADING}}</h2>
+    <ul>
+      <li>{{WHAT_THIS_EVIDENCE_DOES_NOT_ESTABLISH}}</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILLS = ('plan-outcomes', 'orchestrate-projects', 'prepare-agent-handoff',
+SKILLS = ('plan-outcomes', 'orchestrate-projects', 'prepare-agent-handoff', 'report-acceptance',
           'dispatch-dida365-agent-tasks', 'triage-dida365-inbox', 'organize-dida365')
 EXPLICIT = ('dispatch-dida365-agent-tasks', 'triage-dida365-inbox', 'organize-dida365')
 
@@ -30,7 +30,8 @@ class PromptConsistencyTests(unittest.TestCase):
     def test_standalone_skills_define_coordination_storage(self):
         for path in ('skills/orchestrate-projects/SKILL.md',
                      'skills/plan-outcomes/SKILL.md',
-                     'skills/prepare-agent-handoff/SKILL.md'):
+                     'skills/prepare-agent-handoff/SKILL.md',
+                     'skills/report-acceptance/SKILL.md'):
             text = read(path)
             with self.subTest(path=path):
                 self.assertIn('--git-common-dir', text)
