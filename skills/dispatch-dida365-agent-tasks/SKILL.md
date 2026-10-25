@@ -1,6 +1,6 @@
 ---
 name: dispatch-dida365-agent-tasks
-description: Find active Dida365/TickTick tasks tagged `agent委派`, assess readiness and related work, let the user choose which tasks to start, then create user-visible independent Agent tasks and close only the successfully dispatched Dida365 items. Use only when the user explicitly requests this dispatch workflow by name. Do not trigger from ordinary task, Agent, roadmap, or planning conversation, and do not monitor the delegated work to completion.
+description: Start user-selected, ready Dida365/TickTick tasks tagged `agent委派` as user-visible independent Agent tasks, then close the dispatched Dida365 items.
 disable-model-invocation: true
 ---
 

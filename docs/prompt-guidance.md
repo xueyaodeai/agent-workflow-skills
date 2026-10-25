@@ -1,11 +1,11 @@
 # Prompt design basis
 
-Reviewed on 2026-10-16. These sources explain the design choices; they are not extra runtime instructions or evidence that the changes have been benchmarked on a model.
+Reviewed on 2026-10-25. These sources explain the design choices; they are not extra runtime instructions or evidence that the changes have been benchmarked on a model.
 
 | Official source | Applied here |
 |---|---|
-| [OpenAI: Rethinking skills and prompts for GPT-6 Astra](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) | Keep task-specific details in the relevant skill or existing artifact. Prefer explicit outcomes and completion boundaries to longer procedural scripts; keep descriptions focused. |
-| [Anthropic: Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) | State intent, context, constraints, and expected results clearly. Explain why a constraint matters and use concrete, testable behavior rather than vague quality claims. |
+| [OpenAI: Rethinking skills and prompts for GPT-6 Astra](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) | Keep task-specific details in the relevant skill or existing artifact. Prefer explicit outcomes and completion boundaries to longer procedural scripts; keep the root skill a router and load detailed guidance only when its trigger applies. Keep descriptions to when the skill applies; explicit-only skills rely on their invocation settings rather than exclusion clauses. |
+| [Anthropic: Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) | State intent, context, constraints, and expected results clearly. Explain why a constraint matters and use concrete, testable behavior rather than vague quality claims. Recent models delegate to subagents readily and verify their own work, so the guidance keeps implementation in the main agent by default and keeps only project-specific evidence rules rather than generic reminders to verify. |
 | [Anthropic: Prompting Claude Opus 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5) | Distinguish a model finishing a turn from completing the authorized task. Retain verification and stop conditions, and test model/host-specific behavior rather than assuming one global configuration. |
 
 The **four-point execution-readiness requirement** comes from the repository owner's request: why, what, shortest/best paths and selection, and complete acceptance, including for direct assignments. It is this project's policy, not a claim that either provider mandates this exact template.

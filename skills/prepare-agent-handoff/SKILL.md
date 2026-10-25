@@ -23,7 +23,7 @@ Bounds: <consequential scope or authority limits>
 Done when: <full acceptance scenarios, pass conditions, verification method, evidence, and delivery boundary>
 ```
 
-Before handing off implementation, confirm why, what, shortest/best paths and selection, and complete acceptance. Direct assignments follow the same readiness check. Both paths must meet the same criteria. Missing consequential decisions block dependent implementation; never defer them to an implementation agent just to launch it. A separately authorized clarification task may instead resolve a bounded uncertainty using its own ready contract. Reuse settled answers without repeated approval and do not invent answers. Unrelated ready, authorized work may continue.
+Before handing off implementation, confirm every field of this core is ready; direct assignments follow the same check. Missing consequential decisions block dependent implementation; never defer them to an implementation agent just to launch it. A separately authorized clarification task may instead resolve a bounded uncertainty using its own ready contract. Reuse settled answers without repeated approval and do not invent answers. Unrelated ready, authorized work may continue.
 
 Treat the destination as routing metadata. Include it only when the artifact may be reused or misrouted.
 

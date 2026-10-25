@@ -1,6 +1,6 @@
 ---
 name: orchestrate-projects
-description: Coordinate projects whose execution must survive multiple tasks, sessions, milestones, worktrees, repositories, or environments. Use when work needs a durable task plan or project roadmap, parallel-work coordination, milestone audits, initiative integration, cross-context resume or handoff, or successor-roadmap alignment. Classify the smallest coordination level first; do not use for a self-contained single-session task unless the user explicitly requests durable project files.
+description: Coordinate work whose state must survive multiple tasks, sessions, milestones, worktrees, repositories, or environments. Use when work needs a durable task plan or project roadmap, milestone audits, initiative integration, resuming a tracked project, or successor-roadmap alignment. Not for a self-contained single-session task unless the user requests durable project files.
 ---
 
 # Orchestrate Projects
@@ -72,7 +72,7 @@ Use side states deliberately:
 - `cancelled`: intentionally stopped by an authorized owner.
 - `superseded`: replaced by a newer artifact or decision, with a reference to the replacement.
 
-Track execution readiness separately from progress: `Readiness: ready | not_ready`, with named decision gaps when not ready. A ready contract is not permission, satisfied dependencies, completed implementation, or `ready_for_verification`. Each execution unit must own or explicitly inherit why, what, path choice, and acceptance from accessible sources. An unclear root objective blocks dependent implementation; bounded clarification may proceed only with its own ready, authorized contract. Recheck affected readiness after scope or evidence changes.
+Track execution readiness separately from progress: `Readiness: ready | not_ready`, with named decision gaps when not ready. A ready contract is not permission, satisfied dependencies, completed implementation, or `ready_for_verification`. Each execution unit must own or explicitly inherit the core invariant 3 contract from accessible sources. An unclear root objective blocks dependent implementation; bounded clarification may proceed only with its own ready, authorized contract. Recheck affected readiness after scope or evidence changes.
 
 Do not use `partial` as a terminal state. Keep unfinished work `in_progress` or `blocked`, or explicitly move it to `deferred`, `cancelled`, or `superseded`.
 
@@ -89,9 +89,9 @@ Do not add a higher-level condition to a lower-level task merely because the tem
 
 ## 4. Keep project and task state separate
 
-### Reading order and information ownership
+### Information ownership
 
-Write in the user's language. Open with the problem and intended outcome, then what exists, what is still missing, the next action or required decision, and the delivery boundary. Keep this opening brief and tied to the current records below; do not create a separate summary file. Explain technical terms where they first affect a decision and name milestones by observable outcomes, retaining IDs for references.
+When writing or updating a roadmap, task plan, audit, or progress page, read [references/writing-records.md](references/writing-records.md) for reading order, compact contracts, and closeout readability.
 
 Give each document a distinct job:
 
@@ -120,13 +120,9 @@ Use the Level 1 core defined above, with current state and closeout evidence. Ad
 
 Add the add-ons listed in section 7 only when their trigger applies.
 
-### Compact contracts and current decisions
+### Current decisions
 
-Preserve why, what, path choice, and acceptance without repeating the same explanation at every level. Reference accessible parent requirements and boundaries, then describe the task or milestone's specific contribution and differences. When shortest and best paths coincide, explain the route and reason once; in template-shaped documents keep the supported field labels with short references. In custom prose they may share one sentence. Keep distant milestones at outcome, dependency, exit, and refinement-trigger detail until needed.
-
-Maintain one unambiguous current plan. When a decision changes, update the affected current approach, steps, acceptance, readiness, and next action together, within the artifact's write ownership. Cross-artifact changes go through the owning writer. Preserve earlier decisions and results in a clearly historical section or a fixed revision with its path; name what supersedes them. Keep historical records out of current state/contract fields parsed by the validator. A top note saying “the latest decision overrides the following” does not reconcile obsolete instructions. Preserve unresolved requirements and evidence gaps when reorganizing; readability is not authority to weaken acceptance or erase history.
-
-Use tables for comparisons, dependencies, or repeated acceptance scenarios when they help scanning. Avoid dense paragraphs or table cells that combine several decisions. State what a status means for the reader and distinguish implementation, functional verification, measured improvement, and deployment acceptance. Keep planned checks separate from observed results. Retain the established machine-readable states and field labels when using the supported templates; custom repository formats keep their own conventions.
+Maintain one unambiguous current plan. When a decision changes, update the affected current approach, steps, acceptance, readiness, and next action together, within the artifact's write ownership; cross-artifact changes go through the owning writer. Move superseded decisions and results to a clearly historical section or a fixed revision, and name what supersedes them.
 
 ## 5. Choose execution units
 
@@ -137,7 +133,7 @@ Use tables for comparisons, dependencies, or repeated acceptance scenarios when 
 5. Run validation in the environment that has the required login, device, simulator, or permissions. If an authorized separate task is needed there, carry over the relevant context and evidence.
 6. Isolate concurrent repository writers with dedicated branches and worktrees; never let two worktrees use the same branch.
 
-Give each execution unit its rationale, objective, shortest/best paths and selected approach, consequential bounds, acceptance and expected evidence, and return destination. Reuse accessible parent contracts instead of duplicating them. Include only context it does not already inherit; use the independent-review reference for reviewer inputs.
+Give each execution unit the core invariant 3 contract, consequential bounds, expected evidence, and return destination. Include only context it does not already inherit from accessible parent contracts; use the independent-review reference for reviewer inputs.
 
 ## 6. Run the coordination loop
 
@@ -147,9 +143,9 @@ Read the roadmap and active task plan when present, applicable instructions, and
 
 ### Plan
 
-Identify the current task or milestone, bounded execution units, dependencies, evidence requirements, authority boundaries, and delivery topology. Establish the level-appropriate contract described in the core invariants from existing authorization. Record only material assumptions and unresolved decisions.
+Identify the current task or milestone, bounded execution units, dependencies, evidence requirements, authority boundaries, and delivery topology. Record only material assumptions and unresolved decisions.
 
-Use `plan-outcomes`, when available, for requirements, work decomposition, and acceptance. Without it, establish why the work is justified, its observable deliverables and scope, the shortest and best paths under the same acceptance criteria, the chosen approach and reason, and scenario-based checks with pass conditions and required evidence. Mark consequential unresolved decisions as blocking their dependent work; direct assignments do not bypass this check. Keep this contract in the existing artifact, or in the chat plan when durable output is not authorized.
+Establish the core invariant 3 contract from existing authorization, using `plan-outcomes` when available for requirements, work decomposition, and acceptance. Without it, express acceptance as scenario-based checks with pass conditions and required evidence. Keep the contract in the existing artifact, or in the chat plan when durable output is not authorized.
 
 Check which existing primitives satisfy the required behavior before adding a mechanism.
 
@@ -169,13 +165,7 @@ Apply the level-specific completion conditions in section 3. For Level 3, comple
 
 When reporting delivery evidence, keep failed checks, missing or mismatched evidence, and pending human judgments distinct. Link native test, build, or run reports from the existing verification section instead of copying logs. Do not attribute historical evidence to the current revision, and do not infer installation or deployment from test success. Use `report-acceptance`, when available and an HTML acceptance report is requested.
 
-Check reading usability in the same closeout: can a new reader identify the outcome, current result and gap, next action, and delivery boundary from the opening? Can an executor find the single current plan and full acceptance without interpreting historical overrides? Do links lead to the owning detail, and do summaries agree with it? Repair ambiguity in the existing artifacts without adding an approval stage or treating length limits as proof of readability.
-
-Verification is always required; independent review is conditional:
-
-- Use executor-owned checks proportional to the acceptance criteria and demonstrated regression risk. Reuse existing evidence; add tests only to prove required behavior, reproduce a defect, or protect a material boundary. After checks pass, repeat or broaden them only for new changes, failures, or unresolved concerns.
-- Require independent review when the user or an applicable rule requires it, or when the change materially affects a public contract, security or sensitive data, an irreversible production effect, or critical fail-closed behavior. Coordination level, file count, duration, attempts, and bounded external reads alone do not trigger review.
-- When independent review is required, read [references/independent-review.md](references/independent-review.md) for reviewer setup, blocker criteria, and targeted rechecks. Otherwise, use executor preflight for bounded low-risk operations without adding independent approval steps.
+Size executor checks to the acceptance criteria; reuse existing evidence, and repeat or broaden checks only for new changes, failures, or unresolved concerns. Require independent review only when the user or an applicable rule requires it, or when the change materially affects a public contract, security or sensitive data, an irreversible production effect, or critical fail-closed behavior; coordination level, file count, and duration alone do not trigger it. When it is required, read [references/independent-review.md](references/independent-review.md).
 
 ### Advance or stop
 

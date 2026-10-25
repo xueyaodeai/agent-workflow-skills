@@ -1,6 +1,6 @@
 ---
 name: organize-dida365
-description: Audit, plan, and reorganize an entire Dida365/TickTick task system, including projects, groups, tasks, tags, dates, priorities, lifecycle states, habits, and archives. Use only when the user explicitly invokes `organize-dida365` for a whole-system audit, planning review, item-by-item alignment, cleanup, or an agreed reorganization. Do not trigger from ordinary task planning, routine Inbox triage, or requests to select and start Agent work.
+description: Audit, plan, and reorganize an entire Dida365/TickTick task system, including projects, groups, tasks, tags, dates, priorities, lifecycle states, habits, and archives.
 disable-model-invocation: true
 ---
 

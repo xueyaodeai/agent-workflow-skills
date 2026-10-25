@@ -1,6 +1,6 @@
 ---
 name: triage-dida365-inbox
-description: Sort Dida365/TickTick Inbox tasks into existing personal, learning, work, or side-project destinations; distinguish user-owned work from agent-ready work; collect only consequential context; and tag agent-ready items `agent委派` without launching agents. Use only when the user explicitly invokes `triage-dida365-inbox`. Do not trigger from ordinary task or planning conversation, audit the whole account, group agent work, create roadmaps, or start independent Agent tasks.
+description: Sort Dida365/TickTick Inbox tasks into existing destinations, separate user-owned from agent-ready work, and tag agent-ready items `agent委派` without launching agents.
 disable-model-invocation: true
 ---
 
