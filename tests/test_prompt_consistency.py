@@ -27,6 +27,13 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertIn('--git-common-dir', sections[0])
         self.assertIn('out of version control by default', sections[0])
 
+    def test_common_and_codex_communicate_sections_match(self):
+        sections = [read(f'templates/{host}/AGENTS.md').split('## Communicate\n', 1)[1]
+                    for host in ('common', 'codex')]
+        self.assertEqual(*sections)
+        self.assertIn('Bound claims positively with exact subjects, scope, and labels', sections[0])
+        self.assertIn('不代表', sections[0])
+
     def test_standalone_skills_define_coordination_storage(self):
         for path in ('skills/orchestrate-projects/SKILL.md',
                      'skills/plan-outcomes/SKILL.md',

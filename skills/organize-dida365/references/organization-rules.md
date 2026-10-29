@@ -138,4 +138,4 @@ Use a habit for repeated behavioral training such as early rising, reading pract
 
 Merge or remove a separate recurring task when it is only another representation of the same habit. For example, keep a “阅读20分钟” behavior and fold “听书” into it when listening is merely an allowed mode, but keep separate exercise habits when their training targets differ.
 
-Stopping one behavior does not imply stopping its paired behavior. Apply exact intent, such as stopping “早睡” while retaining “早起”。
+Apply exact user intent to each habit independently, such as stopping “早睡” while retaining “早起”。

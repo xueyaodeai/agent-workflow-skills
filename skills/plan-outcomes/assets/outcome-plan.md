@@ -43,7 +43,7 @@ Keep the stage table only for real stage boundaries. For distant tasks not yet d
 |---|---|---|---|---|
 | T1 | <specific action and result; owning stage> | <necessary inputs or no prerequisites> | <R1/A1> | <why/path choice inherited from accessible parent or task-specific; ready or not_ready with blocker> |
 
-Only independently ready, authorized tasks with satisfied prerequisites may start. Missing root decisions block dependent tasks, even for direct assignments. Root readiness does not imply all children are ready.
+Only independently ready, authorized tasks with satisfied prerequisites may start. Missing root decisions block dependent tasks, even for direct assignments. Verify each child task's readiness independently of the root task.
 
 ## Acceptance criteria
 

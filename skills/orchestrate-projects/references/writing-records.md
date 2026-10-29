@@ -14,7 +14,7 @@ Preserve why, what, path choice, and acceptance without repeating the same expla
 
 Keep historical records out of current state/contract fields parsed by the validator. A top note saying “the latest decision overrides the following” does not reconcile obsolete instructions. Preserve unresolved requirements and evidence gaps when reorganizing; readability is not authority to weaken acceptance or erase history.
 
-Use tables for comparisons, dependencies, or repeated acceptance scenarios when they help scanning. Avoid dense paragraphs or table cells that combine several decisions. State what a status means for the reader and distinguish implementation, functional verification, measured improvement, and deployment acceptance. Keep planned checks separate from observed results. Retain the established machine-readable states and field labels when using the supported templates; custom repository formats keep their own conventions.
+Use tables for comparisons, dependencies, or repeated acceptance scenarios when they help scanning. Avoid dense paragraphs or table cells that combine several decisions. Label implementation, functional verification, measured improvement, and deployment acceptance directly instead of adding disclaimers about what a status does not mean. Keep planned checks separate from observed results. Retain the established machine-readable states and field labels when using the supported templates; custom repository formats keep their own conventions.
 
 ## Closeout readability
 

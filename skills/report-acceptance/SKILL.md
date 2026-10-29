@@ -1,6 +1,6 @@
 ---
 name: report-acceptance
-description: Write a self-contained offline HTML acceptance report that maps agreed acceptance criteria to existing evidence. Use when the user asks for an acceptance report, verification report, or HTML summary of whether delivered work meets its criteria. Do not use for routine status replies, planning, or running new checks the request does not authorize.
+description: Write a self-contained offline HTML acceptance report that maps agreed acceptance criteria to existing evidence. Use when the user asks for an acceptance report, verification report, or HTML summary of whether delivered work meets its criteria.
 ---
 
 # Report Acceptance
@@ -25,7 +25,7 @@ Inspect the actual evidence before assigning a status:
 | `manual` | Only a human judgment can decide it and none has been recorded. |
 
 - Record the subject identity behind each verdict: revision or build, environment, and observation time. Historical evidence keeps its own time and revision; do not attribute it to the current revision.
-- A build, exit code, or generated page proves only what it actually checked. Test success does not imply installation or deployment.
+- State the exact check and environment in each row (for example, local unit test, build, or live deployment); mark installation or deployment criteria pass only with their own evidence.
 - Link native reports, logs, and screenshots by path or URL rather than pasting full logs. Quote a short excerpt only when it explains the verdict.
 - The overall verdict is `pass` only when every required criterion is `pass`. Otherwise state which required criteria block it.
 
