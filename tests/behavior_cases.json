@@ -3,6 +3,128 @@
   "status": "specification_not_executed",
   "cases": [
     {
+      "id": "trusted_internal_contract",
+      "skills": [
+        "templates/codex/AGENTS.md"
+      ],
+      "subject_input": "让内部 subtotal(lines) 使用折后单价计算总价。只改计算逻辑，验证总价及现有输入契约后交付；允许本地修改和测试，不提交或推送。",
+      "context": {
+        "repository": "TypeScript Line has required numeric quantity, unitPrice, and discountedUnitPrice. subtotal receives readonly Line[] only from parseOrder, which validates external input and returns Line[] or an explicit validation error. No other callers exist. subtotal currently sums quantity * unitPrice.",
+        "acceptance": "subtotal([]) is 0; quantity 2 with unitPrice 10 and discountedUnitPrice 7 yields 14. Existing parseOrder tests continue rejecting missing or nonnumeric fields."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "apply_local_patch",
+        "run_local_tests"
+      ],
+      "expected": [
+        "Use the established Line[] contract for the direct calculation; do not add repeated null/type checks or default discountedUnitPrice to unitPrice.",
+        "Preserve parseOrder boundary validation and verify the supplied acceptance with current evidence.",
+        "Do not introduce a validator wrapper, configuration switch, or abstraction for unobserved callers."
+      ]
+    },
+    {
+      "id": "external_validation_required",
+      "skills": [
+        "templates/common/AGENTS.md"
+      ],
+      "subject_input": "给订单导入增加 quantity 字段，只接受正整数。无效输入返回带字段位置的校验错误，不保存任何记录；验证后交付。允许本地修改和测试，不提交或推送。",
+      "context": {
+        "repository": "importOrder accepts untrusted JSON over HTTP and uses the existing request schema before calling saveOrder. The schema currently validates sku. saveOrder and the internal renderer consume validated Order values only.",
+        "acceptance": "quantity 2 saves one order; missing, null, string '2', zero, and negative quantities return a quantity validation error and make zero save calls. Validated orders remain usable by existing internal callers."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "apply_local_patch",
+        "run_local_tests"
+      ],
+      "expected": [
+        "Extend the existing request schema to validate quantity at the external boundary and preserve sku validation.",
+        "Reject malformed inputs with the required field error before any save; do not rely on a TypeScript annotation to validate JSON at runtime.",
+        "Use the validated internal Order contract without adding the same quantity checks to every internal consumer."
+      ]
+    },
+    {
+      "id": "unrecoverable_failure_visible",
+      "skills": [
+        "skills/orchestrate-projects/SKILL.md"
+      ],
+      "subject_input": "修复订单读取失败却显示空列表的问题。真实空列表仍显示空状态，读取失败应进入现有错误状态并保留诊断信息。允许本地修改和验证，不提交或推送。",
+      "context": {
+        "repository": "loadOrders catches every repository error and returns []. The repository contract returns Order[] on success or throws StorageError with code and cause. The existing screen error boundary displays a read-error state and logs diagnostic context when loadOrders rejects. No fallback data source exists.",
+        "acceptance": "A successful [] renders the empty state. StorageError rejects with its diagnostic code/cause preserved and renders the existing read-error state. A nonempty successful result is unchanged."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "apply_local_patch",
+        "run_local_tests"
+      ],
+      "expected": [
+        "Remove or narrow the catch that converts an unrecoverable failure into an empty successful result, preserving the existing diagnostic failure path.",
+        "Verify empty success, nonempty success, and failed read as distinct outcomes.",
+        "Do not invent a cache, fallback repository, retry loop, or new error-handling framework to satisfy this local repair."
+      ]
+    },
+    {
+      "id": "bounded_recovery_justified",
+      "skills": [
+        "skills/orchestrate-projects/SKILL.md"
+      ],
+      "subject_input": "让商品查询在一次临时超时后能成功。仅对只读 GET 的 TimeoutError 重试一次，沿用现有退避工具，第二次失败交给现有错误状态。验证成功与失败场景。允许本地修改和测试，不提交或推送。",
+      "context": {
+        "repository": "The existing GET product adapter has a recorded transient TimeoutError followed by a successful response. It is read-only and has no mutation effects. An existing backoff helper and screen error boundary are available. AuthenticationError and InvalidPayloadError are distinct error types.",
+        "acceptance": "Timeout then success makes exactly two GET attempts and returns the product. Two timeouts make exactly two attempts and expose the final error with diagnostics. AuthenticationError and InvalidPayloadError each make one attempt."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "apply_local_patch",
+        "run_local_tests"
+      ],
+      "expected": [
+        "Implement the explicitly required bounded TimeoutError recovery using the existing helper; do not reject justified recovery merely to minimize code.",
+        "Keep retries limited to the named read-only operation and error, with the final failure visible and diagnostic context preserved.",
+        "Verify exact attempt counts and do not expand retries to authentication errors, invalid payloads, writes, or unrelated callers."
+      ]
+    },
+    {
+      "id": "current_callers_bound_design",
+      "skills": [
+        "skills/plan-outcomes/SKILL.md"
+      ],
+      "subject_input": "只做规划：把当前 CLI 的 JSON 导出增加 createdAt 字段，沿用 ISO 8601。现有字段和值保持不变，验证新字段和现有消费者都能正常读取。",
+      "context": {
+        "repository": "The only supported caller is the current CLI; all current consumers accept additional JSON fields. createdAt is already stored as a validated UTC timestamp. The existing serializer and fixture tests cover all current consumers.",
+        "old_note": "An unapproved brainstorm suggests a serializer registry, a legacy-output switch, and future XML plugins. No supported legacy caller, XML requirement, or failure evidence is present."
+      },
+      "allowed_mock_tools": [
+        "read_repository"
+      ],
+      "expected": [
+        "Plan the direct serializer change and reuse current fixtures; shortest and best paths may coincide.",
+        "Do not turn the brainstorm into required compatibility branches, configuration, a registry, or extension points without current supporting requirements or callers.",
+        "Preserve current consumer behavior and the timestamp contract in acceptance, without implementation writes or fabricated pass results."
+      ]
+    },
+    {
+      "id": "handoff_preserves_failure_contract",
+      "skills": [
+        "skills/prepare-agent-handoff/SKILL.md"
+      ],
+      "subject_input": "把已确定的订单导入修改整理为新会话可直接执行的交接，不启动 Agent，也不在这里实现。",
+      "context": {
+        "agreed_contract": "Why: reject invalid imports before persistence. Scope: existing HTTP import endpoint. Shortest/best/selected path: extend its existing request schema, then reuse Order internally and existing fixture tests. Done: positive integer quantity is saved, missing/null/string/nonpositive quantity gives a field error with zero saves; StorageError reaches the existing error boundary with code/cause; local verified changes only, no commit or push.",
+        "sources": "The destination can access src/import.ts and tests/import.test.ts at fixture revision abc123 but inherits no conversation history. HTTP JSON is untrusted; Order is validated. Storage writes can fail after a commit, so retries can duplicate orders; the current endpoint has no idempotency contract or recovery mechanism."
+      },
+      "allowed_mock_tools": [
+        "read_repository"
+      ],
+      "expected": [
+        "Package the settled four-point contract and accessible sources without another clarification interview.",
+        "Carry the external validation boundary, validated internal Order invariant, visible StorageError diagnostics, and the concrete duplicate-write risk that excludes automatic retries for this change.",
+        "Do not add fallback values, an idempotency framework, legacy switches, or extension points as handoff requirements; do not implement or launch work."
+      ]
+    },
+    {
       "id": "direct_unresolved",
       "skills": [
         "templates/common/AGENTS.md"

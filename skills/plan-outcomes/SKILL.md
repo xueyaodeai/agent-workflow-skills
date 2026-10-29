@@ -41,6 +41,8 @@ Give concrete meanings and counterexamples for ambiguous terms that affect accep
 
 Check understanding against concrete scenarios: the happy path and important failure or boundary cases justified by requirements or existing risks. Surface conflicts between terminology, documentation, code, and the user's goal, distinguishing current behavior from intended behavior.
 
+Plan validation at external input and trust boundaries, reusing established internal types and invariants. Additional checks, fallbacks, retries, compatibility branches, and recovery need a current contract or a specific risk's source, reachable failure path, and material consequence. Preserve safeguards with that basis; hypothetical future callers and unsupported legacy versions do not justify abstractions or extension points. Specify recoverable failures and observable unrecoverable failures where they affect acceptance, rather than hiding errors behind default results.
+
 ## 3. Define acceptance and compare paths
 
 Define pass conditions for each required outcome before deciding what work will establish them. Use stable references such as R1, A1, M1, and T1 for multiple requirements or stages; direct correspondence is sufficient for a simple task.

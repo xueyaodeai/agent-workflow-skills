@@ -46,6 +46,8 @@ Replace `orchestrate-projects` with another listed skill as needed. Repeat `-a` 
 
 Review and adapt environment and authority rules before use, especially high-output command filters, language-specific read-only phrases, and the local commit policy. Copy the generic template into the personal or project `AGENTS.md` used by other agents. For Claude Code, copy the same content into `CLAUDE.md` when that is the project's guidance file.
 
+The templates' Minimum Complexity rules constrain defensive programming: validate at trust boundaries, rely on established internal contracts, justify fallback/retry/compatibility mechanisms with current needs or specific risks, preserve diagnostic failures, and add abstractions for current callers. `plan-outcomes`, `orchestrate-projects`, and `prepare-agent-handoff` carry the relevant planning, implementation, and handoff constraints for standalone use. For direct coding tasks, load the personal defaults through the host's guidance file.
+
 For Codex, point the personal guidance file at this template so edits stay in the repo:
 
 ```bash
