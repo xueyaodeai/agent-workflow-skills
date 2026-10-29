@@ -149,7 +149,7 @@ Establish the core invariant 3 contract from existing authorization, using `plan
 
 Check which existing primitives satisfy the required behavior before adding a mechanism.
 
-Validate at data boundaries, reuse established internal contracts, and preserve diagnostic failures. Extra checks, recovery, compatibility, and extension points need current requirements, callers, or concrete risks; briefly explain only retained exceptions whose basis is unclear.
+Validate at data boundaries, reuse established internal contracts, and preserve diagnostic failures; do not turn unrecoverable failures into empty, default, or apparently successful results. Extra checks, recovery, compatibility, and extension points need current requirements, callers, or concrete risks; briefly explain only retained exceptions whose basis is unclear.
 
 Split milestones for independently observable outcomes, hard dependencies, distinct authority or side-effect boundaries, or independently resumable contexts. Use bounded work units for parallel execution without turning each unit into a milestone.
 

@@ -3,6 +3,27 @@
   "status": "specification_not_executed",
   "cases": [
     {
+      "id": "orm_contract_and_raw_json",
+      "skills": [
+        "templates/common/AGENTS.md"
+      ],
+      "subject_input": "给现有订单摘要增加 itemCount，值取订单 quantity。保留 id 和 deliveryNote 的现有行为，验证有效和无效 metadata 场景。允许本地修改和测试，不提交或推送。",
+      "context": {
+        "repository": "The existing ORM query returns an OrderRow. Database NOT NULL/type constraints and the ORM adapter guarantee id is a string and quantity is a positive integer; all relevant writes use those constraints. The metadata JSON column has no application-level schema and is exposed as unknown. summarizeOrder already uses parseMetadata on that field before returning id and deliveryNote. parseMetadata accepts an optional string deliveryNote, preserves an empty string, and throws MetadataError for invalid shapes or types. Internal summary consumers use the validated result.",
+        "acceptance": "A row with quantity 2 adds itemCount 2 and keeps id. A metadata note 'door' or '' remains unchanged; an absent note remains absent. Metadata null, an array, or a numeric deliveryNote still throws MetadataError before a summary is returned. Existing summary consumers retain their behavior."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "apply_local_patch",
+        "run_local_tests"
+      ],
+      "expected": [
+        "Use the established database/ORM guarantees for id and quantity directly, without adding repeated type/null/positive-integer guards or a fallback itemCount.",
+        "Preserve parseMetadata for the unknown JSON column; do not infer that a typed ORM row establishes the JSON field's application-level contract.",
+        "Verify valid, empty, absent, and malformed note outcomes; preserve MetadataError rather than converting malformed metadata into an empty/default successful summary."
+      ]
+    },
+    {
       "id": "mixed_data_boundaries",
       "skills": [
         "templates/common/AGENTS.md"
