@@ -149,6 +149,8 @@ Establish the core invariant 3 contract from existing authorization, using `plan
 
 Check which existing primitives satisfy the required behavior before adding a mechanism.
 
+Validate at data boundaries, reuse established internal contracts, and preserve diagnostic failures; do not turn unrecoverable failures into empty, default, or apparently successful results. Extra checks, recovery, compatibility, and extension points need current requirements, callers, or concrete risks; briefly explain only retained exceptions whose basis is unclear.
+
 Split milestones for independently observable outcomes, hard dependencies, distinct authority or side-effect boundaries, or independently resumable contexts. Use bounded work units for parallel execution without turning each unit into a milestone.
 
 ### Execute
@@ -162,6 +164,8 @@ Verify returned work rather than accepting summaries uncritically. The coordinat
 ### Verify and close
 
 Apply the level-specific completion conditions in section 3. For Level 3, complete the milestone audit without substituting it for any independently required code review or runtime validation. Record only skipped checks that leave material risk.
+
+For code changes, inspect the final diff once for unsupported defensive mechanisms and simplify them, preserving required boundary validation and recovery; syntax alone is not a finding.
 
 When reporting delivery evidence, keep failed checks, missing or mismatched evidence, and pending human judgments distinct. Link native test, build, or run reports from the existing verification section instead of copying logs. Do not attribute historical evidence to the current revision, and do not infer installation or deployment from test success. Use `report-acceptance`, when available and an HTML acceptance report is requested.
 

@@ -51,6 +51,8 @@ Read supplied material, applicable project files, current evidence, and authoriz
 
 Add completed work, decisions, non-goals, dependencies, a first action, validation detail, retry or stop behavior only when they can change execution. When facts, decisions, proposals, assumptions, or unresolved items coexist, label only the distinctions that matter.
 
+For implementation handoffs, carry only missing validation boundaries, internal invariants, and required failure behavior. Preserve the current need or concrete risk behind required recovery and compatibility, briefly explaining only unclear retained exceptions; exclude mechanisms for hypothetical future callers.
+
 Ask one concise group of questions only when an undiscoverable user-only answer would materially change purpose, scope, path selection, authority, selected data, deliverable, or acceptance. Otherwise:
 
 - discover the fact with a safe read;
