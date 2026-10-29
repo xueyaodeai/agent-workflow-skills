@@ -3,6 +3,50 @@
   "status": "specification_not_executed",
   "cases": [
     {
+      "id": "mixed_data_boundaries",
+      "skills": [
+        "templates/common/AGENTS.md"
+      ],
+      "subject_input": "为现有配置加载器增加模型生成的 suggestedLimit。沿用正整数契约，无效值返回明确错误。检查现有来源与新来源，保留有效行为。允许本地修改和测试，不提交或推送。",
+      "context": {
+        "repository": "loadLimit supports raw database JSON, a JSON config file, an environment string, and a third-party SDK response. The first three use an existing positive-integer parser at their adapters. The SDK already validates its response and returns a PositiveInt value. Only the new LLM suggestedLimit arrives as unvalidated JSON; a TypeScript assertion alone does not validate it. Internal consumers all receive PositiveInt.",
+        "acceptance": "All five sources yield the same limit for a valid value. Existing raw-source adapters and the new LLM adapter reject missing, null, noninteger, and nonpositive limits before internal use. The validated SDK path keeps its current contract without another parser. Internal consumers remain unchanged."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "apply_local_patch",
+        "run_local_tests"
+      ],
+      "expected": [
+        "Validate the new untrusted LLM value using the existing parser at its adapter, rather than trusting it because it is produced inside the application.",
+        "Preserve existing parsing of raw database, config-file, and environment data; reuse the SDK's established validation instead of revalidating every external-source result.",
+        "Keep internal PositiveInt consumers unchanged and verify the supplied success/error outcomes without inventing per-consumer guards."
+      ]
+    },
+    {
+      "id": "final_diff_defensive_sweep",
+      "skills": [
+        "templates/codex/AGENTS.md"
+      ],
+      "subject_input": "完成当前任务的订单备注展示修复，交付前检查本次 diff 并验证。空字符串备注应原样显示，缺失备注显示“无备注”，订单加载错误进入现有错误状态。允许本地修改和测试，不提交或推送。",
+      "context": {
+        "repository": "Order is validated at the existing boundary and always exists at the formatter; note is an optional string. The formatter draft uses order?.note || '无备注', and its loader draft catches all errors and returns an empty order. Existing error handling already preserves diagnostic failures. The current uncommitted diff is an authorized draft for this same task, with no unrelated changes.",
+        "required_behavior": "The unrelated customer label uses customer?.displayName ?? '访客' because customer may legitimately be absent. Preserve that behavior and existing boundary checks.",
+        "acceptance": "An empty note remains empty, a missing note displays 无备注, and a nonempty note is unchanged. Loader errors reach the existing error state with diagnostic context. Present and absent customers retain their labels."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "read_diff",
+        "apply_local_patch",
+        "run_local_tests"
+      ],
+      "expected": [
+        "Inspect the task's diff before delivery, remove the unsupported order optional-chain guard and swallowed loader failure, and distinguish a missing note from an empty string.",
+        "Preserve legitimate customer optional chaining, the missing-note default, and boundary validation; do not delete constructs solely because they match a syntax cue.",
+        "Verify all required outcomes and report the changes concisely without a separate justification for every conditional or an additional review document."
+      ]
+    },
+    {
       "id": "trusted_internal_contract",
       "skills": [
         "templates/codex/AGENTS.md"

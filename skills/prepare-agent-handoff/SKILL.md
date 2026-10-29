@@ -51,7 +51,7 @@ Read supplied material, applicable project files, current evidence, and authoriz
 
 Add completed work, decisions, non-goals, dependencies, a first action, validation detail, retry or stop behavior only when they can change execution. When facts, decisions, proposals, assumptions, or unresolved items coexist, label only the distinctions that matter.
 
-For implementation handoffs, preserve the applicable validation boundaries and established internal invariants. Carry the current contract or specific risk's source, reachable failure path, and material consequence behind required fallbacks, retries, compatibility, and recovery; keep these mechanisms proportional to that basis. State which failures can be handled and how unrecoverable failures remain visible when it affects execution. Do not turn hypothetical future callers into required abstractions or extension points. Include only details the destination lacks.
+For implementation handoffs, carry only missing validation boundaries, internal invariants, and required failure behavior. Preserve the current need or concrete risk behind required recovery and compatibility, briefly explaining only unclear retained exceptions; exclude mechanisms for hypothetical future callers.
 
 Ask one concise group of questions only when an undiscoverable user-only answer would materially change purpose, scope, path selection, authority, selected data, deliverable, or acceptance. Otherwise:
 
