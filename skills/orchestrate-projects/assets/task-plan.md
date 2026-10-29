@@ -59,8 +59,8 @@ steps when a decision changes so obsolete steps cannot appear executable. -->
 
 <!-- Include when checks have run. Record check, exact subject/environment,
 observed result, and evidence link. Summarize meaningful outcomes; keep command
-logs and repeated attempts in original artifacts. An implementation check alone
-does not establish functional success, measured improvement, or deployment. -->
+logs and repeated attempts in original artifacts. Label whether each check covers
+implementation, functional behavior, measured improvement, or deployment. -->
 
 ## History
 

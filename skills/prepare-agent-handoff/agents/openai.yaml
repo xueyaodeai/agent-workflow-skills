@@ -1,4 +1,4 @@
 interface:
-  display_name: "Prepare Agent Handoff"
-  short_description: "Build minimal evidence-backed handoffs"
+  display_name: "Agent 上下文交接"
+  short_description: "将目标上下文缺少的信息打包为最小可执行交接契约"
   default_prompt: "Use $prepare-agent-handoff to package only the context a destination lacks into a runnable handoff."

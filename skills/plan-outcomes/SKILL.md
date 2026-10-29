@@ -1,6 +1,6 @@
 ---
 name: plan-outcomes
-description: Clarify why to do a task, what to deliver, shortest and best paths, and verifiable acceptance. Use when planning or revising work, splitting milestones, or resolving unclear goals, scope, tradeoffs, or completion criteria before implementation. Do not trigger for routine status updates.
+description: Clarify why to do a task, what to deliver, shortest and best paths, and verifiable acceptance. Use when planning or revising work, splitting milestones, or resolving unclear goals, scope, tradeoffs, or completion criteria before implementation.
 ---
 
 # Plan Outcomes and Acceptance
@@ -81,6 +81,6 @@ Inspect the following and repair gaps in the current plan:
 
 When requirements change, update affected rationale, path choices, tasks, stage exit criteria, and final acceptance together. Identify invalidated evidence without automatically reopening every stage.
 
-Planning is complete when requirements have a basis, work and acceptance are traceable, dependencies are executable, and consequential open decisions are resolved or explicitly block their dependent portions. A plan may retain blocked branches, but must not describe them as ready to execute. Completing a plan does not mean implementation or acceptance is complete.
+Planning is complete when requirements have a basis, work and acceptance are traceable, dependencies are executable, and consequential open decisions are resolved or explicitly block their dependent portions. A plan may retain blocked branches, but must not describe them as ready to execute. Keep plan completion separate from implementation and acceptance status.
 
 Use [assets/outcome-plan.md](assets/outcome-plan.md) when drafting a plan with multiple requirements or stages. Fill gaps in existing formats; cover the same information in a few lines for simple tasks.
