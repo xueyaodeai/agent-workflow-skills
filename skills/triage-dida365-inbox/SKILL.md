@@ -8,6 +8,8 @@ disable-model-invocation: true
 
 Use the Inbox as a capture boundary. Keep captured ideas active even when they still need clarification. Route clear user-owned tasks and ready Agent work without turning triage into project planning or execution.
 
+Requires the Dida365/TickTick connector. If the connector or required tools are unavailable, stop and report the limitation instead of inferring or fabricating task state.
+
 ## Establish authority
 
 - Treat “分析”“看看” and equivalent wording as read-only.

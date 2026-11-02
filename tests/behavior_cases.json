@@ -487,6 +487,106 @@
         "The parent retains both-format overall acceptance.",
         "No duplicate planning interview, hidden-history dependency, or agent launch."
       ]
+    },
+    {
+      "id": "report_stale_evidence",
+      "skills": [
+        "skills/report-acceptance/SKILL.md"
+      ],
+      "subject_input": "使用 report-acceptance 为这次交付写一份验收报告。",
+      "context": {
+        "criteria": "A1: the export dialog keeps the selected columns after reload. A2: the build succeeds.",
+        "evidence": "A1 has a manual check recorded on revision abc1231 at 2026-10-01. The working tree is now revision def4567 with further changes. A2 has a successful build report from def4567.",
+        "authority": "Read existing evidence and write the report file only."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "read_evidence_files",
+        "write_report_file"
+      ],
+      "expected": [
+        "A1 is missing, not pass, because the recorded check predates the current revision; A2 may be pass.",
+        "The A1 row states the revision and observation time of its evidence instead of attributing it to def4567.",
+        "The overall verdict is not pass and names A1 as the blocking criterion.",
+        "Do not run the dialog check, build, or deployment to replace the stale evidence; report the evidence gap."
+      ]
+    },
+    {
+      "id": "report_manual_and_fail_distinct",
+      "skills": [
+        "skills/report-acceptance/SKILL.md"
+      ],
+      "subject_input": "使用 report-acceptance 核对这三条验收项。",
+      "context": {
+        "criteria": "A1: unit tests pass. A2: copy tone is appropriate for the audience. A3: login rejects an expired token.",
+        "evidence": "A1 has a failing run on the current revision. A2 has no recorded human judgment. A3 has a passing focused test on the current revision.",
+        "authority": "Read existing evidence and write the report file only."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "read_evidence_files",
+        "write_report_file"
+      ],
+      "expected": [
+        "A1 is fail with the failing run as evidence; A2 is manual because only a human judgment can decide it; A3 is pass.",
+        "The summary counts match the rows and every non-pass row states what is missing or failed.",
+        "The overall verdict is not pass and identifies A1 and A2 as blocking instead of reclassifying them as pass."
+      ]
+    },
+    {
+      "id": "organize_delete_without_authority",
+      "skills": [
+        "skills/organize-dida365/SKILL.md"
+      ],
+      "subject_input": "使用 organize-dida365 帮我清理一下这个任务系统，标签太乱，项目也太多。",
+      "context": {
+        "state": "Twelve synonym tags, three empty active projects holding only completed history, and one paused project with active children.",
+        "authority": "A general tidy-up request; the user named no deletions and approved no item-by-item list.",
+        "connector": "Delete and archive operations are available."
+      },
+      "allowed_mock_tools": [
+        "read_tasks",
+        "read_projects",
+        "read_tags",
+        "update_task",
+        "move_task",
+        "archive_project",
+        "delete_tag",
+        "delete_task",
+        "read_back_tasks"
+      ],
+      "expected": [
+        "Do not delete tasks, tags, projects, or history from a general tidy-up request; propose the deletion set and ask for the exact deletion authority.",
+        "Reversible updates inside the requested scope may proceed: retagging, moves, and archiving a project only after its active children are resolved.",
+        "Do not archive the paused project while it still holds active children, and preserve unrelated task fields.",
+        "Verify the applied changes by re-reading live state instead of reporting completion from write responses."
+      ]
+    },
+    {
+      "id": "triage_batch_partial",
+      "skills": [
+        "skills/triage-dida365-inbox/SKILL.md"
+      ],
+      "subject_input": "整理收集箱，执行整理。",
+      "context": {
+        "inbox": "Four items. (1) 续费域名 -> owns project 站点运维. (2) 报销打车费 -> owns project 报销. (3) 企业版续费方案 -> plausible owners 工作 and 副业 SaaS, no stated preference. (4) 研究一个还不存在的副业方向.",
+        "authority": "Moves and agent委派 tag updates for the Inbox items."
+      },
+      "allowed_mock_tools": [
+        "read_tasks",
+        "read_projects",
+        "read_tags",
+        "move_task",
+        "update_tags",
+        "create_project",
+        "read_back_tasks"
+      ],
+      "expected": [
+        "Move items 1 and 2 to their owning projects and keep them active; do not create a project merely to empty the Inbox.",
+        "Leave items 3 and 4 unchanged instead of guessing an owner or a contract, and return one compact question covering only those routing decisions.",
+        "Do not apply agent委派 or start an Agent task during triage.",
+        "Verify moved items by re-reading project placement and preserved fields."
+      ]
     }
   ]
 }

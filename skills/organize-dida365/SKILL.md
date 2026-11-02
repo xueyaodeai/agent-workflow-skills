@@ -8,6 +8,8 @@ disable-model-invocation: true
 
 Turn an overloaded task collection into a small set of owned, executable outcomes. Separate analysis, alignment, mutation, and verification so that ambiguous planning does not become accidental data loss.
 
+Requires the Dida365/TickTick connector. If the connector or required tools are unavailable, stop and report the limitation instead of inferring or fabricating task state.
+
 Use `triage-dida365-inbox` for routine Inbox routing and `dispatch-dida365-agent-tasks` for the active `agent委派` queue. Do not perform those workflows as part of a general audit unless the user explicitly includes their exact mutations.
 
 ## Load the detailed rules

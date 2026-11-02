@@ -9,9 +9,33 @@ SKILLS = ('plan-outcomes', 'orchestrate-projects', 'prepare-agent-handoff', 'rep
           'dispatch-dida365-agent-tasks', 'triage-dida365-inbox', 'organize-dida365')
 EXPLICIT = ('dispatch-dida365-agent-tasks', 'triage-dida365-inbox', 'organize-dida365')
 
+# Each installed skill keeps its own readiness guard, so these points are checked per skill
+# rather than in a shared file that the installer may omit.
+READINESS_POINTS = {
+    'why': r'\bwhy\b',
+    'outcome': r'\bwhat\b|\boutcome\b',
+    'paths': r'\bshortest\b[^.]{0,80}?\bbest\b',
+    'acceptance': r'\bacceptance\b|\bpass condition',
+    'no-invention gate': r'\binvent\b',
+}
+MISSING_CONNECTOR = ('If the connector or required tools are unavailable, stop and report the limitation '
+                     'instead of inferring or fabricating task state.')
+
 
 def read(path):
     return (ROOT / path).read_text(encoding='utf-8')
+
+
+def missing_readiness_points(text):
+    """Return the readiness points a skill body never states."""
+    return sorted(point for point, pattern in READINESS_POINTS.items()
+                  if not re.search(pattern, text, re.I))
+
+
+def paths_unbound(text):
+    """True when no shortest/best path statement sits with an acceptance statement."""
+    blocks = [block for block in text.split('\n\n') if re.search(r'\bshortest\b', block, re.I)]
+    return not any(re.search(r'\bacceptance\b', block, re.I) for block in blocks)
 
 
 class PromptConsistencyTests(unittest.TestCase):
@@ -43,14 +67,30 @@ class PromptConsistencyTests(unittest.TestCase):
             with self.subTest(path=path):
                 self.assertIn('--git-common-dir', text)
 
-    def test_each_standalone_skill_has_the_semantic_guard(self):
+    def test_each_standalone_skill_states_the_bound_readiness_guard(self):
         # Intentional small overlap: standalone installs cannot depend on siblings.
         for skill in SKILLS:
-            text = read(f'skills/{skill}/SKILL.md').lower()
+            text = read(f'skills/{skill}/SKILL.md')
             with self.subTest(skill=skill):
-                for term in ('why', 'shortest', 'best', 'acceptance', 'direct', 'ready', 'do not invent', 'reuse'):
-                    self.assertIn(term, text)
+                self.assertEqual(missing_readiness_points(text), [])
+                self.assertFalse(paths_unbound(text))
                 self.assertNotIn('../', text)
+
+    def test_readiness_guard_check_rejects_unbound_boilerplate(self):
+        scattered = ('Reuse settled answers and stay ready. The best option is obvious, and why ask twice? '
+                     'Direct requests are fine.')
+        self.assertEqual(missing_readiness_points(scattered),
+                         ['acceptance', 'no-invention gate', 'outcome', 'paths'])
+        unbound = ('Why: because. The outcome and acceptance are clear. Never invent facts.\n\n'
+                   'Take the shortest and best path.')
+        self.assertEqual(missing_readiness_points(unbound), [])
+        self.assertTrue(paths_unbound(unbound))
+        self.assertFalse(paths_unbound('The shortest and best path meets the acceptance criteria.'))
+
+    def test_dida365_skills_stop_when_the_connector_is_missing(self):
+        for skill in EXPLICIT:
+            with self.subTest(skill=skill):
+                self.assertIn(MISSING_CONNECTOR, read(f'skills/{skill}/SKILL.md'))
 
     def test_explicit_only_skills_remain_explicit(self):
         for skill in EXPLICIT:

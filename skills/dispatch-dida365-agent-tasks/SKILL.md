@@ -8,6 +8,8 @@ disable-model-invocation: true
 
 Treat active `agent委派` tasks as a user-controlled launch queue. Help the user select work, choose the smallest execution package, start independent Agent tasks, and then remove the dispatched items from the active Dida365 queue.
 
+Requires the Dida365/TickTick connector and a host that can create user-visible independent agent tasks. If the connector or required tools are unavailable, stop and report the limitation instead of inferring or fabricating task state.
+
 ## Establish authority
 
 - Listing, analyzing, and recommending tasks are read-only.
