@@ -4,11 +4,19 @@ from __future__ import annotations
 
 import argparse
 import re
+import sys
 from pathlib import Path
 
-import yaml
+try:
+    import yaml
+except ModuleNotFoundError:  # declared in tests/requirements.txt
+    yaml = None
 
 ROOT = Path(__file__).resolve().parents[1]
+DEPENDENCY_HINT = ('PyYAML is required to validate skill metadata: '
+                   'python3 -m pip install -r tests/requirements.txt')
+YAML_ERRORS = (yaml.YAMLError,) if yaml is not None else ()
+ERRORS = (OSError, UnicodeError, ValueError) + YAML_ERRORS
 EXPLICIT_ONLY = {
     'dispatch-dida365-agent-tasks', 'organize-dida365', 'triage-dida365-inbox',
 }
@@ -16,32 +24,39 @@ FRONTMATTER_KEYS = {
     'name', 'description', 'license', 'allowed-tools', 'metadata',
     'disable-model-invocation',
 }
+_LOADER = None
 
 
-class UniqueKeyLoader(yaml.SafeLoader):
-    """Reject duplicate keys instead of silently accepting the last policy."""
+def _loader():
+    """Build the duplicate-key-rejecting loader once, after the dependency check."""
+    global _LOADER
+    if _LOADER is None:
+        class UniqueKeyLoader(yaml.SafeLoader):
+            """Reject duplicate keys instead of silently accepting the last policy."""
 
+        def unique_mapping(loader, node):
+            loader.flatten_mapping(node)
+            result = {}
+            for key_node, value_node in node.value:
+                key = loader.construct_object(key_node)
+                if not isinstance(key, str):
+                    raise ValueError('metadata keys must be strings')
+                if key in result:
+                    raise ValueError(f'duplicate key: {key}')
+                result[key] = loader.construct_object(value_node)
+            return result
 
-def unique_mapping(loader, node):
-    loader.flatten_mapping(node)
-    result = {}
-    for key_node, value_node in node.value:
-        key = loader.construct_object(key_node)
-        if not isinstance(key, str):
-            raise ValueError('metadata keys must be strings')
-        if key in result:
-            raise ValueError(f'duplicate key: {key}')
-        result[key] = loader.construct_object(value_node)
-    return result
-
-
-UniqueKeyLoader.add_constructor(
-    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, unique_mapping,
-)
+        UniqueKeyLoader.add_constructor(
+            yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, unique_mapping,
+        )
+        _LOADER = UniqueKeyLoader
+    return _LOADER
 
 
 def mapping(text: str) -> dict:
-    result = yaml.load(text, Loader=UniqueKeyLoader)
+    if yaml is None:
+        raise RuntimeError(DEPENDENCY_HINT)
+    result = yaml.load(text, Loader=_loader())
     if not isinstance(result, dict):
         raise ValueError('expected a YAML mapping')
     return result
@@ -55,7 +70,7 @@ def validate(skill: Path) -> list[str]:
         if not match:
             return ['missing YAML frontmatter']
         header = mapping(match.group(1))
-    except (OSError, UnicodeError, ValueError, yaml.YAMLError) as exc:
+    except ERRORS as exc:
         return [f'SKILL.md: {exc}']
 
     unknown = set(header) - FRONTMATTER_KEYS
@@ -100,12 +115,15 @@ def validate(skill: Path) -> list[str]:
                 errors.append('allow_implicit_invocation must be a boolean')
             if explicit and policy.get('allow_implicit_invocation') is not False:
                 errors.append('explicit-only skill requires policy.allow_implicit_invocation: false')
-    except (OSError, UnicodeError, ValueError, yaml.YAMLError) as exc:
+    except ERRORS as exc:
         errors.append(f'openai.yaml: {exc}')
     return errors
 
 
 def main() -> int:
+    if yaml is None:
+        print(DEPENDENCY_HINT, file=sys.stderr)
+        return 2
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('skills', nargs='*', type=Path, help='skill directories; defaults to this repository')
     args = parser.parse_args()

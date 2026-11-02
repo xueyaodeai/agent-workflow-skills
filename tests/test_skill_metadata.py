@@ -106,3 +106,20 @@ class SkillMetadataTests(unittest.TestCase):
         result = subprocess.run([sys.executable, str(SCRIPT), str(self.skill)], capture_output=True, text=True)
         self.assertEqual(result.returncode, 1, result.stderr)
         self.assertIn('[FAIL]', result.stdout)
+
+    def test_missing_dependency_reports_the_install_command(self):
+        blocked = (
+            'import builtins, runpy, sys\n'
+            'real_import = builtins.__import__\n'
+            'def blocked_import(name, *args, **kwargs):\n'
+            "    if name == 'yaml':\n"
+            '        raise ModuleNotFoundError("No module named \'yaml\'")\n'
+            '    return real_import(name, *args, **kwargs)\n'
+            'builtins.__import__ = blocked_import\n'
+            f'sys.argv = ["validate_skill_metadata.py", {str(ROOT / "skills")!r}]\n'
+            f'runpy.run_path({str(SCRIPT)!r}, run_name="__main__")\n'
+        )
+        result = subprocess.run([sys.executable, '-c', blocked], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 2, result.stdout)
+        self.assertIn('pip install -r tests/requirements.txt', result.stderr)
+        self.assertNotIn('Traceback', result.stderr)

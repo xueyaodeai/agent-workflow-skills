@@ -101,8 +101,18 @@ class PromptConsistencyTests(unittest.TestCase):
 
     def test_dispatch_default_does_not_force_reselection(self):
         text = read('skills/dispatch-dida365-agent-tasks/agents/openai.yaml')
-        self.assertIn('only when my selection is unclear', text)
-        self.assertNotIn('and ask which ones to start.', text)
+        self.assertIn('只启动我明确选择的就绪任务', text)
+        self.assertIn('仅在我的选择不明确时询问', text)
+        self.assertNotIn('请选择要启动的任务', text)
+
+    def test_interface_prompts_use_the_same_language(self):
+        for skill in SKILLS:
+            prompt = re.search(r'(?m)^  default_prompt: "(.+)"$',
+                               read(f'skills/{skill}/agents/openai.yaml'))
+            with self.subTest(skill=skill):
+                self.assertIsNotNone(prompt)
+                self.assertRegex(prompt.group(1), '[\u4e00-\u9fff]')
+                self.assertIn(f'${skill}', prompt.group(1))
 
     def test_primary_templates_have_contract_fields(self):
         for path in ('skills/plan-outcomes/assets/outcome-plan.md',
