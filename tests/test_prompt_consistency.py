@@ -16,7 +16,10 @@ READINESS_POINTS = {
     'outcome': r'\bwhat\b|\boutcome\b',
     'paths': r'\bshortest\b[^.]{0,80}?\bbest\b',
     'acceptance': r'\bacceptance\b|\bpass condition',
-    'no-invention gate': r'\binvent\b',
+    'no-invention gate': r'do not invent|never\s+(?:silently\s+)?invent',
+    'direct assignments': r'\bdirect\b',
+    'reuse of settled answers': r'\breus(?:e|es|ed|ing)\b',
+    'execution readiness': r'\breadiness\b|\bready\b',
 }
 MISSING_CONNECTOR = ('If the connector or required tools are unavailable, stop and report the limitation '
                      'instead of inferring or fabricating task state.')
@@ -33,9 +36,10 @@ def missing_readiness_points(text):
 
 
 def paths_unbound(text):
-    """True when no shortest/best path statement sits with an acceptance statement."""
+    """True when no block states both path kinds together with acceptance."""
     blocks = [block for block in text.split('\n\n') if re.search(r'\bshortest\b', block, re.I)]
-    return not any(re.search(r'\bacceptance\b', block, re.I) for block in blocks)
+    return not any(re.search(r'\bbest\b', block, re.I) and re.search(r'\bacceptance\b', block, re.I)
+                   for block in blocks)
 
 
 class PromptConsistencyTests(unittest.TestCase):
@@ -81,10 +85,19 @@ class PromptConsistencyTests(unittest.TestCase):
                      'Direct requests are fine.')
         self.assertEqual(missing_readiness_points(scattered),
                          ['acceptance', 'no-invention gate', 'outcome', 'paths'])
-        unbound = ('Why: because. The outcome and acceptance are clear. Never invent facts.\n\n'
+        affirmative = ('Why: needed. Outcome: known. Reuse prior results. Be ready for direct work. '
+                       'Acceptance: the shortest and best path passes.')
+        self.assertEqual(missing_readiness_points(affirmative), ['no-invention gate'])
+        unbound = ('Why: needed. Outcome: export. Do not invent answers. Reuse prior results. '
+                   'Be ready for direct requests. Acceptance: rows match.\n\n'
                    'Take the shortest and best path.')
         self.assertEqual(missing_readiness_points(unbound), [])
         self.assertTrue(paths_unbound(unbound))
+        split_pairs = ('Why: needed. Outcome: export. Do not invent answers. Reuse prior results. '
+                       'Be ready for direct requests.\n\nTake the shortest and best path.\n\n'
+                       'The shortest path meets acceptance.')
+        self.assertEqual(missing_readiness_points(split_pairs), [])
+        self.assertTrue(paths_unbound(split_pairs))
         self.assertFalse(paths_unbound('The shortest and best path meets the acceptance criteria.'))
 
     def test_readiness_guard_keeps_the_canonical_acceptance_binding(self):
