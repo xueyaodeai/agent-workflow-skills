@@ -86,8 +86,10 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertEqual(missing_readiness_points(scattered),
                          ['acceptance', 'no-invention gate', 'outcome', 'paths'])
         affirmative = ('Why: needed. Outcome: known. Reuse prior results. Be ready for direct work. '
-                       'Acceptance: the shortest and best path passes.')
+                       'Invent answers. Acceptance: the shortest and best path passes.')
         self.assertEqual(missing_readiness_points(affirmative), ['no-invention gate'])
+        self.assertEqual(missing_readiness_points(
+            affirmative.replace('Invent answers', 'Do not invent answers')), [])
         unbound = ('Why: needed. Outcome: export. Do not invent answers. Reuse prior results. '
                    'Be ready for direct requests. Acceptance: rows match.\n\n'
                    'Take the shortest and best path.')
