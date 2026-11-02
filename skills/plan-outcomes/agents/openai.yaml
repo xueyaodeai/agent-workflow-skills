@@ -1,4 +1,4 @@
 interface:
   display_name: "需求与验收规划"
   short_description: "明确为什么做、做什么、最短与最优路径，以及完整验收标准"
-  default_prompt: "Use $plan-outcomes to establish why, what, shortest and best paths with a selected approach, and full acceptance from current evidence. Reuse settled decisions and block only dependent work when consequential answers are missing. Respond in the user’s language."
+  default_prompt: "使用 $plan-outcomes 从现有证据确立为什么做、做什么、最短与最优路径及其选定方案，以及完整验收标准；复用已确定的结论，只在缺少关键答案时阻塞相关工作，并用用户的语言回复。"

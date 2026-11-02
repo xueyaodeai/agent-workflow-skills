@@ -9,9 +9,37 @@ SKILLS = ('plan-outcomes', 'orchestrate-projects', 'prepare-agent-handoff', 'rep
           'dispatch-dida365-agent-tasks', 'triage-dida365-inbox', 'organize-dida365')
 EXPLICIT = ('dispatch-dida365-agent-tasks', 'triage-dida365-inbox', 'organize-dida365')
 
+# Each installed skill keeps its own readiness guard, so these points are checked per skill
+# rather than in a shared file that the installer may omit.
+READINESS_POINTS = {
+    'why': r'\bwhy\b',
+    'outcome': r'\bwhat\b|\boutcome\b',
+    'paths': r'\bshortest\b[^.]{0,80}?\bbest\b',
+    'acceptance': r'\bacceptance\b|\bpass condition',
+    'no-invention gate': r'do not invent|never\s+(?:silently\s+)?invent',
+    'direct assignments': r'\bdirect\b',
+    'reuse of settled answers': r'\breus(?:e|es|ed|ing)\b',
+    'execution readiness': r'\breadiness\b|\bready\b',
+}
+MISSING_CONNECTOR = ('If the connector or required tools are unavailable, stop and report the limitation '
+                     'instead of inferring or fabricating task state.')
+
 
 def read(path):
     return (ROOT / path).read_text(encoding='utf-8')
+
+
+def missing_readiness_points(text):
+    """Return the readiness points a skill body never states."""
+    return sorted(point for point, pattern in READINESS_POINTS.items()
+                  if not re.search(pattern, text, re.I))
+
+
+def paths_unbound(text):
+    """True when no block states both path kinds together with acceptance."""
+    blocks = [block for block in text.split('\n\n') if re.search(r'\bshortest\b', block, re.I)]
+    return not any(re.search(r'\bbest\b', block, re.I) and re.search(r'\bacceptance\b', block, re.I)
+                   for block in blocks)
 
 
 class PromptConsistencyTests(unittest.TestCase):
@@ -43,14 +71,57 @@ class PromptConsistencyTests(unittest.TestCase):
             with self.subTest(path=path):
                 self.assertIn('--git-common-dir', text)
 
-    def test_each_standalone_skill_has_the_semantic_guard(self):
+    def test_each_standalone_skill_states_the_bound_readiness_guard(self):
         # Intentional small overlap: standalone installs cannot depend on siblings.
         for skill in SKILLS:
-            text = read(f'skills/{skill}/SKILL.md').lower()
+            text = read(f'skills/{skill}/SKILL.md')
             with self.subTest(skill=skill):
-                for term in ('why', 'shortest', 'best', 'acceptance', 'direct', 'ready', 'do not invent', 'reuse'):
-                    self.assertIn(term, text)
+                self.assertEqual(missing_readiness_points(text), [])
+                self.assertFalse(paths_unbound(text))
                 self.assertNotIn('../', text)
+
+    def test_readiness_guard_check_rejects_unbound_boilerplate(self):
+        scattered = ('Reuse settled answers and stay ready. The best option is obvious, and why ask twice? '
+                     'Direct requests are fine.')
+        self.assertEqual(missing_readiness_points(scattered),
+                         ['acceptance', 'no-invention gate', 'outcome', 'paths'])
+        affirmative = ('Why: needed. Outcome: known. Reuse prior results. Be ready for direct work. '
+                       'Invent answers. Acceptance: the shortest and best path passes.')
+        self.assertEqual(missing_readiness_points(affirmative), ['no-invention gate'])
+        self.assertEqual(missing_readiness_points(
+            affirmative.replace('Invent answers', 'Do not invent answers')), [])
+        unbound = ('Why: needed. Outcome: export. Do not invent answers. Reuse prior results. '
+                   'Be ready for direct requests. Acceptance: rows match.\n\n'
+                   'Take the shortest and best path.')
+        self.assertEqual(missing_readiness_points(unbound), [])
+        self.assertTrue(paths_unbound(unbound))
+        split_pairs = ('Why: needed. Outcome: export. Do not invent answers. Reuse prior results. '
+                       'Be ready for direct requests.\n\nTake the shortest and best path.\n\n'
+                       'The shortest path meets acceptance.')
+        self.assertEqual(missing_readiness_points(split_pairs), [])
+        self.assertTrue(paths_unbound(split_pairs))
+        self.assertFalse(paths_unbound('The shortest and best path meets the acceptance criteria.'))
+
+    def test_readiness_guard_keeps_the_canonical_acceptance_binding(self):
+        # Shorthand such as "meet the same criteria" was ambiguous about acceptance scope.
+        for path in [f'skills/{skill}/SKILL.md' for skill in SKILLS] + [f'templates/{host}/AGENTS.md'
+                                                                         for host in ('common', 'codex')]:
+            with self.subTest(path=path):
+                self.assertNotIn('meet the same criteria', read(path))
+
+    def test_orchestrate_projects_loads_template_detail_from_a_reference(self):
+        text = read('skills/orchestrate-projects/SKILL.md')
+        reference = read('skills/orchestrate-projects/references/templates.md')
+        self.assertIn('(references/templates.md)', text)
+        self.assertIn('validate_project_docs.py', reference)
+        self.assertNotIn('validate_project_docs.py', text)
+        for path in ('assets/promotion-gate.md', 'assets/milestone-audit.md'):
+            self.assertIn(path, reference)
+
+    def test_dida365_skills_stop_when_the_connector_is_missing(self):
+        for skill in EXPLICIT:
+            with self.subTest(skill=skill):
+                self.assertIn(MISSING_CONNECTOR, read(f'skills/{skill}/SKILL.md'))
 
     def test_explicit_only_skills_remain_explicit(self):
         for skill in EXPLICIT:
@@ -61,8 +132,18 @@ class PromptConsistencyTests(unittest.TestCase):
 
     def test_dispatch_default_does_not_force_reselection(self):
         text = read('skills/dispatch-dida365-agent-tasks/agents/openai.yaml')
-        self.assertIn('only when my selection is unclear', text)
-        self.assertNotIn('and ask which ones to start.', text)
+        self.assertIn('只启动我明确选择的就绪任务', text)
+        self.assertIn('仅在我的选择不明确时询问', text)
+        self.assertNotIn('请选择要启动的任务', text)
+
+    def test_interface_prompts_use_the_same_language(self):
+        for skill in SKILLS:
+            prompt = re.search(r'(?m)^  default_prompt: "(.+)"$',
+                               read(f'skills/{skill}/agents/openai.yaml'))
+            with self.subTest(skill=skill):
+                self.assertIsNotNone(prompt)
+                self.assertRegex(prompt.group(1), '[\u4e00-\u9fff]')
+                self.assertIn(f'${skill}', prompt.group(1))
 
     def test_primary_templates_have_contract_fields(self):
         for path in ('skills/plan-outcomes/assets/outcome-plan.md',

@@ -97,6 +97,13 @@ class SkillMetadataTests(unittest.TestCase):
         (self.skill / 'agents/openai.yaml').unlink()
         self.assertEqual(validator.validate(self.skill), [])
 
+    def test_every_skill_declares_a_version(self):
+        for skill in sorted((ROOT / 'skills').iterdir()):
+            header = validator.mapping((skill / 'SKILL.md').read_text(encoding='utf-8').split('---', 2)[1])
+            version = header.get('metadata', {}).get('version')
+            with self.subTest(skill=skill.name):
+                self.assertRegex(version or '', r'^\d+\.\d+\.\d+$')
+
     def test_cli_reports_failure_and_success(self):
         self.check()
         result = subprocess.run([sys.executable, str(SCRIPT), str(self.skill)], capture_output=True, text=True)
@@ -106,3 +113,20 @@ class SkillMetadataTests(unittest.TestCase):
         result = subprocess.run([sys.executable, str(SCRIPT), str(self.skill)], capture_output=True, text=True)
         self.assertEqual(result.returncode, 1, result.stderr)
         self.assertIn('[FAIL]', result.stdout)
+
+    def test_missing_dependency_reports_the_install_command(self):
+        blocked = (
+            'import builtins, runpy, sys\n'
+            'real_import = builtins.__import__\n'
+            'def blocked_import(name, *args, **kwargs):\n'
+            "    if name == 'yaml':\n"
+            '        raise ModuleNotFoundError("No module named \'yaml\'")\n'
+            '    return real_import(name, *args, **kwargs)\n'
+            'builtins.__import__ = blocked_import\n'
+            f'sys.argv = ["validate_skill_metadata.py", {str(ROOT / "skills")!r}]\n'
+            f'runpy.run_path({str(SCRIPT)!r}, run_name="__main__")\n'
+        )
+        result = subprocess.run([sys.executable, '-c', blocked], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 2, result.stdout)
+        self.assertIn('pip install -r tests/requirements.txt', result.stderr)
+        self.assertNotIn('Traceback', result.stderr)

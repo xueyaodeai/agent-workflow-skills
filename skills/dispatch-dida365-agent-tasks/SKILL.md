@@ -2,11 +2,15 @@
 name: dispatch-dida365-agent-tasks
 description: Start user-selected, ready Dida365/TickTick tasks tagged `agent委派` as user-visible independent Agent tasks, then close the dispatched Dida365 items.
 disable-model-invocation: true
+metadata:
+  version: 1.0.0
 ---
 
 # Dispatch Dida365 Agent Tasks
 
 Treat active `agent委派` tasks as a user-controlled launch queue. Help the user select work, choose the smallest execution package, start independent Agent tasks, and then remove the dispatched items from the active Dida365 queue.
+
+Requires the Dida365/TickTick connector and a host that can create user-visible independent agent tasks. If the connector or required tools are unavailable, stop and report the limitation instead of inferring or fabricating task state.
 
 ## Establish authority
 
@@ -28,7 +32,7 @@ A task is ready only when current, accessible context establishes:
 
 - **Why:** the problem or preference, beneficiary, expected value, and basis;
 - **What:** one observable outcome, deliverables, scope, and authority limits;
-- **Paths:** shortest complete path, best path under current constraints, and selected approach with rationale; both meet the same acceptance and may be identical;
+- **Paths:** shortest complete path, best path under current constraints, and selected approach with rationale; both must meet the same complete acceptance criteria and may be identical;
 - **Done:** full acceptance scenarios, pass conditions, verification method, required evidence, and delivery boundary.
 
 Also identify authoritative sources, satisfied prerequisites, and a concrete first action. Direct selections and the `agent委派` tag do not bypass readiness. Reuse settled answers and discover safe facts before asking; do not invent answers or ask for repeated approval. Missing consequential decisions block dependent implementation. Dispatch a clarification task only when separately authorized and its own question, scope, paths, and acceptance are clear. Continue independently ready selected work. Do not require exhaustive history or a fixed template.

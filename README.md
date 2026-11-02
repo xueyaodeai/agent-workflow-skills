@@ -18,6 +18,10 @@ Each skill is self-contained under `skills/<skill-name>/` and includes its own t
 
 Explicit-only skills stay inactive until the user names them, for example `/organize-dida365`, `$organize-dida365`, or `organize-dida365`.
 
+## Versions
+
+Each `SKILL.md` declares `metadata.version`. Bump the version of every skill whose instructions or assets change in a user-visible way, and leave it unchanged for tests, docs, and repository-only edits. `npx skills add` copies the skill directory, so an installed copy can be compared with the repository by reading that field.
+
 ## Execution readiness
 
 Before implementation or implementation dispatch, establish **why**, **what**, **shortest and best paths with the selected approach**, and **complete acceptance criteria**. Direct assignments follow the same rule. Both paths satisfy the same acceptance and may be identical. Reuse existing answers; missing consequential decisions block dependent work, not independently ready and authorized work. Collection, planning, authorization, execution readiness, and completion are distinct.

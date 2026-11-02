@@ -1,6 +1,8 @@
 ---
 name: orchestrate-projects
 description: Coordinate work whose state must survive multiple tasks, sessions, milestones, worktrees, repositories, or environments. Use when work needs a durable task plan or project roadmap, milestone audits, initiative integration, resuming a tracked project, or successor-roadmap alignment.
+metadata:
+  version: 1.0.0
 ---
 
 # Orchestrate Projects
@@ -11,7 +13,7 @@ Keep long-running work resumable and evidence-backed. Help a human understand th
 
 1. Use the smallest structure needed for continuation, following the routing below. Respect user and repository authority; record only project-specific limits and the authorized delivery package.
 2. Keep scope, decisions, ownership, and coordination state in their owning records using the storage rules below. Verify code, runtime, and external facts at their authoritative sources; bind evidence to a revision, environment, or time when it affects the conclusion.
-3. At every level, including Level 0 and direct assignments, establish why, what, the shortest and best complete paths with the selected approach, and complete acceptance. Both paths meet the same criteria and may be identical. Reuse settled answers; missing consequential decisions block dependent implementation, not independently ready authorized work. Do not invent answers or require repeated approval. For Level 1, record or reference this contract and the next action. For Level 2/3, also record the milestone’s required flow, exit criteria, exclusions, accepted deferrals, blocker threshold, and stop condition.
+3. At every level, including Level 0 and direct assignments, establish why, what, the shortest and best complete paths with the selected approach, and complete acceptance. Both paths must meet the same complete acceptance criteria and may be identical. Reuse settled answers; missing consequential decisions block dependent implementation, not independently ready authorized work. Do not invent answers or require repeated approval. For Level 1, record or reference this contract and the next action. For Level 2/3, also record the milestone’s required flow, exit criteria, exclusions, accepted deferrals, blocker threshold, and stop condition.
 4. A frozen contract preserves sourced requirements and authority boundaries, not inherited implementation choices. Recheck technical assumptions against current evidence and revise them within scope without reconfirmation. Only the user or delegated scope owner may change required outcomes or authorized boundaries; workers and reviewers must not invent completion conditions.
 5. Choose the simplest complete solution by total implementation and lifecycle cost. Apply this to new and inherited mechanisms within scope; retain complexity only for a current caller, requirement, demonstrated failure, applicable rule, or material risk. Preserve unrelated work.
 
@@ -177,18 +179,4 @@ Advance when required exit evidence and the next entry criteria are satisfied; o
 
 ## 7. Use the right template modules
 
-- `assets/task-plan.md`: Level 1 core resumable task plan.
-- `assets/task-plan-coordination-addon.md`: cross-task decisions, blockers, and downstream handoff; add only when needed.
-- `assets/task-plan-git-addon.md`: Git isolation and delivery identity; use with the Git reference.
-- `assets/task-plan-integration-addon.md`: reviewed and integration SHA chain; use only for initiative integration.
-- `assets/project-roadmap.md`: core multi-task roadmap.
-- `assets/project-roadmap-transition-addon.md`: predecessor and carryover mapping for a successor roadmap.
-- `assets/milestone-audit.md`: Level 3 milestone gate.
-- `assets/promotion-gate.md`: initiative integration to primary-branch promotion.
-- `assets/roadmap-alignment-notes.md`: durable successor-roadmap discussion ledger.
-
-Adapt modules to repository conventions and omit irrelevant sections instead of filling them with `not applicable`. Do not rename an established project artifact merely to match this skill.
-
-For template-shaped roadmaps, milestone audits, and alignment notes, run `python3 scripts/validate_project_docs.py <files...>` once before closeout. Task and Outcome Plans are also supported, but Level 1 does not require this validator by default. Use `--require-ready` when checking a selected task or a roadmap's current execution scope before starting it. Drafts may remain explicitly not ready; a structural pass never grants execution authority.
-
-The validator checks supported fields, scoped milestone contracts, state values, placeholders, and completion contradictions. Unknown formats are reported as unsupported, not passing; standalone add-ons and promotion gates require their own evidence review. It does not establish the truth or accessibility of cited evidence, semantic completeness, or host-enforced permission. Preserve custom repository formats and review their equivalent contracts rather than renaming them to satisfy this script.
+Copy the core module for the selected level, then add optional modules only when their trigger applies. Read [references/templates.md](references/templates.md) before creating or closing a template-shaped artifact; it lists the modules, the adaptation rules, and the document validator.

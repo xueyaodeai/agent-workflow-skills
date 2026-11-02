@@ -1,6 +1,8 @@
 ---
 name: plan-outcomes
 description: Clarify why to do a task, what to deliver, shortest and best paths, and verifiable acceptance. Use when planning or revising work, splitting milestones, or resolving unclear goals, scope, tradeoffs, or completion criteria before implementation.
+metadata:
+  version: 1.0.0
 ---
 
 # Plan Outcomes and Acceptance

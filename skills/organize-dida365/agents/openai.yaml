@@ -1,7 +1,7 @@
 interface:
   display_name: "Dida365 全局整理"
   short_description: "审计并治理整个滴答清单的项目、任务、标签、日期与生命周期"
-  default_prompt: "Use $organize-dida365 to audit and reorganize my whole Dida365 task system."
+  default_prompt: "使用 $organize-dida365 审计并整理我的整个滴答清单任务系统。"
 
 policy:
   allow_implicit_invocation: false

@@ -2,11 +2,15 @@
 name: organize-dida365
 description: Audit, plan, and reorganize an entire Dida365/TickTick task system, including projects, groups, tasks, tags, dates, priorities, lifecycle states, habits, and archives.
 disable-model-invocation: true
+metadata:
+  version: 1.0.0
 ---
 
 # Organize Dida365
 
 Turn an overloaded task collection into a small set of owned, executable outcomes. Separate analysis, alignment, mutation, and verification so that ambiguous planning does not become accidental data loss.
+
+Requires the Dida365/TickTick connector. If the connector or required tools are unavailable, stop and report the limitation instead of inferring or fabricating task state.
 
 Use `triage-dida365-inbox` for routine Inbox routing and `dispatch-dida365-agent-tasks` for the active `agent委派` queue. Do not perform those workflows as part of a general audit unless the user explicitly includes their exact mutations.
 
@@ -50,7 +54,7 @@ Classify findings into these buckets:
 
 For every proposed change, state the current problem, recommended action, and expected result. Keep uncertain items separate from clearly redundant ones.
 
-When planning or splitting executable work, establish why it is needed, what outcome and scope it owns, the shortest complete and best-supported paths with the selected approach, and full acceptance scenarios, pass conditions, verification method, and evidence. Both paths meet the same criteria and may be identical. Children may explicitly inherit accessible parent decisions. Direct assignments follow the same readiness check: reuse settled answers without repeated approval; do not invent answers. Missing consequential decisions block dependent implementation, not independently ready authorized work. A bounded clarification task must have its own clear contract. Capturing, moving, or retaining an idea does not make it execution-ready; do not force a full project plan merely to organize it.
+When planning or splitting executable work, establish why it is needed, what outcome and scope it owns, the shortest complete and best-supported paths with the selected approach, and full acceptance scenarios, pass conditions, verification method, and evidence. Both paths must meet the same complete acceptance criteria and may be identical. Children may explicitly inherit accessible parent decisions. Direct assignments follow the same readiness check: reuse settled answers without repeated approval; do not invent answers. Missing consequential decisions block dependent implementation, not independently ready authorized work. A bounded clarification task must have its own clear contract. Capturing, moving, or retaining an idea does not make it execution-ready; do not force a full project plan merely to organize it.
 
 ### 4. Align decisions
 
