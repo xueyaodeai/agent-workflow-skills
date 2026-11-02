@@ -1,6 +1,8 @@
 ---
 name: prepare-agent-handoff
 description: Prepare the smallest runnable context-delta contract when work must continue across an agent task, session, worktree, environment, recurring automation, external model, or evaluation. Use for handoff, delegation, operationalization, scheduling, or reusable prompt and evaluation packaging when the destination cannot reliably continue from the context it already receives.
+metadata:
+  version: 1.0.0
 ---
 
 # Prepare an Agent Handoff

@@ -12,7 +12,7 @@ Before treating a plan as executable, implementing, or delegating implementation
 
 1. **Why:** the problem or preference, beneficiary, expected value, and basis. A clear personal preference is sufficient; do not invent a business case.
 2. **What:** the observable outcome, deliverables, scope, consequential exclusions, and authority boundaries.
-3. **Paths:** the shortest known complete path and the best-supported path under current time, cost, risk, and lifecycle constraints; state the selected path and reason. Both must meet the same acceptance criteria and may be identical. Do not invent alternatives or silently reduce scope.
+3. **Paths:** the shortest known complete path and the best-supported path under current time, cost, risk, and lifecycle constraints; state the selected path and reason. Both must meet the same complete acceptance criteria and may be identical. Do not invent alternatives or silently reduce scope.
 4. **Done:** complete, decidable acceptance criteria, including relevant scenarios, expected behavior, verification method, evidence to obtain, and delivery boundary. Planned checks are not passing evidence.
 
 Execution requires authorization, a clear four-point contract, and satisfied prerequisites. Do not fabricate consequential answers. Missing decisions, including an unclear root objective, block dependent implementation; independently ready work may continue. Clarification work needs its own bounded question, approach, and acceptance.

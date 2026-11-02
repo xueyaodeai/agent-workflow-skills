@@ -8,7 +8,7 @@ The suite covers ready and not-ready contracts, each required field, scoped mile
 
 ## Skill metadata validator
 
-Run `python3 scripts/validate_skill_metadata.py` to check all repository skills, or pass specific skill directories. This repository-owned check leaves the installed `skill-creator` untouched. It validates required name/description fields, rejects unknown frontmatter and policy fields and duplicate YAML keys, and checks invocation fields as booleans rather than matching text. When PyYAML is missing, it exits with code 2 and prints the install command instead of a traceback; validation failures exit with code 1.
+Run `python3 scripts/validate_skill_metadata.py` to check all repository skills, or pass specific skill directories. This repository-owned check leaves the installed `skill-creator` untouched. It validates required name/description fields, requires a semver `metadata.version`, rejects unknown frontmatter and policy fields and duplicate YAML keys, and checks invocation fields as booleans rather than matching text. When PyYAML is missing, it exits with code 2 and prints the install command instead of a traceback; validation failures exit with code 1.
 
 The three explicit-only Dida365 skills must retain both configurations:
 

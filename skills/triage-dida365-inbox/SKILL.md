@@ -2,6 +2,8 @@
 name: triage-dida365-inbox
 description: Sort Dida365/TickTick Inbox tasks into existing destinations, separate user-owned from agent-ready work, and tag agent-ready items `agent委派`.
 disable-model-invocation: true
+metadata:
+  version: 1.0.0
 ---
 
 # Triage Dida365 Inbox
@@ -34,7 +36,7 @@ Use an established specific project when one clearly owns the outcome. If no cur
 Inspect task content, links, attachments, and safely discoverable sources before asking the user.
 
 - For a user-owned task, make the title a verb plus one observable result. Preserve or add a date, reminder, or priority only when it represents a real commitment, start window, deadline, or dependency.
-- Before calling an Agent task ready, establish why it matters, what observable result and scope it owns, the shortest complete and best-supported paths with the selected approach, and full acceptance scenarios, pass conditions, verification method, and evidence. Both paths meet the same criteria and may be identical. Reuse accessible parent decisions and authoritative sources; ordinary implementation details can wait.
+- Before calling an Agent task ready, establish why it matters, what observable result and scope it owns, the shortest complete and best-supported paths with the selected approach, and full acceptance scenarios, pass conditions, verification method, and evidence. Both paths must meet the same complete acceptance criteria and may be identical. Reuse accessible parent decisions and authoritative sources; ordinary implementation details can wait.
 - Direct assignments follow the same check. Reuse settled answers without repeated approval; do not invent answers or start dependent implementation when consequential decisions are missing. A clarification task needs its own bounded question, paths, and acceptance. Verify execution readiness separately from collection and routing.
 - Use repair, new behavior, refactor, data analysis, and error diagnosis only as temporary routing judgments. Do not create persistent subtype tags unless the user explicitly requests a taxonomy for repeated retrieval.
 - Ask only when missing user-only information would materially change the outcome, source, permission, external side effect, or acceptance decision. Do not require a fixed intake template.

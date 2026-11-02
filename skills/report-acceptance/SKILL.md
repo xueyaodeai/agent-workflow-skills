@@ -1,6 +1,8 @@
 ---
 name: report-acceptance
 description: Write a self-contained offline HTML acceptance report that maps agreed acceptance criteria to existing evidence. Use when the user asks for an acceptance report, verification report, or HTML summary of whether delivered work meets its criteria.
+metadata:
+  version: 1.0.0
 ---
 
 # Report Acceptance

@@ -87,6 +87,22 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertTrue(paths_unbound(unbound))
         self.assertFalse(paths_unbound('The shortest and best path meets the acceptance criteria.'))
 
+    def test_readiness_guard_keeps_the_canonical_acceptance_binding(self):
+        # Shorthand such as "meet the same criteria" was ambiguous about acceptance scope.
+        for path in [f'skills/{skill}/SKILL.md' for skill in SKILLS] + [f'templates/{host}/AGENTS.md'
+                                                                         for host in ('common', 'codex')]:
+            with self.subTest(path=path):
+                self.assertNotIn('meet the same criteria', read(path))
+
+    def test_orchestrate_projects_loads_template_detail_from_a_reference(self):
+        text = read('skills/orchestrate-projects/SKILL.md')
+        reference = read('skills/orchestrate-projects/references/templates.md')
+        self.assertIn('(references/templates.md)', text)
+        self.assertIn('validate_project_docs.py', reference)
+        self.assertNotIn('validate_project_docs.py', text)
+        for path in ('assets/promotion-gate.md', 'assets/milestone-audit.md'):
+            self.assertIn(path, reference)
+
     def test_dida365_skills_stop_when_the_connector_is_missing(self):
         for skill in EXPLICIT:
             with self.subTest(skill=skill):

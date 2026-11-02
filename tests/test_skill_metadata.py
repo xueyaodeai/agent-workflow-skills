@@ -97,6 +97,13 @@ class SkillMetadataTests(unittest.TestCase):
         (self.skill / 'agents/openai.yaml').unlink()
         self.assertEqual(validator.validate(self.skill), [])
 
+    def test_every_skill_declares_a_version(self):
+        for skill in sorted((ROOT / 'skills').iterdir()):
+            header = validator.mapping((skill / 'SKILL.md').read_text(encoding='utf-8').split('---', 2)[1])
+            version = header.get('metadata', {}).get('version')
+            with self.subTest(skill=skill.name):
+                self.assertRegex(version or '', r'^\d+\.\d+\.\d+$')
+
     def test_cli_reports_failure_and_success(self):
         self.check()
         result = subprocess.run([sys.executable, str(SCRIPT), str(self.skill)], capture_output=True, text=True)
