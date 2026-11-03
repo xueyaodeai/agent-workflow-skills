@@ -2,7 +2,7 @@
 name: orchestrate-projects
 description: Coordinate work whose state must survive multiple tasks, sessions, milestones, worktrees, repositories, or environments. Use when work needs a durable task plan or project roadmap, milestone audits, initiative integration, resuming a tracked project, or successor-roadmap alignment.
 metadata:
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Orchestrate Projects

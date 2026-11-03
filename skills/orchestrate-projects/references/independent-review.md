@@ -8,9 +8,15 @@ When independent review is required, use one fresh read-only reviewer subagent d
 
 When review is required, consolidate it around one acceptance-ready semantic snapshot. Do not split preflight, implementation, each operation, and result checking into repeated independent reviews. After blocking findings, use the same reviewer for a targeted recheck; widen it only if the fix changes another material boundary.
 
+## Evidence for findings
+
+Prioritize contract violations, evidence gaps, and material boundary risks. Inspect whether test expectations follow the requirements and whether mocks bypass the behavior under review. For correctness findings, seek a minimal counterexample, reuse an existing check, or provide a complete static execution path. State the triggering conditions, expected and actual behavior, and material effect. Static evidence can establish a defect when execution is unavailable; label an unexecuted reproduction as such. Perform checks only within the review's read-only scope and existing authorization.
+
+Distinguish established defects from unverified risks and name the missing evidence for consequential uncertainty. Accept no findings when supported; do not seek a finding quota or turn style preferences and hypothetical future needs into required changes.
+
 ## Blocking findings
 
-Unsupported new or inherited complexity under core invariant 5 is a finding; assess whether it blocks completion using the criteria below.
+For unsupported new or inherited complexity under core invariant 5, explain its concrete effect on the current outcome or maintenance cost within the reviewed scope. Assess whether it blocks completion using the criteria below; do not expand a local repair into an unrelated redesign.
 
 Current reachability alone does not make a finding blocking. A blocker must identify the declared acceptance or exit criterion, non-deferable higher-priority rule, or protected existing behavior it violates; evidence linking the violation to the required current flow or candidate change; the material effect on truthful completion; and why existing controls do not cover it.
 

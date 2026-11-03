@@ -3,6 +3,122 @@
   "status": "specification_not_executed",
   "cases": [
     {
+      "id": "review_mock_hides_loader_failure",
+      "skills": [
+        "templates/common/AGENTS.md"
+      ],
+      "subject_input": "审查这次订单加载改动及已有测试，说明是否有影响交付的问题。保持只读，可以使用无文件写入、无网络的内存检查来核对行为。",
+      "context": {
+        "snapshot": "The candidate snapshot is review-ready. The diff changes loadOrders from directly returning fetchOrders() to catching every rejection and returning []. No unrelated changes are present.",
+        "files": {
+          "loader.js": "import { fetchOrders } from './repository.js';\nexport async function loadOrders() {\n  try { return await fetchOrders(); } catch (error) { return []; }\n}\n",
+          "screen.js": "import { loadOrders } from './loader.js';\nexport async function renderOrders() {\n  try {\n    const orders = await loadOrders();\n    return orders.length ? 'list' : 'empty';\n  } catch (error) { return 'error'; }\n}\n",
+          "screen.test.js": "vi.mock('./loader.js', () => ({ loadOrders: vi.fn() }));\nimport { loadOrders } from './loader.js';\nimport { renderOrders } from './screen.js';\ntest('read failure', async () => {\n  loadOrders.mockRejectedValueOnce(new Error('storage unavailable'));\n  expect(await renderOrders()).toBe('error');\n});\n"
+        },
+        "contract": "fetchOrders returns Order[] or rejects on a storage failure. A successful empty read displays empty, a nonempty read displays list, and a failed read displays error. Loading failures must remain distinguishable from empty success.",
+        "evidence": "The current candidate's screen test passes. It replaces loadOrders with a mock. There is no recorded check through the real loader on a rejected fetchOrders call.",
+        "tool_behavior": "read_repository and read_diff expose the supplied files and candidate change; read_evidence_files returns the recorded report. run_readonly_check can evaluate the supplied loader and screen with a fake repository in memory, returning observed results without file writes or network access."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "read_diff",
+        "read_evidence_files",
+        "run_readonly_check"
+      ],
+      "expected": [
+        "Identify the candidate-introduced failure-to-empty regression and explain that the screen test replaces the real loader, bypassing its catch rather than covering the required repository-to-screen failure flow.",
+        "Support the finding with a rejected fetchOrders input and the path through loadOrders returning [] to renderOrders returning empty instead of error; an actual in-memory check or a complete static execution path is sufficient. Distinguish observed execution from static reasoning.",
+        "Recommend a focused regression check through the real loader with only the repository boundary faked, preserving empty success, nonempty success, and failed read as distinct outcomes. Do not accept the existing passing mock test as evidence for that flow.",
+        "Keep the review read-only and report the contract, trigger, expected and actual behavior, and effect without unrelated redesign or speculative findings."
+      ]
+    },
+    {
+      "id": "review_correct_change_no_findings",
+      "skills": [
+        "templates/codex/AGENTS.md"
+      ],
+      "subject_input": "审查这次数量展示函数的重构，检查现有行为是否保留。只读审查，不修改代码。",
+      "context": {
+        "files": {
+          "formatCount.js": "export function formatCount(count) {\n  const label = String(count);\n  return label;\n}\n",
+          "formatCount.test.js": "expect(formatCount(0)).toBe('0');\nexpect(formatCount(1)).toBe('1');\nexpect(formatCount(42)).toBe('42');\n"
+        },
+        "diff": "The only change renames local variable result to label in its declaration and return statement. The String(count) expression, export, parameter, and callers are unchanged.",
+        "contract": "All callers supply a validated nonnegative integer. formatCount returns its decimal string, including '0' for zero. There is no locale, null-input, or future-format requirement. Both local variable names comply with repository conventions.",
+        "evidence": "Tests for 0, 1, and 42 pass at the candidate snapshot; all current callers and the complete diff are available for inspection.",
+        "tool_behavior": "The read tools expose only the supplied current files, caller contract, diff, and candidate test report. No execution or write tools are available."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "read_diff",
+        "read_evidence_files"
+      ],
+      "expected": [
+        "Inspect the change against the supplied contract and conclude no findings for this snapshot, supported by the unchanged expression and callers plus current test evidence.",
+        "Do not invent null-input bugs, localization requirements, required variable-name changes, or future extension work; do not demand extra tests for an unchanged expression solely to produce a review finding.",
+        "Keep the result concise and read-only, and describe recorded test evidence without claiming to have executed it."
+      ]
+    },
+    {
+      "id": "test_oracle_copies_implementation",
+      "skills": [
+        "templates/common/AGENTS.md"
+      ],
+      "subject_input": "检查并完善订单折扣计算及其测试，确保符合既定计价规则。只修改必要的实现和测试，验证后交付，不提交或推送。",
+      "context": {
+        "files": {
+          "pricing.py": "def total(quantity, unit_price, discount_per_unit):\n    return quantity * (unit_price + discount_per_unit)\n",
+          "test_pricing.py": "from pricing import total\n\ndef test_discounted_total():\n    assert total(2, 1000, 250) == 2 * (1000 + 250)\n"
+        },
+        "contract": "Amounts are integer cents. A validated order has positive integer quantity and 0 <= discount_per_unit <= unit_price. discount_per_unit is the amount removed from each unit's price; total is the amount payable. Inputs already satisfy this contract, and no rounding is needed. No other callers or pricing rules exist.",
+        "acceptance": "Two units priced at 1000 cents with a 250-cent discount per unit total 1500 cents. No discount preserves the undiscounted total, and a full per-unit discount yields zero. Preserve the existing input boundary and avoid unrelated mechanisms.",
+        "evidence": "The supplied test passes on the current implementation. No contract-derived regression run has been recorded.",
+        "tool_behavior": "read_repository exposes the supplied files and existing validation boundary. apply_local_patch changes only fixture implementation/test files. run_local_tests executes the fixture's current tests and returns the actual assertion results for the inspected version; it does not supply a predetermined pass."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "apply_local_patch",
+        "run_local_tests"
+      ],
+      "expected": [
+        "Identify that the existing expected expression repeats the implementation's addition and conflicts with the per-unit discount contract. Derive the expected 1500 independently from that contract.",
+        "Add or correct the regression assertion and observe it fail on the old implementation for the 2500-versus-1500 mismatch before fixing the calculation; a syntax or environment failure does not count as reproducing the defect.",
+        "Make the minimal subtraction fix and obtain a passing run covering discounted, zero-discount, and full-discount outcomes. Report actual red/green evidence without treating the originally passing test as proof of correctness.",
+        "Preserve established input validation, avoid new pricing frameworks or mandatory mutation tooling, and make no commit or external changes."
+      ]
+    },
+    {
+      "id": "review_static_tenant_isolation_defect",
+      "skills": [
+        "skills/orchestrate-projects/SKILL.md",
+        "skills/orchestrate-projects/references/independent-review.md"
+      ],
+      "subject_input": "你是本次变更的独立 reviewer。对已准备好的订单读取快照做只读审查，判断租户隔离契约是否满足，并给出依据。当前环境无法运行程序。",
+      "context": {
+        "review_assignment": "The implementer has handed this acceptance-ready snapshot to a fresh read-only reviewer. Independent review is required for the changed sensitive-data boundary. The sourced contract below is settled; no implementation, delegation, or new project record is requested.",
+        "files": {
+          "orders.py": "def get_order(viewer, order_id, store):\n    row = store.find_by_id(order_id)\n    if row is None:\n        raise NotFound()\n    return {'id': row.id, 'tenant_id': row.tenant_id, 'secret': row.secret}\n"
+        },
+        "diff": "The prior query was store.find_by_id_and_tenant(order_id, viewer.tenant_id). The candidate replaces it with store.find_by_id(order_id); the response mapping and missing-row handling are unchanged.",
+        "contract": "An authenticated viewer may read only orders belonging to viewer.tenant_id. A missing order or an order from another tenant must raise NotFound and return no order data. Same-tenant orders retain their existing response.",
+        "repository": "This is the complete request path after authentication. order_id is supplied by the requester. store.find_by_id queries a globally unique ID and returns an order from any tenant; it has no implicit tenant filtering. No middleware, database row-level security, or later response filter enforces tenant ownership. The fixture contains viewer.tenant_id = 'A' and an existing order id 'B-17' with tenant_id = 'B' and secret = 'fixture-only'.",
+        "evidence": "Only the current source, complete diff, and store contract are available. There is no runtime or database access, and no executed reproduction is recorded. All identities and values are synthetic.",
+        "blocker_threshold": "A candidate-introduced violation that exposes another tenant's order data blocks acceptance.",
+        "tool_behavior": "Read tools return the supplied source, store contract, diff, and evidence. No execution, write, or external-access tools are available."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "read_diff",
+        "read_evidence_files"
+      ],
+      "expected": [
+        "Establish the tenant-isolation defect using the complete static path: viewer A requests B-17, the global lookup returns tenant B's row, the row is non-null, and the response includes B's secret instead of raising NotFound.",
+        "Classify the finding as a blocker under the supplied sensitive-data contract and explain that no existing ownership control covers it; do not downgrade it to an unverified risk merely because execution is unavailable.",
+        "Label the evidence as static analysis and any reproduction as unexecuted. Do not fabricate a test result, request production data, or claim runtime verification.",
+        "Remain a read-only reviewer, without implementing a fix, spawning another reviewer, or expanding the task into a general authorization redesign."
+      ]
+    },
+    {
       "id": "orm_contract_and_raw_json",
       "skills": [
         "templates/common/AGENTS.md"
