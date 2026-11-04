@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILLS = ('plan-outcomes', 'orchestrate-projects', 'prepare-agent-handoff', 'report-acceptance',
+SKILLS = ('plan-outcomes', 'fix-issue', 'orchestrate-projects', 'prepare-agent-handoff', 'report-acceptance',
           'dispatch-dida365-agent-tasks', 'triage-dida365-inbox', 'organize-dida365')
 EXPLICIT = ('dispatch-dida365-agent-tasks', 'triage-dida365-inbox', 'organize-dida365')
 

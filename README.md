@@ -7,6 +7,7 @@ Reusable agent skills for durable project coordination, task-system organization
 | Skill | Purpose |
 | --- | --- |
 | `plan-outcomes` | Turn task or roadmap goals into sourced requirements, phased work, and verifiable stage and final acceptance criteria. |
+| `fix-issue` | Independently reproduce reported bugs, establish causes or testable hypotheses, and verify repairs against preserved acceptance scenarios. |
 | `orchestrate-projects` | Coordinate long-running projects across tasks, milestones, branches, worktrees, and roadmap transitions. |
 | `organize-dida365` | Audit and reorganize Dida365/TickTick projects, tasks, priorities, dates, tags, and paused work. Explicit invocation only. |
 | `triage-dida365-inbox` | Sort the Dida365 Inbox into owning projects and queue agent-ready work. Explicit invocation only. |
@@ -63,7 +64,7 @@ Run that from the repository root. If `~/.codex/AGENTS.md` already exists as a r
 
 ## Dependencies
 
-- `plan-outcomes`, `orchestrate-projects`, `prepare-agent-handoff`, and `report-acceptance` are tool-agnostic; they preserve the permissions and tools available in the active agent environment.
+- `plan-outcomes`, `fix-issue`, `orchestrate-projects`, `prepare-agent-handoff`, and `report-acceptance` are tool-agnostic; they preserve the permissions and tools available in the active agent environment.
 - `organize-dida365`, `triage-dida365-inbox`, and `dispatch-dida365-agent-tasks` require an available Dida365/TickTick integration or equivalent task-management tools. This repository does not provide account access or credentials.
 - `dispatch-dida365-agent-tasks` also needs a host that can create a user-visible independent agent or task. Hidden subagents are not a substitute.
 

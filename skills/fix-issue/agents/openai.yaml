@@ -1,0 +1,4 @@
+interface:
+  display_name: "问题复现与修复"
+  short_description: "从问题事实独立复现、分析根因并设计修复，用同一验收场景验证结果"
+  default_prompt: "使用 $fix-issue 处理这个问题：从描述中的事实独立复现，固化验收场景，分析根因或验证假设，再设计并实施修复，验证后收尾。"
