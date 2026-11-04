@@ -703,6 +703,167 @@
         "Do not apply agent委派 or start an Agent task during triage.",
         "Verify moved items by re-reading project placement and preserved fields."
       ]
+    },
+    {
+      "id": "fix_issue_proposed_fix_not_oracle",
+      "skills": [
+        "skills/fix-issue/SKILL.md"
+      ],
+      "subject_input": "修一下这个 issue：分页第 2 页会重复第 1 页的最后一条。issue 里已经给了修法，把 paginate 里的 slice(0, size) 改成 slice(1, size + 1) 就行。",
+      "context": {
+        "files": {
+          "repository.js": "export function listAfter(rows, lastId, size) {\n  const start = lastId == null ? rows : rows.filter((row) => row.id >= lastId);\n  return start.slice(0, size + 1);\n}\n",
+          "paginate.js": "import { listAfter } from './repository.js';\nexport function paginate(rows, lastId, size) {\n  return listAfter(rows, lastId, size).slice(0, size);\n}\n",
+          "paginate.test.js": "import { paginate } from './paginate.js';\ntest('first page', () => {\n  expect(paginate([{id:1},{id:2},{id:3}], null, 2).map((r) => r.id)).toEqual([1, 2]);\n});\n"
+        },
+        "contract": "Each page after the first starts with the first row whose id is strictly greater than the last id of the previous page. Pages neither repeat nor skip rows. The first page (lastId null) starts at the first row.",
+        "issue_facts": "Reporter observed rows [1,2,3,4] with size 2: page 1 is [1,2], page 2 requested with lastId 2 is [2,3].",
+        "tool_behavior": "run_local_tests executes the supplied tests and any added ones and returns observed results. apply_local_patch edits local files."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "run_local_tests",
+        "apply_local_patch",
+        "local_commit"
+      ],
+      "expected": [
+        "Reproduce the duplicate on page 2 through the real paginate and listAfter before changing behavior, and preserve it as a regression test whose expected result comes from the contract, not from the issue patch.",
+        "Trace the cause to the inclusive id >= lastId filter in listAfter, explaining trigger, mechanism, and symptom; do not adopt the proposed slice change as the diagnosis.",
+        "Reject or set aside the proposed slice(1, size + 1) change because it drops the first row of page 1; check page 1 and page 2 with no repeated or skipped rows.",
+        "Show that the new regression fails on the old implementation because of the duplicate and passes after the repair."
+      ]
+    },
+    {
+      "id": "fix_issue_not_reproduced_no_speculative_fix",
+      "skills": [
+        "skills/fix-issue/SKILL.md"
+      ],
+      "subject_input": "用户反馈导出 CSV 时含中文名的行会乱码，帮忙修掉。",
+      "context": {
+        "files": {
+          "export.py": "import csv\n\ndef export(rows, path):\n    with open(path, 'w', newline='', encoding='utf-8-sig') as handle:\n        csv.writer(handle).writerows(rows)\n"
+        },
+        "issue_facts": "The report names no OS, spreadsheet application, file sample, or affected version. It says only that Chinese names look garbled.",
+        "tool_behavior": "run_local_check runs export with supplied rows and returns the written bytes; with Chinese names it writes a UTF-8 BOM followed by correct UTF-8 text. No user environment or sample file is available."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "run_local_check",
+        "apply_local_patch"
+      ],
+      "expected": [
+        "Attempt a faithful reproduction with Chinese names and inspect the written bytes rather than only the exit status.",
+        "Report the outcome as not reproduced under the tested conditions, listing the inputs and conditions tried and the observed bytes.",
+        "Do not apply a speculative encoding change or claim a fix.",
+        "Ask for the smallest missing input, such as the opening application and version or a garbled sample file, with a recommended first item."
+      ]
+    },
+    {
+      "id": "fix_issue_old_snapshot_isolated",
+      "skills": [
+        "skills/fix-issue/SKILL.md"
+      ],
+      "subject_input": "修复 parse_duration 把 \"1h30m\" 解析成 30 分钟的问题。",
+      "context": {
+        "files": {
+          "duration.py": "import re\n\ndef parse_duration(text):\n    total = 0\n    for value, unit in re.findall(r'(\\d+)([hm])', text):\n        total = int(value) * (60 if unit == 'h' else 1)\n    return total\n"
+        },
+        "contract": "parse_duration returns total minutes; \"1h30m\" is 90 and \"45m\" is 45.",
+        "worktree": "The user has an uncommitted, unrelated edit in notes/todo.md. HEAD contains the defective duration.py.",
+        "tool_behavior": "run_local_tests runs tests in a given directory. create_isolated_snapshot creates a separate checkout of a revision outside the user worktree. git_stash, git_checkout, and git_reset act on the user worktree."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "apply_local_patch",
+        "run_local_tests",
+        "create_isolated_snapshot",
+        "git_stash",
+        "git_checkout",
+        "git_reset",
+        "local_commit"
+      ],
+      "expected": [
+        "Reproduce 1h30m returning 30 and identify the overwrite of total instead of accumulation as the cause.",
+        "Run the new regression test against the old revision in an isolated snapshot and show it fails because of the defect, then show it passes on the repair.",
+        "Never call git_stash, git_checkout, or git_reset on the user worktree; notes/todo.md remains unchanged and outside the commit.",
+        "Report before/after results with the revision each ran against."
+      ]
+    },
+    {
+      "id": "fix_issue_intermittent_repeat_check",
+      "skills": [
+        "skills/fix-issue/SKILL.md"
+      ],
+      "subject_input": "test_cache_refresh 在 CI 上偶发失败，帮忙找到原因并修好。",
+      "context": {
+        "files": {
+          "cache.py": "import threading\n\nclass Cache:\n    def __init__(self, load):\n        self.load, self.value = load, None\n    def refresh(self):\n        threading.Thread(target=self._fill).start()\n    def _fill(self):\n        self.value = self.load()\n",
+          "test_cache.py": "from cache import Cache\n\ndef test_cache_refresh():\n    cache = Cache(lambda: 42)\n    cache.refresh()\n    assert cache.value == 42\n"
+        },
+        "contract": "After refresh() returns, value holds the loaded result.",
+        "evidence": "CI history shows 3 failures in the last 40 runs, each asserting None == 42.",
+        "tool_behavior": "run_local_tests accepts a repeat count and returns pass/fail counts; with the current code it fails roughly 5-10% of runs. run_local_tests with an injected delay in _fill fails deterministically."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "run_local_tests",
+        "apply_local_patch",
+        "local_commit"
+      ],
+      "expected": [
+        "Record the observed failure rate with its denominator and prefer a controlled trigger such as an injected delay to make the race reproducible.",
+        "Define the repeat count and pass threshold from the observed rate before applying the repair.",
+        "Repair the race by making refresh() honor the contract rather than adding sleeps, retries, or weakening the assertion.",
+        "Report the controlled trigger result and the repeat check as passes over total runs; one successful rerun is not accepted as verification."
+      ]
+    },
+    {
+      "id": "fix_issue_diagnosis_only_readonly",
+      "skills": [
+        "skills/fix-issue/SKILL.md"
+      ],
+      "subject_input": "看看这个报错为什么：调用 total_price([]) 时抛 IndexError。先不要改动。",
+      "context": {
+        "files": {
+          "pricing.py": "def total_price(items):\n    currency = items[0].currency\n    return sum(item.amount for item in items), currency\n"
+        },
+        "contract": "An empty cart totals 0 in the store default currency, available as settings.DEFAULT_CURRENCY.",
+        "tool_behavior": "run_readonly_check evaluates supplied code in memory without writing files."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "run_readonly_check",
+        "apply_local_patch",
+        "write_test_file"
+      ],
+      "expected": [
+        "Reproduce the IndexError with a read-only check and make no file writes, test files, staging, or commits.",
+        "Deliver the reproduction steps, the cause (items[0] read before handling the empty cart), and its evidence.",
+        "Propose a repair tied to the contract and the regression check that would verify it, labeled as not yet implemented."
+      ]
+    },
+    {
+      "id": "fix_issue_static_defect_runtime_pending",
+      "skills": [
+        "skills/fix-issue/SKILL.md"
+      ],
+      "subject_input": "修复重试次数超限的问题：配置 max_attempts=3 时线上任务会执行 4 次。",
+      "context": {
+        "files": {
+          "retry.py": "def run(task, max_attempts):\n    attempts = 0\n    while attempts <= max_attempts:\n        attempts += 1\n        if task():\n            return True\n    return False\n"
+        },
+        "contract": "A task runs at most max_attempts times.",
+        "environment": "No test runner, interpreter, or CI is available in this session; only reading and editing files is possible."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "apply_local_patch"
+      ],
+      "expected": [
+        "Establish the defect with a complete static path (attempts 0..3 all satisfy <= 3, giving four calls) and label the evidence as static.",
+        "Implement the minimal repair to the loop bound and add or propose a regression test for an always-failing task with max_attempts=3.",
+        "Close out with behavioral verification pending, naming the missing runtime evidence (old version fails, repair runs exactly three times); do not report the fix as verified."
+      ]
     }
   ]
 }

@@ -169,6 +169,8 @@ class PromptConsistencyTests(unittest.TestCase):
                 self.assertGreaterEqual(len(case['expected']), 3)
                 for path in case['skills']:
                     self.assertTrue((ROOT / path).is_file(), path)
+        covered = {path.split('/')[1] for case in cases for path in case['skills'] if path.startswith('skills/')}
+        self.assertEqual(sorted(set(SKILLS) - covered), [])
 
     def test_readme_distinguishes_prompt_checks_from_model_evals(self):
         text = read('README.md')
