@@ -17,9 +17,9 @@ class SkillMetadataTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
-        self.skill = Path(self.tmp.name) / 'organize-dida365'
+        self.skill = Path(self.tmp.name) / 'explicit-skill'
         (self.skill / 'agents').mkdir(parents=True)
-        self.header = 'name: organize-dida365\ndescription: Organize tasks on explicit request.\ndisable-model-invocation: true\n'
+        self.header = 'name: explicit-skill\ndescription: Run only on explicit request.\ndisable-model-invocation: true\n'
         self.config = 'policy:\n  allow_implicit_invocation: false\n'
 
     def check(self, header=None, config=None):
@@ -59,16 +59,13 @@ class SkillMetadataTests(unittest.TestCase):
         for config in ('{}\n', 'policy: {}\n', self.config.replace('false', 'true')):
             self.assertIn('explicit-only skill requires policy.allow_implicit_invocation: false', self.check(config=config))
 
-    def test_all_three_skills_require_both_policies(self):
-        for name in validator.EXPLICIT_ONLY:
-            with self.subTest(name=name):
-                dest = self.skill.with_name(name)
-                self.skill.rename(dest)
-                self.skill = dest
-                header = f'name: {name}\ndescription: Test.\n'
-                errors = self.check(header, '{}\n')
-                self.assertIn('explicit-only skill requires disable-model-invocation: true', errors)
-                self.assertIn('explicit-only skill requires policy.allow_implicit_invocation: false', errors)
+    def test_single_host_explicit_policy_requires_the_other(self):
+        header_only = 'name: explicit-skill\ndescription: Test.\ndisable-model-invocation: true\n'
+        config_only = 'name: explicit-skill\ndescription: Test.\n'
+        self.assertIn('explicit-only skill requires policy.allow_implicit_invocation: false',
+                      self.check(header_only, '{}\n'))
+        self.assertIn('explicit-only skill requires disable-model-invocation: true',
+                      self.check(config_only, self.config))
 
     def test_missing_config_is_rejected_for_explicit_skill(self):
         self.check()
@@ -85,8 +82,8 @@ class SkillMetadataTests(unittest.TestCase):
                 self.assertTrue(self.check(config=config))
 
     def test_required_core_fields(self):
-        for header in (self.header.replace('name: organize-dida365', 'name: wrong-name'),
-                       self.header.replace('description: Organize tasks on explicit request.', 'description: null')):
+        for header in (self.header.replace('name: explicit-skill', 'name: wrong-name'),
+                       self.header.replace('description: Run only on explicit request.', 'description: null')):
             self.assertTrue(self.check(header))
 
     def test_ordinary_skill_can_omit_host_policies(self):

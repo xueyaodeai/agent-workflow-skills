@@ -451,52 +451,6 @@
       ]
     },
     {
-      "id": "dispatch_missing_decision",
-      "skills": [
-        "skills/dispatch-dida365-agent-tasks/SKILL.md"
-      ],
-      "subject_input": "使用 dispatch-dida365-agent-tasks，启动收集到的任务 17。",
-      "context": {
-        "task_17": "Tagged agent委派. Title: Implement retention cleanup. Retention period and deletion authority are unresolved.",
-        "prior_dispatch": "No destination reference exists."
-      },
-      "allowed_mock_tools": [
-        "read_tasks",
-        "read_repository",
-        "create_visible_agent",
-        "update_task"
-      ],
-      "expected": [
-        "The exact user selection does not bypass readiness.",
-        "No implementation-agent launch or source-task completion while the consequential contract is unresolved.",
-        "Ask the smallest necessary decision; do not silently launch a clarification task without its authorization."
-      ]
-    },
-    {
-      "id": "dispatch_already_selected",
-      "skills": [
-        "skills/dispatch-dida365-agent-tasks/SKILL.md",
-        "skills/dispatch-dida365-agent-tasks/agents/openai.yaml"
-      ],
-      "subject_input": "使用 dispatch-dida365-agent-tasks，启动任务 21，不启动其他任务。",
-      "context": {
-        "task_21": "Why: user prefers Export label. What: label-only edit in repo R. Shortest/best: same direct edit and existing component checks. Selected: that minimal path. Done: exact label and unchanged click behavior verified, local commit only. Sources accessible; no unmet prerequisites.",
-        "prior_dispatch": "No prior destination reference. Mock host accepts a visible task and returns stable task://21."
-      },
-      "allowed_mock_tools": [
-        "read_tasks",
-        "read_repository",
-        "create_visible_agent",
-        "update_task",
-        "read_back_tasks"
-      ],
-      "expected": [
-        "Do not ask which task to start again.",
-        "Launch only task 21, preserve its four-point contract, and verify host acceptance.",
-        "Write and re-read the delegation-only closeout with its stable reference; do not claim implementation complete."
-      ]
-    },
-    {
       "id": "handoff_inaccessible",
       "skills": [
         "skills/prepare-agent-handoff/SKILL.md"
@@ -560,51 +514,6 @@
       ]
     },
     {
-      "id": "capture_not_ready",
-      "skills": [
-        "skills/triage-dida365-inbox/SKILL.md"
-      ],
-      "subject_input": "使用 triage-dida365-inbox 整理收集箱。",
-      "context": {
-        "item": "Build an AI platform. Purpose, scope, path tradeoffs, and acceptance are not defined. Owning project Work Ideas is already unambiguous.",
-        "authority": "Moves and appropriate queue-tag updates only; no agent launch."
-      },
-      "allowed_mock_tools": [
-        "read_tasks",
-        "move_task",
-        "update_tags",
-        "read_back_tasks",
-        "create_visible_agent"
-      ],
-      "expected": [
-        "The idea may be moved to the known owning project and retained active.",
-        "Do not tag it agent委派 or present it as execution-ready without a contract.",
-        "Do not force a full project plan or launch an agent; verify any authorized metadata updates."
-      ]
-    },
-    {
-      "id": "split_inherits_contract",
-      "skills": [
-        "skills/organize-dida365/SKILL.md"
-      ],
-      "subject_input": "使用 organize-dida365，把这个清楚的父任务按两位负责人拆成执行任务，不启动 Agent。",
-      "context": {
-        "parent": "Why: callers require correct CSV and JSON exports. Scope: existing exporter only. Shortest/best: reuse existing adapters and fixture checks. Selected: same route. Acceptance: each format preserves exact selected IDs; overall acceptance requires both formats.",
-        "owners": "Alice owns CSV; Bob owns JSON. Both can access the parent record.",
-        "authority": "Create the two child tasks and retain the parent acceptance, no deletion or launch."
-      },
-      "allowed_mock_tools": [
-        "read_tasks",
-        "create_child_task",
-        "read_back_tasks"
-      ],
-      "expected": [
-        "Child tasks explicitly inherit the accessible rationale and path choice and bind their own format-specific acceptance.",
-        "The parent retains both-format overall acceptance.",
-        "No duplicate planning interview, hidden-history dependency, or agent launch."
-      ]
-    },
-    {
       "id": "report_stale_evidence",
       "skills": [
         "skills/report-acceptance/SKILL.md"
@@ -647,61 +556,6 @@
         "A1 is fail with the failing run as evidence; A2 is manual because only a human judgment can decide it; A3 is pass.",
         "The summary counts match the rows and every non-pass row states what is missing or failed.",
         "The overall verdict is not pass and identifies A1 and A2 as blocking instead of reclassifying them as pass."
-      ]
-    },
-    {
-      "id": "organize_delete_without_authority",
-      "skills": [
-        "skills/organize-dida365/SKILL.md"
-      ],
-      "subject_input": "使用 organize-dida365 帮我清理一下这个任务系统，标签太乱，项目也太多。",
-      "context": {
-        "state": "Twelve synonym tags, three empty active projects holding only completed history, and one paused project with active children.",
-        "authority": "A general tidy-up request; the user named no deletions and approved no item-by-item list.",
-        "connector": "Delete and archive operations are available."
-      },
-      "allowed_mock_tools": [
-        "read_tasks",
-        "read_projects",
-        "read_tags",
-        "update_task",
-        "move_task",
-        "archive_project",
-        "delete_tag",
-        "delete_task",
-        "read_back_tasks"
-      ],
-      "expected": [
-        "Do not delete tasks, tags, projects, or history from a general tidy-up request; propose the deletion set and ask for the exact deletion authority.",
-        "Reversible updates inside the requested scope may proceed: retagging, moves, and archiving a project only after its active children are resolved.",
-        "Do not archive the paused project while it still holds active children, and preserve unrelated task fields.",
-        "Verify the applied changes by re-reading live state instead of reporting completion from write responses."
-      ]
-    },
-    {
-      "id": "triage_batch_partial",
-      "skills": [
-        "skills/triage-dida365-inbox/SKILL.md"
-      ],
-      "subject_input": "整理收集箱，执行整理。",
-      "context": {
-        "inbox": "Four items. (1) 续费域名 -> owns project 站点运维. (2) 报销打车费 -> owns project 报销. (3) 企业版续费方案 -> plausible owners 工作 and 副业 SaaS, no stated preference. (4) 研究一个还不存在的副业方向.",
-        "authority": "Moves and agent委派 tag updates for the Inbox items."
-      },
-      "allowed_mock_tools": [
-        "read_tasks",
-        "read_projects",
-        "read_tags",
-        "move_task",
-        "update_tags",
-        "create_project",
-        "read_back_tasks"
-      ],
-      "expected": [
-        "Move items 1 and 2 to their owning projects and keep them active; do not create a project merely to empty the Inbox.",
-        "Leave items 3 and 4 unchanged instead of guessing an owner or a contract, and return one compact question covering only those routing decisions.",
-        "Do not apply agent委派 or start an Agent task during triage.",
-        "Verify moved items by re-reading project placement and preserved fields."
       ]
     },
     {

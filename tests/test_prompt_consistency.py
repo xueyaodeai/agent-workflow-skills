@@ -5,9 +5,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILLS = ('plan-outcomes', 'fix-issue', 'orchestrate-projects', 'prepare-agent-handoff', 'report-acceptance',
-          'dispatch-dida365-agent-tasks', 'triage-dida365-inbox', 'organize-dida365')
-EXPLICIT = ('dispatch-dida365-agent-tasks', 'triage-dida365-inbox', 'organize-dida365')
+SKILLS = ('plan-outcomes', 'fix-issue', 'orchestrate-projects', 'prepare-agent-handoff', 'report-acceptance')
 
 # Each installed skill keeps its own readiness guard, so these points are checked per skill
 # rather than in a shared file that the installer may omit.
@@ -21,8 +19,6 @@ READINESS_POINTS = {
     'reuse of settled answers': r'\breus(?:e|es|ed|ing)\b',
     'execution readiness': r'\breadiness\b|\bready\b',
 }
-MISSING_CONNECTOR = ('If the connector or required tools are unavailable, stop and report the limitation '
-                     'instead of inferring or fabricating task state.')
 
 
 def read(path):
@@ -117,24 +113,6 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertNotIn('validate_project_docs.py', text)
         for path in ('assets/promotion-gate.md', 'assets/milestone-audit.md'):
             self.assertIn(path, reference)
-
-    def test_dida365_skills_stop_when_the_connector_is_missing(self):
-        for skill in EXPLICIT:
-            with self.subTest(skill=skill):
-                self.assertIn(MISSING_CONNECTOR, read(f'skills/{skill}/SKILL.md'))
-
-    def test_explicit_only_skills_remain_explicit(self):
-        for skill in EXPLICIT:
-            text = read(f'skills/{skill}/SKILL.md')
-            header = text.split('---', 2)[1]
-            self.assertIn('disable-model-invocation: true', header)
-            self.assertIn('allow_implicit_invocation: false', read(f'skills/{skill}/agents/openai.yaml'))
-
-    def test_dispatch_default_does_not_force_reselection(self):
-        text = read('skills/dispatch-dida365-agent-tasks/agents/openai.yaml')
-        self.assertIn('只启动我明确选择的就绪任务', text)
-        self.assertIn('仅在我的选择不明确时询问', text)
-        self.assertNotIn('请选择要启动的任务', text)
 
     def test_interface_prompts_use_the_same_language(self):
         for skill in SKILLS:

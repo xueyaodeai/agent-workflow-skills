@@ -17,9 +17,6 @@ DEPENDENCY_HINT = ('PyYAML is required to validate skill metadata: '
                    'python3 -m pip install -r tests/requirements.txt')
 YAML_ERRORS = (yaml.YAMLError,) if yaml is not None else ()
 ERRORS = (OSError, UnicodeError, ValueError) + YAML_ERRORS
-EXPLICIT_ONLY = {
-    'dispatch-dida365-agent-tasks', 'organize-dida365', 'triage-dida365-inbox',
-}
 FRONTMATTER_KEYS = {
     'name', 'description', 'license', 'allowed-tools', 'metadata',
     'disable-model-invocation',
@@ -92,12 +89,10 @@ def validate(skill: Path) -> list[str]:
         errors.append('metadata must map strings to strings')
     if 'disable-model-invocation' in header and type(header['disable-model-invocation']) is not bool:
         errors.append('disable-model-invocation must be a boolean')
-    explicit = skill.name in EXPLICIT_ONLY
-    if explicit and header.get('disable-model-invocation') is not True:
-        errors.append('explicit-only skill requires disable-model-invocation: true')
+    explicit_frontmatter = header.get('disable-model-invocation') is True
 
     config_path = skill / 'agents' / 'openai.yaml'
-    if not config_path.exists() and not explicit:
+    if not config_path.exists() and not explicit_frontmatter:
         return errors
     try:
         config = mapping(config_path.read_text(encoding='utf-8'))
@@ -113,7 +108,11 @@ def validate(skill: Path) -> list[str]:
                 errors.append('unknown policy fields: ' + ', '.join(sorted(unknown)))
             if 'allow_implicit_invocation' in policy and type(policy['allow_implicit_invocation']) is not bool:
                 errors.append('allow_implicit_invocation must be a boolean')
-            if explicit and policy.get('allow_implicit_invocation') is not False:
+            explicit_policy = policy.get('allow_implicit_invocation') is False
+            explicit = explicit_frontmatter or explicit_policy
+            if explicit and not explicit_frontmatter:
+                errors.append('explicit-only skill requires disable-model-invocation: true')
+            if explicit and not explicit_policy:
                 errors.append('explicit-only skill requires policy.allow_implicit_invocation: false')
     except ERRORS as exc:
         errors.append(f'openai.yaml: {exc}')
