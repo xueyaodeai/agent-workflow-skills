@@ -6,6 +6,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ('plan-outcomes', 'fix-issue', 'orchestrate-projects', 'prepare-agent-handoff', 'report-acceptance')
+OPEN_SOURCE_SURVEY = (
+    'If existing in-repo primitives cannot cover a required architecture change or non-trivial mechanism, '
+    'first search GitHub or other open-source hosts for actively maintained frameworks or libraries.'
+)
 
 # Each installed skill keeps its own readiness guard, so these points are checked per skill
 # rather than in a shared file that the installer may omit.
@@ -50,14 +54,16 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertEqual(*sections)
         self.assertIn('--git-common-dir', sections[0])
         self.assertIn('out of version control by default', sections[0])
-        self.assertIn('search GitHub and other open-source hosts for actively maintained frameworks', sections[0])
+        self.assertRegex(sections[0], rf'(?m)^- {re.escape(OPEN_SOURCE_SURVEY)}(?: |$)')
 
-    def test_planning_skills_require_open_source_survey_for_architecture(self):
-        for path in ('skills/plan-outcomes/SKILL.md', 'skills/orchestrate-projects/SKILL.md'):
-            text = read(path)
-            with self.subTest(path=path):
-                self.assertIn('GitHub', text)
-                self.assertIn('actively maintained', text)
+    def test_planning_skills_require_open_source_survey_for_uncovered_needs(self):
+        for skill, heading in (
+            ('plan-outcomes', '## 3. Define acceptance and compare paths'),
+            ('orchestrate-projects', '### Plan'),
+        ):
+            with self.subTest(skill=skill):
+                section = read(f'skills/{skill}/SKILL.md').split(f'{heading}\n', 1)[1].split('\n#', 1)[0]
+                self.assertRegex(section, rf'(?m)^{re.escape(OPEN_SOURCE_SURVEY)}(?: |$)')
 
     def test_common_and_codex_communicate_sections_match(self):
         sections = [read(f'templates/{host}/AGENTS.md').split('## Communicate\n', 1)[1]

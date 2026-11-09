@@ -64,7 +64,7 @@ Compare paths against the same complete acceptance criteria:
 - **Best path:** the best-supported tradeoff under current time, cost, risk, maintenance, and migration constraints, not an idealized architecture or a claim of global optimality.
 - **Selected path:** the choice, rationale, material tradeoffs, and conditions that would justify revisiting it. The two paths may be identical; explain briefly instead of fabricating a second option.
 
-For architecture, new components, or non-trivial technical capabilities, survey actively maintained open-source frameworks on GitHub or equivalent hosts before locking the paths. Compare direct adoption, composing mature open-source building blocks with a thin custom bridge, and borrowing proven schemas or algorithms against custom implementation. Record why leading candidates were selected, adapted, or rejected (such as build/runtime constraints, license, maintenance activity, or domain contract gaps).
+If existing in-repo primitives cannot cover a required architecture change or non-trivial mechanism, first search GitHub or other open-source hosts for actively maintained frameworks or libraries. Compare direct adoption, composing mature open-source building blocks with a thin custom bridge, and borrowing proven schemas or algorithms against custom implementation. Record why leading candidates were selected, adapted, or rejected (such as build/runtime constraints, license, maintenance activity, or domain contract gaps).
 
 Use current evidence and delegated decision authority. If an unresolved value judgment would materially change the choice, block the dependent work rather than silently choosing for the user. Reversible technical details that do not change the contract remain implementation choices.
 
