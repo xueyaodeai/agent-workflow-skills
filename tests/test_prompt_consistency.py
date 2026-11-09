@@ -8,7 +8,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ('plan-outcomes', 'fix-issue', 'orchestrate-projects', 'prepare-agent-handoff', 'report-acceptance')
 OPEN_SOURCE_SURVEY = (
     'If existing in-repo primitives cannot cover a required architecture change or non-trivial mechanism, '
-    'first search GitHub or other open-source hosts for actively maintained frameworks or libraries.'
+    'first search GitHub or other open-source hosts for actively maintained frameworks or libraries. '
+    'Evaluate candidates before writing custom code.'
 )
 
 # Each installed skill keeps its own readiness guard, so these points are checked per skill
@@ -30,10 +31,18 @@ def read(path):
 
 
 def markdown_section(text, heading):
-    """Return the uncommented body up to the next heading at the same level or above."""
-    text = re.sub(r'<!--.*?-->', '', text, flags=re.S)
+    """Return the section body, omitting HTML comments and fenced examples."""
+    comments_and_fences = (
+        r'<!--.*?(?:-->|\Z)'
+        r'|^ {0,3}(?P<fence>(?P<marker>`|~)(?P=marker){2,})[^\n]*\n'
+        r'.*?(?:^ {0,3}(?P=fence)(?P=marker)*[ \t]*(?:\n|\Z)|\Z)'
+    )
+    text = re.sub(comments_and_fences, '\n', text, flags=re.M | re.S)
     level = len(heading.split(' ', 1)[0])
-    pattern = rf'^{re.escape(heading)}\n(.*?)(?=^#{{1,{level}}} |\Z)'
+    pattern = (
+        rf'^ {{0,3}}{re.escape(heading)}(?:[ \t]+#+)?[ \t]*\n'
+        rf'(.*?)(?=^ {{0,3}}#{{1,{level}}}(?:[ \t]|$)|\Z)'
+    )
     match = re.search(pattern, text, re.M | re.S)
     return match.group(1) if match else ''
 
