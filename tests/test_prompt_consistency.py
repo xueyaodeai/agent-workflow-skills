@@ -30,7 +30,8 @@ def read(path):
 
 
 def markdown_section(text, heading):
-    """Return the body up to the next heading at the same level or above."""
+    """Return the uncommented body up to the next heading at the same level or above."""
+    text = re.sub(r'<!--.*?-->', '', text, flags=re.S)
     level = len(heading.split(' ', 1)[0])
     pattern = rf'^{re.escape(heading)}\n(.*?)(?=^#{{1,{level}}} |\Z)'
     match = re.search(pattern, text, re.M | re.S)
@@ -65,12 +66,14 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertRegex(sections[0], rf'(?m)^- {re.escape(OPEN_SOURCE_SURVEY)}(?: |$)')
 
     def test_planning_skills_require_open_source_survey_for_uncovered_needs(self):
-        for skill, heading in (
-            ('plan-outcomes', '## 3. Define acceptance and compare paths'),
-            ('orchestrate-projects', '### Plan'),
+        for skill, headings in (
+            ('plan-outcomes', ('## 3. Define acceptance and compare paths',)),
+            ('orchestrate-projects', ('## 6. Run the coordination loop', '### Plan')),
         ):
             with self.subTest(skill=skill):
-                section = markdown_section(read(f'skills/{skill}/SKILL.md'), heading)
+                section = read(f'skills/{skill}/SKILL.md')
+                for heading in headings:
+                    section = markdown_section(section, heading)
                 self.assertRegex(section, rf'(?m)^{re.escape(OPEN_SOURCE_SURVEY)}(?: |$)')
 
     def test_common_and_codex_communicate_sections_match(self):
