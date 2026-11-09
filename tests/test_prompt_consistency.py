@@ -83,7 +83,10 @@ class PromptConsistencyTests(unittest.TestCase):
                 section = read(f'skills/{skill}/SKILL.md')
                 for heading in headings:
                     section = markdown_section(section, heading)
-                self.assertRegex(section, rf'(?m)^{re.escape(OPEN_SOURCE_SURVEY)}(?: |$)')
+                self.assertRegex(
+                    section,
+                    rf'(?m)(?:\A(?:[ \t]*\n)*|\n[ \t]*\n){re.escape(OPEN_SOURCE_SURVEY)}(?: |$)',
+                )
 
     def test_common_and_codex_communicate_sections_match(self):
         sections = [read(f'templates/{host}/AGENTS.md').split('## Communicate\n', 1)[1]
