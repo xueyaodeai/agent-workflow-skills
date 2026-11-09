@@ -50,6 +50,14 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertEqual(*sections)
         self.assertIn('--git-common-dir', sections[0])
         self.assertIn('out of version control by default', sections[0])
+        self.assertIn('search GitHub and other open-source hosts for actively maintained frameworks', sections[0])
+
+    def test_planning_skills_require_open_source_survey_for_architecture(self):
+        for path in ('skills/plan-outcomes/SKILL.md', 'skills/orchestrate-projects/SKILL.md'):
+            text = read(path)
+            with self.subTest(path=path):
+                self.assertIn('GitHub', text)
+                self.assertIn('actively maintained', text)
 
     def test_common_and_codex_communicate_sections_match(self):
         sections = [read(f'templates/{host}/AGENTS.md').split('## Communicate\n', 1)[1]

@@ -21,7 +21,7 @@ Adapt to complexity and use the user's language. Short paragraphs may replace ta
 
 - Shortest path: <fastest known feasible route to full acceptance, including verification and delivery>
 - Best path: <best-supported tradeoff under current time/cost/risk/lifecycle constraints>
-- Selected path: <choice, rationale, material tradeoffs, and recheck trigger; paths may be identical>
+- Selected path: <choice, rationale, material tradeoffs, and recheck trigger; for architecture or new mechanisms, note evaluated open-source frameworks (adopt, adapt, or reject reason); paths may be identical>
 
 ## Open decisions and implementation assumptions
 

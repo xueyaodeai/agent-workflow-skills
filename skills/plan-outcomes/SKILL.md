@@ -2,7 +2,7 @@
 name: plan-outcomes
 description: Clarify why to do a task, what to deliver, shortest and best paths, and verifiable acceptance. Use when planning or revising work, splitting milestones, or resolving unclear goals, scope, tradeoffs, or completion criteria before implementation.
 metadata:
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Plan Outcomes and Acceptance
@@ -63,6 +63,8 @@ Compare paths against the same complete acceptance criteria:
 - **Shortest path:** the fastest known feasible route to the full agreed result, including necessary verification and delivery. A reduced-scope prototype is a different proposal, not completion of the original task.
 - **Best path:** the best-supported tradeoff under current time, cost, risk, maintenance, and migration constraints, not an idealized architecture or a claim of global optimality.
 - **Selected path:** the choice, rationale, material tradeoffs, and conditions that would justify revisiting it. The two paths may be identical; explain briefly instead of fabricating a second option.
+
+For architecture, new components, or non-trivial technical capabilities, survey actively maintained open-source frameworks on GitHub or equivalent hosts before locking the paths. Compare direct adoption, composing mature open-source building blocks with a thin custom bridge, and borrowing proven schemas or algorithms against custom implementation. Record why leading candidates were selected, adapted, or rejected (such as build/runtime constraints, license, maintenance activity, or domain contract gaps).
 
 Use current evidence and delegated decision authority. If an unresolved value judgment would materially change the choice, block the dependent work rather than silently choosing for the user. Reversible technical details that do not change the contract remain implementation choices.
 
