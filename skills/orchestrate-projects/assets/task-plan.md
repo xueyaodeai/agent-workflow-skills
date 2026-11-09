@@ -38,7 +38,9 @@ Check the overall result at the delivery boundary, not just isolated steps. -->
 
 <!-- When paths coincide, describe the route once and use short references in
 other fields. Put exact inputs, revisions, budgets, and environment details here
-when needed to execute or verify; do not expand the opening with them. -->
+when needed to execute or verify; do not expand the opening with them. If an
+open-source survey was required, summarize the candidates and the reasons to
+adopt, adapt, or reject them here. -->
 
 ## Plan and progress
 

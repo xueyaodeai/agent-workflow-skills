@@ -6,6 +6,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ('plan-outcomes', 'fix-issue', 'orchestrate-projects', 'prepare-agent-handoff', 'report-acceptance')
+OPEN_SOURCE_SURVEY = (
+    'If existing in-repo primitives cannot cover a required architecture change or non-trivial mechanism, '
+    'first search GitHub or other open-source hosts for actively maintained frameworks or libraries. '
+    'Evaluate candidates before writing custom code.'
+)
 
 # Each installed skill keeps its own readiness guard, so these points are checked per skill
 # rather than in a shared file that the installer may omit.
@@ -23,6 +28,23 @@ READINESS_POINTS = {
 
 def read(path):
     return (ROOT / path).read_text(encoding='utf-8')
+
+
+def markdown_section(text, heading):
+    """Return the section body, omitting HTML comments and fenced examples."""
+    comments_and_fences = (
+        r'<!--.*?(?:-->|\Z)'
+        r'|^ {0,3}(?P<fence>(?P<marker>`|~)(?P=marker){2,})[^\n]*\n'
+        r'.*?(?:^ {0,3}(?P=fence)(?P=marker)*[ \t]*(?:\n|\Z)|\Z)'
+    )
+    text = re.sub(comments_and_fences, '\n', text, flags=re.M | re.S)
+    level = len(heading.split(' ', 1)[0])
+    pattern = (
+        rf'^ {{0,3}}{re.escape(heading)}(?:[ \t]+#+)?[ \t]*\n'
+        rf'(.*?)(?=^ {{0,3}}#{{1,{level}}}(?:[ \t]|$)|\Z)'
+    )
+    match = re.search(pattern, text, re.M | re.S)
+    return match.group(1) if match else ''
 
 
 def missing_readiness_points(text):
@@ -45,11 +67,26 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertEqual(*sections)
 
     def test_common_and_codex_minimum_complexity_sections_match(self):
-        sections = [read(f'templates/{host}/AGENTS.md').split('## Minimum Complexity\n', 1)[1].split('## Verify\n', 1)[0]
+        sections = [markdown_section(read(f'templates/{host}/AGENTS.md'), '## Minimum Complexity')
                     for host in ('common', 'codex')]
         self.assertEqual(*sections)
         self.assertIn('--git-common-dir', sections[0])
         self.assertIn('out of version control by default', sections[0])
+        self.assertRegex(sections[0], rf'(?m)^- {re.escape(OPEN_SOURCE_SURVEY)}(?: |$)')
+
+    def test_planning_skills_require_open_source_survey_for_uncovered_needs(self):
+        for skill, headings in (
+            ('plan-outcomes', ('## 3. Define acceptance and compare paths',)),
+            ('orchestrate-projects', ('## 6. Run the coordination loop', '### Plan')),
+        ):
+            with self.subTest(skill=skill):
+                section = read(f'skills/{skill}/SKILL.md')
+                for heading in headings:
+                    section = markdown_section(section, heading)
+                self.assertRegex(
+                    section,
+                    rf'(?m)(?:\A(?:[ \t]*\n)*|\n[ \t]*\n){re.escape(OPEN_SOURCE_SURVEY)}(?: |$)',
+                )
 
     def test_common_and_codex_communicate_sections_match(self):
         sections = [read(f'templates/{host}/AGENTS.md').split('## Communicate\n', 1)[1]

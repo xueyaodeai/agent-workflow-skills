@@ -2,7 +2,7 @@
 name: orchestrate-projects
 description: Coordinate work whose state must survive multiple tasks, sessions, milestones, worktrees, repositories, or environments. Use when work needs a durable task plan or project roadmap, milestone audits, initiative integration, resuming a tracked project, or successor-roadmap alignment.
 metadata:
-  version: 1.0.1
+  version: 1.0.2
 ---
 
 # Orchestrate Projects
@@ -149,7 +149,9 @@ Identify the current task or milestone, bounded execution units, dependencies, e
 
 Establish the core invariant 3 contract from existing authorization, using `plan-outcomes` when available for requirements, work decomposition, and acceptance. Without it, express acceptance as scenario-based checks with pass conditions and required evidence. Keep the contract in the existing artifact, or in the chat plan when durable output is not authorized.
 
-Check which existing primitives satisfy the required behavior before adding a mechanism.
+Check which existing in-repo primitives satisfy the required behavior before adding a mechanism.
+
+If existing in-repo primitives cannot cover a required architecture change or non-trivial mechanism, first search GitHub or other open-source hosts for actively maintained frameworks or libraries. Evaluate candidates before writing custom code. Consider direct adoption, targeted integration, or adapting proven designs. Keep custom implementation to the gap these options leave.
 
 Validate at data boundaries, reuse established internal contracts, and preserve diagnostic failures; do not turn unrecoverable failures into empty, default, or apparently successful results. Extra checks, recovery, compatibility, and extension points need current requirements, callers, or concrete risks; briefly explain only retained exceptions whose basis is unclear.
 
