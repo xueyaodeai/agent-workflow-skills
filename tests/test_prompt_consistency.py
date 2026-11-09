@@ -29,6 +29,14 @@ def read(path):
     return (ROOT / path).read_text(encoding='utf-8')
 
 
+def markdown_section(text, heading):
+    """Return the body up to the next heading at the same level or above."""
+    level = len(heading.split(' ', 1)[0])
+    pattern = rf'^{re.escape(heading)}\n(.*?)(?=^#{{1,{level}}} |\Z)'
+    match = re.search(pattern, text, re.M | re.S)
+    return match.group(1) if match else ''
+
+
 def missing_readiness_points(text):
     """Return the readiness points a skill body never states."""
     return sorted(point for point, pattern in READINESS_POINTS.items()
@@ -49,7 +57,7 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertEqual(*sections)
 
     def test_common_and_codex_minimum_complexity_sections_match(self):
-        sections = [read(f'templates/{host}/AGENTS.md').split('## Minimum Complexity\n', 1)[1].split('## Verify\n', 1)[0]
+        sections = [markdown_section(read(f'templates/{host}/AGENTS.md'), '## Minimum Complexity')
                     for host in ('common', 'codex')]
         self.assertEqual(*sections)
         self.assertIn('--git-common-dir', sections[0])
@@ -62,7 +70,7 @@ class PromptConsistencyTests(unittest.TestCase):
             ('orchestrate-projects', '### Plan'),
         ):
             with self.subTest(skill=skill):
-                section = read(f'skills/{skill}/SKILL.md').split(f'{heading}\n', 1)[1].split('\n#', 1)[0]
+                section = markdown_section(read(f'skills/{skill}/SKILL.md'), heading)
                 self.assertRegex(section, rf'(?m)^{re.escape(OPEN_SOURCE_SURVEY)}(?: |$)')
 
     def test_common_and_codex_communicate_sections_match(self):
