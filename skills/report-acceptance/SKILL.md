@@ -1,19 +1,21 @@
 ---
 name: report-acceptance
-description: Write a self-contained offline HTML acceptance report that maps agreed acceptance criteria to existing evidence. Use when the user asks for an acceptance report, verification report, or HTML summary of whether delivered work meets its criteria.
+description: Map agreed acceptance criteria to existing evidence in a standalone offline HTML report. Use when the user asks for an HTML acceptance report or a separate acceptance report artifact.
 metadata:
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Report Acceptance
 
 Show a reader, in one page, which agreed criteria are met, which are not, and the evidence behind each verdict. The page reports evidence; it never creates it.
 
+For a verification summary in chat, answer from the available evidence within the current task's scope. Write an HTML file only when the request or explicit skill invocation calls for the report artifact and the active write scope permits it. Honor any requested output format and read-only scope.
+
 ## 1. Establish the contract
 
 Reuse the acceptance criteria from the user's request, the current plan, or the task contract. Each criterion needs a scenario, expected behavior, and the evidence that would prove it. Direct requests follow the same readiness check: know why the report is wanted, what scope and delivery boundary it covers, the shortest and best paths to gather its evidence, and what makes the report done. The report is ready to write once those points are known. When criteria are missing or ambiguous, do not invent them to fill the page; list them under open items or ask one concise question if the gap changes the verdict.
 
-A report request authorizes reading existing evidence and writing the report file. It does not authorize running tests, builds, devices, deployments, or task-system writes. Collect new evidence only when the request or existing authority includes that work.
+A request for the report artifact authorizes reading existing evidence and writing that artifact within the active permissions. Collect new evidence only when the request or existing authority includes that work.
 
 ## 2. Classify each criterion
 

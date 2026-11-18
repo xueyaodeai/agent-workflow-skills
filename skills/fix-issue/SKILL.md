@@ -1,8 +1,8 @@
 ---
 name: fix-issue
-description: Investigate and fix a reported bug from user or issue descriptions. Independently reproduce the failure, turn it into acceptance coverage, establish a root cause or testable hypothesis, and verify the repair. Use for issue resolution and bugfix work, including diagnosis-only requests within their read-only scope. For reviewing a diff or merge request without a reported failure, use a code review workflow instead.
+description: Reproduce a reported bug and diagnose its cause. Use for bug diagnosis or to repair and verify a reported failure when requested.
 metadata:
-  version: 1.1.0
+  version: 1.1.1
 ---
 
 # Fix Issue

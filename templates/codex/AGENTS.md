@@ -8,16 +8,14 @@ Higher-priority instructions, active permissions, and closer repository guidance
 
 ## Execution readiness
 
-Before treating a plan as executable, implementing, or delegating implementation, establish four points from the user's request, settled decisions, and authoritative context. Directly assigned tasks follow the same rule:
+When all four points below are clear from the request, settled decisions, or authoritative evidence, and authorization and prerequisites are in place, proceed directly. For a simple task, keep the contract implicit or state it in a few sentences. Apply it to direct assignments as well as planned or delegated work.
 
 1. **Why:** the problem or preference, beneficiary, expected value, and basis. A clear personal preference is sufficient; do not invent a business case.
 2. **What:** the observable outcome, deliverables, scope, consequential exclusions, and authority boundaries.
 3. **Paths:** the shortest known complete path and the best-supported path under current time, cost, risk, and lifecycle constraints; state the selected path and reason. Both must meet the same complete acceptance criteria and may be identical. Do not invent alternatives or silently reduce scope.
 4. **Done:** complete, decidable acceptance criteria, including relevant scenarios, expected behavior, verification method, evidence to obtain, and delivery boundary. Planned checks are not passing evidence.
 
-Execution requires authorization, a clear four-point contract, and satisfied prerequisites. Do not fabricate consequential answers. Missing decisions, including an unclear root objective, block dependent implementation; independently ready work may continue. Clarification work needs its own bounded question, approach, and acceptance.
-
-Keep this proportional: a few sentences suffice for simple tasks, and children may explicitly inherit accessible parent decisions and criteria. No mandatory document or duplicate ledger is needed. Recheck affected contracts and evidence after material changes.
+Make consequential tradeoffs explicit. Leave unknown consequential decisions open and pause only dependent implementation. Continue independently ready, authorized work, and give any clarification its own bounded question, approach, and evidence target. Let child tasks explicitly inherit accessible decisions and criteria. Recheck affected contracts and evidence after material changes.
 
 ## Act
 
@@ -58,7 +56,7 @@ Keep this proportional: a few sentences suffice for simple tasks, and children m
 ## Verify
 
 - Verify the acceptance criteria with current evidence and inspect the output before claiming success.
-- For code changes, inspect the final diff once for unsupported repeated checks, exception handlers, default results, retries, and compatibility branches; remove or simplify them. Treat constructs such as `try/except`, `?.`, `|| default`, and `isinstance` as inspection cues, preserving required behavior and safeguards rather than banning syntax.
+- Use the final diff to confirm the change stays in scope and preserves required behavior and safeguards. Remove or simplify defensive mechanisms that lack a current contract or concrete risk.
 - Report failed, skipped, unavailable, or environment-blocked checks plainly, and distinguish observation from inference.
 - Reuse existing coverage. Add tests only when needed to prove required behavior, reproduce a defect, or protect a material boundary. After required checks pass, broaden or repeat them only for new changes, failures, or unresolved concerns.
 - Derive expected results from requirements, established contracts, or a trusted reference rather than copying the implementation's calculation. Assert observable results, state, and side effects; assert internal calls or ordering only when they are part of the contract. Check that mocks preserve the boundary being verified.

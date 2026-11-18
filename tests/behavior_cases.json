@@ -718,6 +718,78 @@
         "Implement the minimal repair to the loop bound and add or propose a regression test for an always-failing task with max_attempts=3.",
         "Close out with behavioral verification pending, naming the missing runtime evidence (old version fails, repair runs exactly three times); do not report the fix as verified."
       ]
+    },
+    {
+      "id": "verification_chat_summary_no_report_artifact",
+      "skills": [
+        "skills/report-acceptance/SKILL.md"
+      ],
+      "host_setup": "Make report-acceptance available through normal skill discovery without preloading its body.",
+      "subject_input": "在当前聊天里给我一份简短的验证报告，说明通过了什么，还有什么没验证。",
+      "context": {
+        "evidence": "Current revision abc123: 12 unit tests passed. The browser smoke test was not run."
+      },
+      "allowed_mock_tools": [
+        "read_evidence",
+        "write_report_file",
+        "run_local_tests"
+      ],
+      "expected": [
+        "Answer in chat with the 12 passing unit tests and the missing browser verification for abc123.",
+        "Do not select the standalone acceptance report workflow or write a report artifact.",
+        "Do not collect new evidence by rerunning tests."
+      ]
+    },
+    {
+      "id": "fix_issue_default_prompt_preserves_diagnosis_only",
+      "skills": [
+        "skills/fix-issue/SKILL.md"
+      ],
+      "host_setup": "Insert the current revision's fix-issue default_prompt from agents/openai.yaml before the subject input, as an explicit UI invocation.",
+      "subject_input": "只诊断。空列表传给 total_price 会抛 IndexError，请复现并说明原因，先不要改动。",
+      "context": {
+        "files": {
+          "pricing.py": "def total_price(items):\n    return sum(item.amount for item in items), items[0].currency\n"
+        },
+        "contract": "An empty cart totals 0 in the store default currency.",
+        "tool_behavior": "run_readonly_check evaluates the fixture in memory."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "run_readonly_check",
+        "apply_local_patch",
+        "write_test_file"
+      ],
+      "expected": [
+        "Honor the explicit diagnosis-only scope after the UI invocation.",
+        "Reproduce the reported IndexError in memory and explain the unguarded access to items[0].",
+        "Make no local writes and describe any repair as proposed."
+      ]
+    },
+    {
+      "id": "orchestration_level_zero_uses_only_current_task",
+      "skills": [
+        "skills/orchestrate-projects/SKILL.md"
+      ],
+      "subject_input": "使用 $orchestrate-projects 把 docs/help.md 里的这一处 'helpp' 改为 'help'，确认只改了这一个词。改动留在工作区。",
+      "context": {
+        "files": {
+          "docs/help.md": "Open the helpp menu.\n"
+        },
+        "worktree": "Clean local Git checkout. No persistent plan, audit, or handoff is needed."
+      },
+      "allowed_mock_tools": [
+        "read_repository",
+        "read_skill_reference",
+        "apply_local_patch",
+        "verify_diff",
+        "write_project_record"
+      ],
+      "expected": [
+        "Use Level 0 and perform the scoped edit without another approval.",
+        "Avoid reading Git delivery, templates, milestone, or other specialized references for this local edit.",
+        "Verify the exact one-word diff. Leave it uncommitted and create no project record."
+      ]
     }
   ]
 }

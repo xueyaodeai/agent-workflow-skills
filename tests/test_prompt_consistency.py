@@ -77,7 +77,7 @@ class PromptConsistencyTests(unittest.TestCase):
     def test_planning_skills_require_open_source_survey_for_uncovered_needs(self):
         for skill, headings in (
             ('plan-outcomes', ('## 3. Define acceptance and compare paths',)),
-            ('orchestrate-projects', ('## 6. Run the coordination loop', '### Plan')),
+            ('orchestrate-projects', ('## Establish the execution contract',)),
         ):
             with self.subTest(skill=skill):
                 section = read(f'skills/{skill}/SKILL.md')

@@ -1,19 +1,35 @@
 ---
 name: prepare-agent-handoff
-description: Prepare the smallest runnable context-delta contract when work must continue across an agent task, session, worktree, environment, recurring automation, external model, or evaluation. Use for handoff, delegation, operationalization, scheduling, or reusable prompt and evaluation packaging when the destination cannot reliably continue from the context it already receives.
+description: Prepare an execution handoff when another task, agent, environment, schedule, or evaluation lacks the context needed to continue reliably.
 metadata:
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Prepare an Agent Handoff
 
 Package only the context a destination lacks. A handoff is self-contained when the destination can act from inherited context or named accessible sources without hidden chat history; it need not copy the history itself.
 
-## Minimum contract
+## Choose what the destination needs
+
+If no execution boundary exists and the work is authorized here, perform the work instead of manufacturing a handoff.
+
+When the destination already inherits sufficient context, send only a task delta:
+
+```text
+Task: <bounded objective>
+Return: <deliverable>
+Bounds: <only consequential limits>
+```
+
+Use the full contract below to fill only the consequential gaps in what the destination inherits.
+
+For a recurring schedule, external prompt, or evaluation case, read only the matching section of [references/contract-templates.md](references/contract-templates.md) and add its specialized fields to the core.
+
+## Full contract for a new context
 
 Include a detail only when removing it could change the destination's action, source selection, authority, or completion decision.
 
-For a cold execution context, include this semantic core. References may replace repeated content only when the destination can access them:
+Include the following when the destination cannot recover it through inherited context or named, accessible sources:
 
 ```text
 Why: <problem or preference, beneficiary, expected value, and basis>
@@ -29,25 +45,7 @@ Before handing off implementation, confirm every field of this core is ready; di
 
 Treat the destination as routing metadata. Include it only when the artifact may be reused or misrouted.
 
-## Workflow
-
-### 1. Size the context gap
-
-If no execution boundary exists and the work is authorized here, perform the work instead of manufacturing a handoff.
-
-When the destination already inherits sufficient context, send only a task delta:
-
-```text
-Task: <bounded objective>
-Return: <deliverable>
-Bounds: <only consequential limits>
-```
-
-Add any missing core field only when inherited context does not already make it reliable.
-
-For a recurring schedule, external prompt, or evaluation case, read only the matching section of [references/contract-templates.md](references/contract-templates.md) and add its specialized fields to the core.
-
-### 2. Inspect and extract
+## Inspect and extract
 
 Read supplied material, applicable project files, current evidence, and authorized live state before asking the user to restate anything. For long-running work, cite durable plans, audits, repository paths, revisions, identifiers, or recheck instructions instead of copying history.
 
@@ -63,7 +61,7 @@ Ask one concise group of questions only when an undiscoverable user-only answer 
 
 Never silently invent permissions, facts, business rules, source priority, metric definitions, credentials, dates, or acceptance thresholds.
 
-### 3. Emit and check
+## Deliver and check
 
 Default to returning one compact contract in chat. For authorized local persistence, use `$(git rev-parse --git-common-dir)/agent/` in Git repositories or an existing authorized local location outside Git; the destination must be able to access it. Shared records belong in the project's own tracker within the authorized write scope. Do not commit process handoffs unless the user explicitly requests tracking them. Link to existing evidence rather than creating a second source of truth.
 

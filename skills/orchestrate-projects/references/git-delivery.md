@@ -1,6 +1,6 @@
 # Git Delivery
 
-Read this reference only when the task changes a Git repository or its completion depends on a Git delivery identity.
+Read this reference for a task-scoped Git delivery, when Git identity affects completion or continuation, or when reconciling a merge. For ordinary local edits in a self-contained task, follow the active repository instructions.
 
 ## Select the delivery contract
 
@@ -23,7 +23,7 @@ Use a dedicated branch and separate worktree before concurrent tasks write to th
 ## Preserve change ownership and keep process ledgers out of Git
 
 - Keep a concrete list of files and, when necessary, hunks owned by the task.
-- Apply the [coordination storage rules](../SKILL.md#2-establish-fact-and-artifact-ownership); exclude process ledgers from staging unless the user explicitly requested tracking them.
+- Apply the [coordination storage rules](../SKILL.md#store-durable-records); exclude process ledgers from staging unless the user explicitly requested tracking them.
 - Do not absorb unrelated dirty-worktree changes because they are present.
 - Do not stash, reset, discard, rewrite, or commit another task's changes.
 - If task and unrelated edits overlap one file, stage only separable, reviewable hunks. Otherwise leave the delivery blocked and request the minimum decision.

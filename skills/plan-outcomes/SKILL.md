@@ -1,22 +1,19 @@
 ---
 name: plan-outcomes
-description: Clarify why to do a task, what to deliver, shortest and best paths, and verifiable acceptance. Use when planning or revising work, splitting milestones, or resolving unclear goals, scope, tradeoffs, or completion criteria before implementation.
+description: Define requirements, choose a complete path, and set verifiable acceptance. Use for requested planning, milestone design, or consequential scope and acceptance decisions.
 metadata:
-  version: 1.0.1
+  version: 1.0.2
 ---
 
 # Plan Outcomes and Acceptance
 
-Turn goals into executable, verifiable plans. Before marking work ready, establish why it should be done, what it delivers, the shortest and best paths with a selected approach, and complete acceptance criteria. Direct assignments are not exempt. Authorization does not resolve an unclear contract.
+For a simple task, give a short plan in the user’s language and state the pass condition. For multiple requirements or stages, adapt the existing plan or use the [outcome-plan template](assets/outcome-plan.md). A readiness check applies to both plans and direct assignments: establish why, what, the shortest and best paths with a selected approach, and complete acceptance criteria.
 
-Reuse settled answers; discover safe facts before asking. Missing consequential decisions block dependent implementation, not independently ready and authorized work. Do not invent answers or require repeated approval. A clarification task must have its own bounded question, approach, and acceptance; it must not implement the unresolved solution. Every executable child must own or explicitly inherit the four points from accessible sources. Each stage must identify what it delivers, and final acceptance must prove the overall objective.
-
-Use the user's language for plans, questions, and explanations, regardless of this skill's language.
+Reuse settled answers and use the user’s language for questions and explanations. Do not invent answers. Missing consequential decisions block only dependent implementation. Give clarification its own bounded question, approach, and acceptance. Each executable child states the four points or references an accessible source that supplies them.
 
 ## Choose the output boundary
 
-- A single task may need only a short plan. Split stages only for independent outcomes, real dependencies, or delivery boundaries, not a fixed stage count or technical layers.
-- For a multi-stage roadmap, define the final result first, then work backward to stage outcomes and tasks. Make near-term tasks executable; keep distant work at the level of outcomes, dependencies, acceptance conditions, and a trigger for further detail.
+- Split stages only for independent outcomes, real dependencies, or delivery boundaries. Make near-term tasks executable; keep distant work at the level of outcomes, dependencies, acceptance conditions, and a trigger for further detail.
 - Fill gaps in the existing plan and maintain one authoritative record. Return the plan in chat when durable files were not requested. For authorized local persistence, use `$(git rev-parse --git-common-dir)/agent/` in Git repositories or an existing authorized local location outside Git. Shared records belong in the project's own tracker within the authorized write scope. Do not commit process plans unless the user explicitly requests tracking them. Requests for planning only or no changes remain strictly read-only. Planning does not authorize implementation, commits, external task creation, or publication.
 - When used with `orchestrate-projects`, this skill owns requirements and acceptance content; that skill owns persistence, state, and coordination. Put the content in its existing task plan or roadmap rather than creating another ledger. This skill also works independently and requires no other skill.
 
@@ -70,7 +67,7 @@ Use current evidence and delegated decision authority. If an unresolved value ju
 
 ## 4. Work backward to stages and tasks
 
-For each stage, state its independently observable result, associated requirements, necessary inputs, exit criteria, and evidence. Then identify the necessary tasks, each with an action, deliverable, dependencies, and acceptance references. Assign owners only for multiple people or cross-task execution. A stage may serve several requirements and a requirement may span stages, but identify where each requirement receives final acceptance.
+For multi-stage work, start with the final outcome. For each stage, state its independently observable result, associated requirements, necessary inputs, exit criteria, and evidence. Then identify the necessary tasks, each with an action, deliverable, dependencies, and acceptance references. Assign owners only for multiple people or cross-task execution. A stage may serve several requirements and a requirement may span stages, but identify where each requirement receives final acceptance.
 
 Final acceptance checks the complete user flow or overall deliverable and the agreed delivery boundary. Passing stages separately does not automatically prove the whole result. Publication, deployment, or an observation period is required only within the authorized scope. An exploration stage delivers an answer to a specific uncertainty and evidence for a decision; do not precommit to an implementation whose feasibility is unproven.
 
@@ -88,5 +85,3 @@ Inspect the following and repair gaps in the current plan:
 When requirements change, update affected rationale, path choices, tasks, stage exit criteria, and final acceptance together. Identify invalidated evidence without automatically reopening every stage.
 
 Planning is complete when requirements have a basis, work and acceptance are traceable, dependencies are executable, and consequential open decisions are resolved or explicitly block their dependent portions. A plan may retain blocked branches, but must not describe them as ready to execute. Keep plan completion separate from implementation and acceptance status.
-
-Use [assets/outcome-plan.md](assets/outcome-plan.md) when drafting a plan with multiple requirements or stages. Fill gaps in existing formats; cover the same information in a few lines for simple tasks.

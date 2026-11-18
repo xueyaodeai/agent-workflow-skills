@@ -16,7 +16,7 @@ Distinguish established defects from unverified risks and name the missing evide
 
 ## Blocking findings
 
-For unsupported new or inherited complexity under core invariant 5, explain its concrete effect on the current outcome or maintenance cost within the reviewed scope. Assess whether it blocks completion using the criteria below; do not expand a local repair into an unrelated redesign.
+For unsupported new or inherited complexity under the execution contract in `SKILL.md`, explain its concrete effect on the current outcome or maintenance cost within the reviewed scope. Assess whether it blocks completion using the criteria below; do not expand a local repair into an unrelated redesign.
 
 Current reachability alone does not make a finding blocking. A blocker must identify the declared acceptance or exit criterion, non-deferable higher-priority rule, or protected existing behavior it violates; evidence linking the violation to the required current flow or candidate change; the material effect on truthful completion; and why existing controls do not cover it.
 

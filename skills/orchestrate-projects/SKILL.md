@@ -1,184 +1,56 @@
 ---
 name: orchestrate-projects
-description: Coordinate work whose state must survive multiple tasks, sessions, milestones, worktrees, repositories, or environments. Use when work needs a durable task plan or project roadmap, milestone audits, initiative integration, resuming a tracked project, or successor-roadmap alignment.
+description: Coordinate work that needs a durable task plan, roadmap, or milestone audit. Use to advance or resume that work across tasks, sessions, or environments.
 metadata:
-  version: 1.0.2
+  version: 1.1.0
 ---
 
 # Orchestrate Projects
 
-Keep long-running work resumable and evidence-backed. Help a human understand the outcome, current gap, and next action before reading execution detail.
+Keep long-running work resumable through one current plan, clear ownership, and evidence-backed completion.
 
-## Core invariants
+## Choose the smallest coordination level
 
-1. Use the smallest structure needed for continuation, following the routing below. Respect user and repository authority; record only project-specific limits and the authorized delivery package.
-2. Keep scope, decisions, ownership, and coordination state in their owning records using the storage rules below. Verify code, runtime, and external facts at their authoritative sources; bind evidence to a revision, environment, or time when it affects the conclusion.
-3. At every level, including Level 0 and direct assignments, establish why, what, the shortest and best complete paths with the selected approach, and complete acceptance. Both paths must meet the same complete acceptance criteria and may be identical. Reuse settled answers; missing consequential decisions block dependent implementation, not independently ready authorized work. Do not invent answers or require repeated approval. For Level 1, record or reference this contract and the next action. For Level 2/3, also record the milestone’s required flow, exit criteria, exclusions, accepted deferrals, blocker threshold, and stop condition.
-4. A frozen contract preserves sourced requirements and authority boundaries, not inherited implementation choices. Recheck technical assumptions against current evidence and revise them within scope without reconfirmation. Only the user or delegated scope owner may change required outcomes or authorized boundaries; workers and reviewers must not invent completion conditions.
-5. Choose the simplest complete solution by total implementation and lifecycle cost. Apply this to new and inherited mechanisms within scope; retain complexity only for a current caller, requirement, demonstrated failure, applicable rule, or material risk. Preserve unrelated work.
+- **Level 0 — current task:** If work can finish and be verified here and nobody needs durable status or independent continuation, use a short chat plan if useful. Continue directly to the execution contract below. Create no project record and skip references unless a specific delivery or review requirement calls for one.
+- **Level 1 — resumable task:** One outcome must survive a task, session, or environment boundary. Use the existing task plan or [task-plan template](assets/task-plan.md).
+- **Level 2 — multi-task project:** Dependencies or ownership must be coordinated across tasks, milestones, repositories, or environments. Use the existing roadmap or [project-roadmap template](assets/project-roadmap.md). Touching multiple repositories in one self-contained task is insufficient by itself.
+- **Level 3 — audited project:** Add a [milestone audit](assets/milestone-audit.md) when an explicit milestone gate follows from the request, project rules, or a demonstrated delivery risk. Parallelism or multiple repositories alone do not require an audit.
 
-## 1. Route the request before loading details
+Load only the references needed for the current action:
 
-Inspect applicable instructions, established project artifacts, and current evidence, then choose the smallest coordination level:
+| Action | Reference |
+| --- | --- |
+| Create, resume from, or update a durable record | [Writing project records](references/writing-records.md) for owners, progress states, and record structure |
+| Create or close a template-shaped record, or choose add-ons | [Templates and validation](references/templates.md) |
+| Execute a task-scoped Git delivery, verify Git identity for continuation, or reconcile a merged PR/MR | [Git delivery](references/git-delivery.md). Follow the active repository instructions for ordinary Level 0 local edits and verification |
+| Integrate milestones through a shared branch | [Initiative integration](references/integration-branch.md). Use only when its gate is satisfied. Otherwise prefer normal feature-to-primary delivery when milestones are independently releasable |
+| Align carryover or plan a successor roadmap | [Next-round alignment](references/next-round-alignment.md) |
+| Coordination genuinely requires separate execution units | [Execution units](references/execution-units.md) |
+| Independent review is required under the closeout rules below | [Independent review](references/independent-review.md) |
 
-1. **Level 0 — ephemeral execution:** The work can finish and be verified in the current task, with no independent continuation or durable status view. Use the current task's lightweight plan if useful; do not create a project file.
-2. **Level 1 — resumable task:** One outcome must survive a task, session, or environment boundary. Use the established task-plan format or copy `assets/task-plan.md`.
-3. **Level 2 — multi-task project:** Coordination state must survive across multiple tasks, milestones, repositories, environments, or owners. Add the established roadmap or copy `assets/project-roadmap.md`; merely touching multiple repositories in one self-contained task does not require a roadmap.
-4. **Level 3 — audited project:** An explicit milestone gate is required by the user, project rules, or a demonstrated coordination or delivery risk. Add `assets/milestone-audit.md`; parallel work or cross-repository changes alone do not raise the level.
+## Establish the execution contract
 
-Choose the delivery topology independently from the coordination level:
+For any level and direct assignments, establish why, what, the shortest and best complete paths with the selected approach, and complete acceptance. Both paths must satisfy the same complete acceptance criteria and may be identical. Reuse settled answers and let execution units explicitly inherit accessible decisions. Do not invent answers: a missing consequential decision blocks only dependent work. A bounded clarification can proceed with its own goal, approach, and evidence target. Recheck affected assumptions and readiness when scope or evidence changes.
 
-- Use `not_applicable` for read-only or non-Git work.
-- Use the repository's normal feature-to-primary workflow when milestones remain independently reviewable and releasable.
-- Use initiative integration only when its explicit gate is satisfied. Then read [references/integration-branch.md](references/integration-branch.md).
+Confirm authorization and prerequisites before executing. Preserve sourced requirements, authority boundaries, and unrelated work. Revise reversible technical choices using current evidence within scope. Only the user or delegated scope owner can change the required outcome or boundaries. For durable work, reconcile drift-prone facts with their authoritative sources and resume from the active plan or roadmap. If available, use `plan-outcomes` for detailed planning within the existing record, or define observable scenarios, pass conditions, and evidence directly.
 
-Load optional workflows only when their trigger applies:
+If existing in-repo primitives cannot cover a required architecture change or non-trivial mechanism, first search GitHub or other open-source hosts for actively maintained frameworks or libraries. Evaluate candidates before writing custom code. Consider adoption, targeted integration, or adapting proven designs, and implement only the remaining gap.
 
-- For Git changes or task-scoped delivery, read [references/git-delivery.md](references/git-delivery.md).
-- When a merged PR/MR must close out issues, deployment evidence, or an existing plan, use the merge-closeout procedure in that Git reference. Do not infer deployment or issue-writing authority from a merge notification.
-- For carryover alignment or a successor roadmap, read [references/next-round-alignment.md](references/next-round-alignment.md).
+Choose the simplest complete solution by lifecycle cost. Validate at data boundaries and reuse established internal contracts. Preserve diagnostic failures. Retain extra checks, recovery, compatibility, and extension points only for current requirements, callers, demonstrated failures, applicable rules, or concrete risks. Briefly explain retained exceptions when their basis is unclear.
 
-## 2. Establish fact and artifact ownership
+## Continue and close with evidence
 
-Treat project files as coordination ledgers, not universal factual authorities:
+Keep implementation and integration in the current task by default. Continue ready, authorized work through verification and delivery. Validate returned work against current evidence. For durable work, promote only conclusions that change project state or another task's decisions. Advance when exit evidence and next entry criteria are met. Otherwise record the blocker or pending prerequisite, its owner, and the next action.
 
-| Information | Authority | Durable record |
-|---|---|---|
-| User decisions, scope, non-goals, accepted deferrals | User or named policy owner | Roadmap decision ledger |
-| Project milestone and dependency state | Coordinating task after reconciliation | Project roadmap |
-| Task execution state and local choices | Task owner | Task plan |
-| Code and change identity | Live repository | Revision, diff, branch, or delivery record |
-| Test or review result | Producing system or reviewer | Evidence tied to subject, time, and environment |
-| External status | Authoritative external system | Identifier and last-checked time |
+- **Level 0:** Close when the requested result and its proportionate verification are complete.
+- **Level 1:** Also confirm the delivery boundary and reconcile the task record with current evidence.
+- **Level 2:** Also reconcile the roadmap and complete any dependent handoff required for continuation.
+- **Level 3:** Also pass the required audit and high-risk gates. An audit does not substitute for required code review or runtime evidence.
 
-Use these write and storage rules:
+Verify the exact delivered subject. Keep failed checks, missing or mismatched evidence, and pending human judgments distinct. Link native results and bind evidence to a revision, environment, or time when it affects the verdict. Installation and deployment require their own evidence. Use `report-acceptance` when available for a requested standalone acceptance report.
 
-- Give each shared artifact one writer. The coordinating task owns the roadmap and shared decision ledger.
-- Each worker task owns its task plan. It must not edit the roadmap concurrently; return conclusion, changes, evidence, risks, and next step to the coordinator.
-- On resume, recheck drift-prone facts and reconcile stale documents to live evidence.
-- For authorized local persistence, use `$(git rev-parse --git-common-dir)/agent/` in Git repositories, shared across worktrees. Outside Git, use an existing authorized local location accessible to the next context.
-- For shared records, check the repository remote and use the project's own host: GitHub Issue/Milestone/PR for GitHub, or the equivalent on Gongfeng/GitLab. Tracker writes still require authorization.
-- Keep process ledgers (`task-plan`, `roadmap`, `milestone-audit`, `PROGRESS.md`, and run logs) out of version control unless the user explicitly requests tracking them. Existing tracked ledgers do not authorize new progress commits. Update enduring documentation with related code changes; documentation-only fixes may have their own commit. Do not commit merely to checkpoint progress or test attempts.
-- Preserve existing formats when updating an explicitly requested artifact. Reference task plans and evidence by path or URL instead of duplicating their contents.
+Reuse sufficient checks. Widen or repeat them for changes, failures, or unresolved concerns. Check that the final diff preserves required safeguards and removes unsupported complexity. Require independent review when the user or a rule requires it, or when a change materially affects a public contract, security or sensitive data, an irreversible production effect, or critical fail-closed behavior. Coordination level, file count, and duration alone do not trigger review.
 
-## 3. Use one state protocol
+## Store durable records
 
-Use the same base states for tasks, milestones, and projects:
-
-`not_started -> in_progress -> ready_for_verification -> complete`
-
-Use side states deliberately:
-
-- `blocked`: the declared current objective cannot continue or complete until a named condition satisfying the applicable task, milestone, or project blocker threshold changes; it may return to `in_progress`.
-- `deferred`: removed from the active sequence with an owner or reconsideration trigger.
-- `cancelled`: intentionally stopped by an authorized owner.
-- `superseded`: replaced by a newer artifact or decision, with a reference to the replacement.
-
-Track execution readiness separately from progress: `Readiness: ready | not_ready`, with named decision gaps when not ready. A ready contract is not permission, satisfied dependencies, completed implementation, or `ready_for_verification`. Each execution unit must own or explicitly inherit the core invariant 3 contract from accessible sources. An unclear root objective blocks dependent implementation; bounded clarification may proceed only with its own ready, authorized contract. Recheck affected readiness after scope or evidence changes.
-
-Do not use `partial` as a terminal state. Keep unfinished work `in_progress` or `blocked`, or explicitly move it to `deferred`, `cancelled`, or `superseded`.
-
-Record only transitions that change a decision, blocker, downstream dependency, delivery identity, or next resumable action. Batch routine step progress; add an observation time only for drift-prone facts.
-
-Scale `complete` to the selected level:
-
-- **Level 0:** the requested result exists and a concise current-task check supports it.
-- **Level 1:** the observable objective is satisfied, current evidence supports it, no in-scope blocker remains, and the delivery boundary is explicit.
-- **Level 2:** Level 1 plus dependent handoff and roadmap reconciliation are complete where another task relies on them.
-- **Level 3:** Level 2 plus the required milestone audit and high-risk gates pass.
-
-Do not add a higher-level condition to a lower-level task merely because the template contains a matching field.
-
-## 4. Keep project and task state separate
-
-### Information ownership
-
-When writing or updating a roadmap, task plan, audit, or progress page, read [references/writing-records.md](references/writing-records.md) for reading order, compact contracts, and closeout readability.
-
-Give each document a distinct job:
-
-- An existing progress/index page points to the active work with a short conclusion, next action, and link. Do not copy experiment histories or detailed acceptance there.
-- The roadmap explains project outcomes, milestone order, dependencies, completion conditions, and consequential decisions.
-- The task plan explains the current solution, execution steps, exact acceptance checks, and task evidence.
-
-Keep detailed state at its owning record and link to it. Summarize only conclusions that change project coordination; reconcile those summaries when the owning record changes. Put revisions, hashes, per-attempt counts, commands, and detailed budgets beside the execution or evidence they identify, unless they change the immediate decision.
-
-### Project roadmap
-
-Store only global coordination state:
-
-- final outcome, completion criteria, constraints, and project-level non-goals;
-- artifact owner and last reconciliation point;
-- current milestone contract and milestone/workstream status;
-- cross-task dependencies, decisions, blockers, and risk ownership;
-- links to task plans and versioned evidence;
-- next-milestone entry criteria and project closeout state.
-
-Do not store command logs, detailed exploration, every failed attempt, or worker-local progress in the roadmap.
-
-### Task plan
-
-Use the Level 1 core defined above, with current state and closeout evidence. Add decisions, ownership, blockers, or handoff details only when they change execution or another context needs them to resume.
-
-Add the add-ons listed in section 7 only when their trigger applies.
-
-### Current decisions
-
-Maintain one unambiguous current plan. When a decision changes, update the affected current approach, steps, acceptance, readiness, and next action together, within the artifact's write ownership; cross-artifact changes go through the owning writer. Move superseded decisions and results to a clearly historical section or a fixed revision, and name what supersedes them.
-
-## 5. Choose execution units
-
-1. Keep implementation in the current task by default. The main agent owns architecture decisions, implementation, integration, and final delivery.
-2. Delegate bounded search, analysis, or verification when parallel work or reduced main-context load outweighs the delegate's cold-start and coordination cost, and higher-priority instructions permit it. Ask for conclusions, evidence, and relevant paths.
-3. Delegate implementation only when its interfaces are frozen, the unit shares no open decisions with other work, it can run in parallel with other work, and the main agent can verify its acceptance cheaply.
-4. Create or fork an independent task only when the user explicitly asks and durable visibility or isolation is required.
-5. Run validation in the environment that has the required login, device, simulator, or permissions. If an authorized separate task is needed there, carry over the relevant context and evidence.
-6. Isolate concurrent repository writers with dedicated branches and worktrees; never let two worktrees use the same branch.
-
-Give each execution unit the core invariant 3 contract, consequential bounds, expected evidence, and return destination. Include only context it does not already inherit from accessible parent contracts; use the independent-review reference for reviewer inputs.
-
-## 6. Run the coordination loop
-
-### Orient
-
-Read the roadmap and active task plan when present, applicable instructions, and authoritative current state. Reconcile stale claims before planning.
-
-### Plan
-
-Identify the current task or milestone, bounded execution units, dependencies, evidence requirements, authority boundaries, and delivery topology. Record only material assumptions and unresolved decisions.
-
-Establish the core invariant 3 contract from existing authorization, using `plan-outcomes` when available for requirements, work decomposition, and acceptance. Without it, express acceptance as scenario-based checks with pass conditions and required evidence. Keep the contract in the existing artifact, or in the chat plan when durable output is not authorized.
-
-Check which existing in-repo primitives satisfy the required behavior before adding a mechanism.
-
-If existing in-repo primitives cannot cover a required architecture change or non-trivial mechanism, first search GitHub or other open-source hosts for actively maintained frameworks or libraries. Evaluate candidates before writing custom code. Consider direct adoption, targeted integration, or adapting proven designs. Keep custom implementation to the gap these options leave.
-
-Validate at data boundaries, reuse established internal contracts, and preserve diagnostic failures; do not turn unrecoverable failures into empty, default, or apparently successful results. Extra checks, recovery, compatibility, and extension points need current requirements, callers, or concrete risks; briefly explain only retained exceptions whose basis is unclear.
-
-Split milestones for independently observable outcomes, hard dependencies, distinct authority or side-effect boundaries, or independently resumable contexts. Use bounded work units for parallel execution without turning each unit into a milestone.
-
-### Execute
-
-Execute or delegate only units whose contracts are ready, prerequisites satisfied, and actions authorized. Keep worker-local detail out of the roadmap and report only progress that changes the result, next action, or blocker.
-
-### Integrate
-
-Verify returned work rather than accepting summaries uncritically. The coordinator promotes only cross-task conclusions, decisions, blockers, and evidence into the roadmap.
-
-### Verify and close
-
-Apply the level-specific completion conditions in section 3. For Level 3, complete the milestone audit without substituting it for any independently required code review or runtime validation. Record only skipped checks that leave material risk.
-
-For code changes, inspect the final diff once for unsupported defensive mechanisms and simplify them, preserving required boundary validation and recovery; syntax alone is not a finding.
-
-When reporting delivery evidence, keep failed checks, missing or mismatched evidence, and pending human judgments distinct. Link native test, build, or run reports from the existing verification section instead of copying logs. Do not attribute historical evidence to the current revision, and do not infer installation or deployment from test success. Use `report-acceptance`, when available and an HTML acceptance report is requested.
-
-Size executor checks to the acceptance criteria; reuse existing evidence, and repeat or broaden checks only for new changes, failures, or unresolved concerns. Require independent review only when the user or an applicable rule requires it, or when the change materially affects a public contract, security or sensitive data, an irreversible production effect, or critical fail-closed behavior; coordination level, file count, and duration alone do not trigger it. When it is required, read [references/independent-review.md](references/independent-review.md).
-
-### Advance or stop
-
-Advance when required exit evidence and the next entry criteria are satisfied; otherwise record the blocker, owner, and next action. At the agreed completion boundary, close with evidence and any material follow-up ownership.
-
-## 7. Use the right template modules
-
-Copy the core module for the selected level, then add optional modules only when their trigger applies. Read [references/templates.md](references/templates.md) before creating or closing a template-shaped artifact; it lists the modules, the adaptation rules, and the document validator.
+For authorized local persistence use `$(git rev-parse --git-common-dir)/agent/` in Git repositories or an existing authorized location accessible to the next context. Use the project's own host for authorized shared records. Keep process records out of version control by default unless the user explicitly requests tracking them. Preserve existing formats and update enduring documentation with related work. Do not commit merely to checkpoint progress or test attempts.

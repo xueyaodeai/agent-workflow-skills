@@ -2,7 +2,7 @@
 
 Read this reference when the user asks what should follow the current roadmap, requests a successor roadmap, or starts aligning future milestones before the current round closes.
 
-Use `assets/roadmap-alignment-notes.md` as the temporary decision ledger and append `assets/project-roadmap-transition-addon.md` to the successor roadmap. Apply the [coordination storage rules](../SKILL.md#2-establish-fact-and-artifact-ownership). For read-only planning, return the same structure in chat without changing files.
+Use `assets/roadmap-alignment-notes.md` as the temporary decision ledger and append `assets/project-roadmap-transition-addon.md` to the successor roadmap. Apply the [coordination storage rules](../SKILL.md#store-durable-records). For read-only planning, return the same structure in chat without changing files.
 
 ## Build the carryover inventory
 
@@ -20,7 +20,7 @@ Record source, verified state, observation time, reason it remains, proposed dis
 
 ## Align only unresolved choices
 
-Apply the planning procedure in [SKILL.md](../SKILL.md#plan) to the carryover inventory and new requirements. This transition adds disposition and provenance, not another requirements interview. Record material decisions in the authorized alignment notes, or return proposed entries in chat for read-only work. Preserve the distinction between verified facts, policy constraints, user decisions, and agent proposals; a superseding decision must reference the prior record rather than erase it. Do not manufacture discussion rounds when the necessary decisions are already current.
+Apply the planning procedure in [SKILL.md](../SKILL.md#establish-the-execution-contract) to the carryover inventory and new requirements. This transition adds disposition and provenance, not another requirements interview. Record material decisions in the authorized alignment notes, or return proposed entries in chat for read-only work. Preserve the distinction between verified facts, policy constraints, user decisions, and agent proposals; a superseding decision must reference the prior record rather than erase it. Do not manufacture discussion rounds when the necessary decisions are already current.
 
 ## Gate roadmap generation
 

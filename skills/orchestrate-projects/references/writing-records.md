@@ -1,6 +1,25 @@
 # Writing Project Records
 
-Read this reference when writing or updating a roadmap, task plan, milestone audit, or progress page. It covers how records read; `SKILL.md` still owns what each record stores and the state protocol.
+Read this reference when creating, resuming, or updating a roadmap, task plan, milestone audit, or progress page.
+
+## Record ownership and sources
+
+| Record | Owns | Writer |
+| --- | --- | --- |
+| Progress or index page | A brief current result, next action, and link to active work | Its existing owner |
+| Task plan | Selected approach, work and dependencies, exact acceptance checks, evidence, current state, and next action | Task owner |
+| Project roadmap | Final outcome and completion criteria, scope and non-goals, current milestone contract, downstream dependencies, decision ledger, accepted deferrals, risk owners and links to task evidence | Coordinator |
+| Milestone audit | Required flow, exit criteria, evidence, blockers and verdict for the specific gate | Designated audit owner |
+
+Keep one writer per shared artifact. Workers return changes, evidence, risks, and next steps to the coordinator instead of editing the roadmap concurrently. The user or named policy owner is authoritative for scope, exclusions and deferrals. Obtain code identity from the live repository, test or review results from their producing system, and external status from its owning system. Bind evidence to a revision, environment, or time where it matters. Reconcile stale records before resuming. Keep commands, attempts and local experiments with task evidence, and link rather than copying them into the roadmap.
+
+Use the [storage rules](../SKILL.md#store-durable-records). Check the repository remote before choosing a project tracker. For Level 1, record or link the execution contract and next action. For Levels 2 and 3, also record the current milestone's required flow, exit criteria, exclusions, accepted deferrals, blocker threshold, and stop condition. Keep the roadmap owner, last reconciliation point, next milestone entry criteria, and closeout state visible.
+
+## Progress and readiness
+
+Use `not_started -> in_progress -> ready_for_verification -> complete` for tasks, milestones, and projects. Use `blocked` when a named condition meets the applicable blocker threshold, `deferred` with an owner or reconsideration trigger, `cancelled` for an authorized stop, and `superseded` with a replacement reference. A blocked unit may return to `in_progress`. Keep unfinished work in an active or explicit side state rather than closing it as partial.
+
+Track execution readiness separately with `Readiness: ready | not_ready` and named gaps when not ready. Readiness records the contract. Progress, permission, and prerequisites each have their own evidence. Record only transitions that affect a decision, blocker, dependency, delivery identity, or resumable action. Batch routine progress and add observation times for drift-prone facts.
 
 ## Reading order
 

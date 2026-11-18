@@ -1,9 +1,10 @@
 # Prompt design basis
 
-Reviewed on 2026-10-25. These sources explain the design choices; they are not extra runtime instructions or evidence that the changes have been benchmarked on a model.
+These sources explain the design choices. Runtime instructions live in the templates and skills. Model behavior is evaluated separately.
 
 | Official source | Applied here |
 |---|---|
+| [OpenAI: GPT-6.2 prompting best practices](https://developers.openai.com/api/docs/guides/latest-model#prompting-best-practices) | Proceed directly when the outcome, authorization, and checks are clear. Leave consequential decisions with the user and continue independent work. Verify the requested result and use existing checks when they cover it. |
 | [OpenAI: Rethinking skills and prompts for GPT-6 Astra](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) | Keep task-specific details in the relevant skill or existing artifact. Prefer explicit outcomes and completion boundaries to longer procedural scripts; keep the root skill a router and load detailed guidance only when its trigger applies. Keep descriptions to when the skill applies; explicit-only skills rely on their invocation settings rather than exclusion clauses. |
 | [Anthropic: Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) | State intent, context, constraints, and expected results clearly. Explain why a constraint matters and use concrete, testable behavior rather than vague quality claims. Recent models delegate to subagents readily and verify their own work, so the guidance keeps implementation in the main agent by default and keeps only project-specific evidence rules rather than generic reminders to verify. |
 | [Anthropic: Prompting Claude Opus 5.5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5) | Distinguish a model finishing a turn from completing the authorized task. Retain verification and stop conditions, and test model/host-specific behavior rather than assuming one global configuration. |
