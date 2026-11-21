@@ -92,8 +92,22 @@ class PromptConsistencyTests(unittest.TestCase):
         sections = [read(f'templates/{host}/AGENTS.md').split('## Communicate\n', 1)[1]
                     for host in ('common', 'codex')]
         self.assertEqual(*sections)
-        self.assertIn('Bound claims positively with exact subjects, scope, and labels', sections[0])
-        self.assertIn('不代表', sections[0])
+        section = markdown_section(read('templates/common/AGENTS.md'), '## Communicate')
+        for phrase in (
+            'Keep workflow terms from these instructions',
+            '`evidence gap`',
+            '`contract violation`',
+            'Do not recite passed checklist categories unless asked.',
+            'Lead with the plain answer',
+            'compact verification lines after the main explanation',
+            'Bound claims positively with exact subjects, scope, and labels',
+            '不代表',
+            'Name the real object and action first; do not lead with abstract capability labels',
+            'Prefer `对比各代付场景传给询价接口的 UIN；代码看过了，还没发真实请求验证下游` over `把关键行为差异变成可复核的候选，目前还剩实际请求与下游行为的证据缺口`.',
+            'Prefer `在容器里跑完同样的检查后，用 git commit --no-verify 提交` over `在隔离容器完成等价检查后，仅对本次提交绕过失效启动器`.',
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, section)
 
     def test_standalone_skills_define_coordination_storage(self):
         for path in ('skills/orchestrate-projects/SKILL.md',
