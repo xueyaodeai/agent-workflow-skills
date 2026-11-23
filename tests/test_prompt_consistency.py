@@ -72,6 +72,7 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertEqual(*sections)
         self.assertIn('--git-common-dir', sections[0])
         self.assertIn('out of version control by default', sections[0])
+        self.assertIn('reserve explicit caller-supplied hashes for concurrent-write protection', sections[0])
         self.assertRegex(sections[0], rf'(?m)^- {re.escape(OPEN_SOURCE_SURVEY)}(?: |$)')
 
     def test_planning_skills_require_open_source_survey_for_uncovered_needs(self):

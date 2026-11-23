@@ -41,12 +41,11 @@ Use this low-freedom sequence:
 
 ## Preserve identity and branch direction
 
-Preserve four distinct identities:
+Preserve three distinct identities:
 
 1. feature head;
 2. reviewed SHA;
-3. integration head or merge SHA;
-4. frozen primary-branch candidate SHA.
+3. integration merge SHA (and resulting primary SHA when promoted).
 
 Synchronize `primary -> integration` periodically and before promotion. Do not rebase or rewrite a shared integration branch. Update feature branches from the latest integration baseline according to repository policy, then rerun validation and review against the final head.
 
@@ -65,7 +64,7 @@ Use contextual judgment rather than promoting every milestone or deferring every
 
 ## Run the promotion gate
 
-1. Freeze the integration candidate SHA, synchronize the latest primary branch inside the authorized integration workflow, and complete every precondition in `assets/promotion-gate.md`.
+1. Synchronize the latest primary branch inside the authorized integration workflow and complete every precondition in `assets/promotion-gate.md` against the current integration head.
 2. Open or update a formal review request only when authorized; merge only after required approval and checks.
 3. Record the resulting primary SHA and post-merge validation.
 
