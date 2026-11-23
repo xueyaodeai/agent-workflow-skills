@@ -9,4 +9,3 @@
 - Post-review code changed: <no or re-review reference>
 - Integration merge SHA: <SHA or pending>
 - Post-merge integration validation: <subject, result, and evidence>
-- Frozen primary candidate SHA: <SHA or pending>

@@ -2,10 +2,8 @@
 
 ## Candidate identity
 
-- Primary branch/current SHA: <branch and SHA>
-- Previous promotion primary SHA: <SHA or none>
-- Integration branch: <branch>
-- Frozen integration candidate SHA: <SHA>
+- Primary branch: <branch>
+- Integration branch and head: <branch and SHA>
 - Candidate scope: <milestones/features included>
 - Merge strategy: <repository policy>
 
@@ -20,7 +18,6 @@
 | Gate condition | Required evidence | Observed evidence | Verdict |
 |---|---|---|---|
 | Latest primary synchronized | <merge/sync proof> | <SHA/evidence> | <pass/fail/blocked> |
-| Candidate identity frozen | <exact SHA> | <SHA> | <pass/fail/blocked> |
 | Required regression complete | <suite> | <subject/result> | <pass/fail/blocked> |
 | Accumulated-diff audit complete | <review scope> | <result> | <pass/fail/blocked> |
 | Identity chain traceable | <identity matrix> | <result> | <pass/fail/blocked> |
@@ -39,7 +36,6 @@
 ## Review and merge record
 
 - Review request: <link/id or not created>
-- Approved candidate SHA: <SHA>
 - Resulting primary SHA: <SHA or pending>
 - Post-merge validation: <subject/result/evidence>
 - Integration branch next state: <continue/recreate/retire>
