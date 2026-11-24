@@ -38,7 +38,7 @@ Add `Why`, `Shortest path`, `Best path`, `Selected path`, and `Readiness` to the
 
 Add `Readiness blockers` only while not ready; name the missing decision and dependent work. Remove the field when resolved. Do not default existing plans to ready. For a roadmap, add readiness and the four-point contract to each ready/executing milestone, not just M1; future milestones may remain not ready with a refinement trigger. Add the structured result fields described above for completion, without fabricating pass results. Remove unresolved angle-bracket placeholders and unused closeout sections from materialized drafts. Unchanged milestone-audit and alignment state protocols remain supported.
 
-The templates are optional. For direct tasks outside a loaded skill, the host must actually load the common or Codex personal defaults; `npx skills add` does not install those files. No skill relies on a sibling skill's files for its readiness guard.
+The templates are optional. For direct tasks outside a loaded skill, the host must actually load the personal defaults (`templates/common/AGENTS.md`); `npx skills add` does not install that file. No skill relies on a sibling skill's files for its readiness guard.
 
 ## Live-model behavior protocol
 

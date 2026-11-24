@@ -35,7 +35,7 @@
     {
       "id": "review_correct_change_no_findings",
       "skills": [
-        "templates/codex/AGENTS.md"
+        "templates/common/AGENTS.md"
       ],
       "subject_input": "审查这次数量展示函数的重构，检查现有行为是否保留。只读审查，不修改代码。",
       "context": {
@@ -163,7 +163,7 @@
     {
       "id": "final_diff_defensive_sweep",
       "skills": [
-        "templates/codex/AGENTS.md"
+        "templates/common/AGENTS.md"
       ],
       "subject_input": "完成当前任务的订单备注展示修复，交付前检查本次 diff 并验证。空字符串备注应原样显示，缺失备注显示“无备注”，订单加载错误进入现有错误状态。允许本地修改和测试，不提交或推送。",
       "context": {
@@ -186,7 +186,7 @@
     {
       "id": "trusted_internal_contract",
       "skills": [
-        "templates/codex/AGENTS.md"
+        "templates/common/AGENTS.md"
       ],
       "subject_input": "让内部 subtotal(lines) 使用折后单价计算总价。只改计算逻辑，验证总价及现有输入契约后交付；允许本地修改和测试，不提交或推送。",
       "context": {
@@ -329,7 +329,7 @@
     {
       "id": "clear_direct",
       "skills": [
-        "templates/codex/AGENTS.md"
+        "templates/common/AGENTS.md"
       ],
       "subject_input": "我偏好把按钮文字从 Save 改成 Export，只改这个按钮，不改行为。检查组件文本和现有交互测试通过后，提交本地 commit，不要推送。",
       "context": {

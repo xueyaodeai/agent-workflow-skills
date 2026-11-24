@@ -61,15 +61,19 @@ def paths_unbound(text):
 
 
 class PromptConsistencyTests(unittest.TestCase):
-    def test_common_and_codex_readiness_sections_match(self):
-        sections = [read(f'templates/{host}/AGENTS.md').split('## Execution readiness\n', 1)[1].split('## Act\n', 1)[0]
-                    for host in ('common', 'codex')]
-        self.assertEqual(*sections)
+    def test_single_personal_defaults_template_layout(self):
+        templates = sorted(path.relative_to(ROOT).as_posix() for path in (ROOT / 'templates').rglob('*.md'))
+        self.assertEqual(templates, ['templates/common/AGENTS.md'])
+        text = read('templates/common/AGENTS.md')
+        self.assertEqual(missing_readiness_points(text), [])
+        self.assertFalse(paths_unbound(text))
+        environment = markdown_section(text, '## Environment')
+        self.assertIn('high-output command filter such as RTK', environment)
+        self.assertIn('`rtk proxy`', environment)
 
-    def test_common_and_codex_act_sections_match(self):
-        sections = [markdown_section(read(f'templates/{host}/AGENTS.md'), '## Act')
-                    for host in ('common', 'codex')]
-        self.assertEqual(*sections)
+    def test_personal_defaults_act_and_delegate_sections(self):
+        text = read('templates/common/AGENTS.md')
+        act = markdown_section(text, '## Act')
         for phrase in (
             'follow immediate read-only leads one step deeper',
             'change history and actor intent, and visible downstream or metric effects',
@@ -79,23 +83,24 @@ class PromptConsistencyTests(unittest.TestCase):
             'When upstream items or records are incomplete—even in a read-only check—draft the missing content (such as concrete steps, provisional expected checks, or candidate config) from available context, clearly marked provisional/to-confirm',
         ):
             with self.subTest(phrase=phrase):
-                self.assertIn(phrase, sections[0])
+                self.assertIn(phrase, act)
+        delegate = markdown_section(text, '## Delegate')
+        for phrase in (
+            'Keep architecture, implementation, coordination, and delivery in the main agent by default.',
+            'Delegate implementation only for parallel units with frozen interfaces, no shared open decisions, and cheap acceptance checks.',
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, delegate)
 
-    def test_common_and_codex_minimum_complexity_sections_match(self):
-        sections = [markdown_section(read(f'templates/{host}/AGENTS.md'), '## Minimum Complexity')
-                    for host in ('common', 'codex')]
-        self.assertEqual(*sections)
-        self.assertIn('--git-common-dir', sections[0])
-        self.assertIn('out of version control by default', sections[0])
-        self.assertIn('reserve explicit caller-supplied hashes for concurrent-write protection', sections[0])
-        self.assertRegex(sections[0], rf'(?m)^- {re.escape(OPEN_SOURCE_SURVEY)}(?: |$)')
-
-    def test_common_and_codex_verify_and_review_sections_match(self):
-        for heading in ('## Verify', '## Review'):
-            sections = [markdown_section(read(f'templates/{host}/AGENTS.md'), heading)
-                        for host in ('common', 'codex')]
-            with self.subTest(heading=heading):
-                self.assertEqual(*sections)
+    def test_personal_defaults_minimum_complexity_verify_and_review_sections(self):
+        text = read('templates/common/AGENTS.md')
+        complexity = markdown_section(text, '## Minimum Complexity')
+        self.assertIn('--git-common-dir', complexity)
+        self.assertIn('out of version control by default', complexity)
+        self.assertIn('reserve explicit caller-supplied hashes for concurrent-write protection', complexity)
+        self.assertRegex(complexity, rf'(?m)^- {re.escape(OPEN_SOURCE_SURVEY)}(?: |$)')
+        self.assertIn('regression check fails on the old code', markdown_section(text, '## Verify'))
+        self.assertIn('Minimum Complexity violations', markdown_section(text, '## Review'))
 
     def test_planning_skills_require_open_source_survey_for_uncovered_needs(self):
         for skill, headings in (
@@ -111,10 +116,7 @@ class PromptConsistencyTests(unittest.TestCase):
                     rf'(?m)(?:\A(?:[ \t]*\n)*|\n[ \t]*\n){re.escape(OPEN_SOURCE_SURVEY)}(?: |$)',
                 )
 
-    def test_common_and_codex_communicate_sections_match(self):
-        sections = [read(f'templates/{host}/AGENTS.md').split('## Communicate\n', 1)[1]
-                    for host in ('common', 'codex')]
-        self.assertEqual(*sections)
+    def test_personal_defaults_communicate_section(self):
         section = markdown_section(read('templates/common/AGENTS.md'), '## Communicate')
         for phrase in (
             'Keep workflow terms from these instructions',
@@ -185,8 +187,7 @@ class PromptConsistencyTests(unittest.TestCase):
 
     def test_readiness_guard_keeps_the_canonical_acceptance_binding(self):
         # Shorthand such as "meet the same criteria" was ambiguous about acceptance scope.
-        for path in [f'skills/{skill}/SKILL.md' for skill in SKILLS] + [f'templates/{host}/AGENTS.md'
-                                                                         for host in ('common', 'codex')]:
+        for path in [f'skills/{skill}/SKILL.md' for skill in SKILLS] + ['templates/common/AGENTS.md']:
             with self.subTest(path=path):
                 self.assertNotIn('meet the same criteria', read(path))
 

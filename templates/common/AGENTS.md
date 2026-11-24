@@ -4,7 +4,7 @@ Higher-priority instructions, active permissions, and closer repository guidance
 
 ## Environment
 
-- If a high-output command filter such as RTK is available, prefer it when filtering preserves necessary evidence. Use raw commands or an equivalent proxy when exact output, semantics, debugging, or interaction matters.
+- If a high-output command filter such as RTK is available, prefer it when filtering preserves necessary evidence. Use raw commands, `rtk proxy`, or an equivalent passthrough when exact output, semantics, debugging, or interaction matters.
 
 ## Execution readiness
 

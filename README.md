@@ -22,7 +22,7 @@ Each `SKILL.md` declares `metadata.version`. Bump the version of every skill who
 
 Before implementation or implementation dispatch, establish **why**, **what**, **shortest and best paths with the selected approach**, and **complete acceptance criteria**. Direct assignments follow the same rule. Both paths satisfy the same acceptance and may be identical. Reuse existing answers; missing consequential decisions block dependent work, not independently ready and authorized work. Collection, planning, authorization, execution readiness, and completion are distinct.
 
-Each skill carries the guard needed for standalone use. For direct tasks outside a loaded skill, install the appropriate personal defaults below into the guidance file your host actually reads; installing a skill alone does not install a universal rule. These prompts and structural checks are not a tool-level permission enforcement system.
+Each skill carries the guard needed for standalone use. For direct tasks outside a loaded skill, install the personal defaults below into the guidance file your host actually reads; installing a skill alone does not install a universal rule. These prompts and structural checks are not a tool-level permission enforcement system.
 
 ## Install
 
@@ -42,17 +42,17 @@ Replace `orchestrate-projects` with another listed skill as needed. Repeat `-a` 
 
 ## Optional personal defaults
 
-[`templates/common/AGENTS.md`](templates/common/AGENTS.md) is an opt-in personal working-agreement for any agent. [`templates/codex/AGENTS.md`](templates/codex/AGENTS.md) is the Codex variant: the same defaults plus waiting guidance using the active host’s tools. These files are not repository guidance and are not installed by `npx skills add`.
+[`templates/common/AGENTS.md`](templates/common/AGENTS.md) is an opt-in personal working-agreement for any agent. It is not repository guidance and is not installed by `npx skills add`.
 
-Review and adapt environment and authority rules before use, especially high-output command filters, language-specific read-only phrases, and the local commit policy. Copy the generic template into the personal or project `AGENTS.md` used by other agents. For Claude Code, copy the same content into `CLAUDE.md` when that is the project's guidance file.
+Review and adapt environment and authority rules before use, especially high-output command filters, language-specific read-only phrases, and the local commit policy. Copy or symlink the template into the personal or project guidance file your host reads (`AGENTS.md`, or `CLAUDE.md` for Claude Code).
 
-The templates' Minimum Complexity rules constrain defensive programming: validate at trust boundaries, rely on established internal contracts, justify fallback/retry/compatibility mechanisms with current needs or specific risks, preserve diagnostic failures, and add abstractions for current callers. `plan-outcomes`, `orchestrate-projects`, and `prepare-agent-handoff` carry the relevant planning, implementation, and handoff constraints for standalone use. For direct coding tasks, load the personal defaults through the host's guidance file.
+The template's Minimum Complexity rules constrain defensive programming: validate at trust boundaries, rely on established internal contracts, justify fallback/retry/compatibility mechanisms with current needs or specific risks, preserve diagnostic failures, and add abstractions for current callers. `plan-outcomes`, `orchestrate-projects`, and `prepare-agent-handoff` carry the relevant planning, implementation, and handoff constraints for standalone use. For direct coding tasks, load the personal defaults through the host's guidance file.
 
 For Codex, point the personal guidance file at this template so edits stay in the repo:
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}"
-ln -sfn "$PWD/templates/codex/AGENTS.md" "${CODEX_HOME:-$HOME/.codex}/AGENTS.md"
+ln -sfn "$PWD/templates/common/AGENTS.md" "${CODEX_HOME:-$HOME/.codex}/AGENTS.md"
 ```
 
 Run that from the repository root. If `~/.codex/AGENTS.md` already exists as a regular file, replace it only after confirming it has no unique personal guidance.
