@@ -76,7 +76,7 @@ class PromptConsistencyTests(unittest.TestCase):
             'merely triggering a run or build whose result is needed for the goal',
             'execute in-scope authorized work rather than listing it as “next steps”',
             'Carry authorization, thread goals, and settled decisions forward.',
-            'when upstream items or records are incomplete, draft the missing content (such as concrete steps, provisional expected checks, or candidate config) from available context, clearly marked provisional/to-confirm',
+            'When upstream items or records are incomplete—even in a read-only check—draft the missing content (such as concrete steps, provisional expected checks, or candidate config) from available context, clearly marked provisional/to-confirm',
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, sections[0])
@@ -89,6 +89,13 @@ class PromptConsistencyTests(unittest.TestCase):
         self.assertIn('out of version control by default', sections[0])
         self.assertIn('reserve explicit caller-supplied hashes for concurrent-write protection', sections[0])
         self.assertRegex(sections[0], rf'(?m)^- {re.escape(OPEN_SOURCE_SURVEY)}(?: |$)')
+
+    def test_common_and_codex_verify_and_review_sections_match(self):
+        for heading in ('## Verify', '## Review'):
+            sections = [markdown_section(read(f'templates/{host}/AGENTS.md'), heading)
+                        for host in ('common', 'codex')]
+            with self.subTest(heading=heading):
+                self.assertEqual(*sections)
 
     def test_planning_skills_require_open_source_survey_for_uncovered_needs(self):
         for skill, headings in (
