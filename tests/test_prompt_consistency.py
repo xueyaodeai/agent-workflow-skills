@@ -66,6 +66,21 @@ class PromptConsistencyTests(unittest.TestCase):
                     for host in ('common', 'codex')]
         self.assertEqual(*sections)
 
+    def test_common_and_codex_act_sections_match(self):
+        sections = [markdown_section(read(f'templates/{host}/AGENTS.md'), '## Act')
+                    for host in ('common', 'codex')]
+        self.assertEqual(*sections)
+        for phrase in (
+            'follow immediate read-only leads one step deeper',
+            'change history and actor intent, and visible downstream or metric effects',
+            'merely triggering a run or build whose result is needed for the goal',
+            'execute in-scope authorized work rather than listing it as “next steps”',
+            'Carry authorization, thread goals, and settled decisions forward.',
+            'when upstream items or records are incomplete, draft the missing content (such as concrete steps, provisional expected checks, or candidate config) from available context, clearly marked provisional/to-confirm',
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, sections[0])
+
     def test_common_and_codex_minimum_complexity_sections_match(self):
         sections = [markdown_section(read(f'templates/{host}/AGENTS.md'), '## Minimum Complexity')
                     for host in ('common', 'codex')]
@@ -102,6 +117,8 @@ class PromptConsistencyTests(unittest.TestCase):
             'Lead with the plain answer',
             'compact verification lines after the main explanation',
             'Bound claims positively with exact subjects, scope, and labels',
+            'Whenever findings leave actionable follow-ups, failures, missing inputs, unverified async runs, or scope/metric trade-offs—even on a standalone read-only status or diagnosis check—end with a concrete recommended next step or order of operations',
+            'Omit next-step suggestions only when nothing actionable remains.',
             '不代表',
             'Name the real object and action first; do not lead with abstract capability labels',
             'When explaining a flow, mechanism, or logic defect, connect the steps with plain verbs',
